@@ -34,4 +34,4 @@ jobs:
           dbt deps
       
       - name: Run dbt models
-        run: dbt run 
+        run: dbt run --dev
