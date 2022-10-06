@@ -1,0 +1,37 @@
+name: docs_update
+
+on:
+  push:
+    branches:
+      - "main"
+
+env:
+  ACCOUNT: "${{ secrets.ACCOUNT }}"
+  ROLE: "${{ secrets.ROLE }}"
+  USER: "${{ secrets.USER }}"
+  PASSWORD: "${{ secrets.PASSWORD }}"
+  REGION: "${{ secrets.REGION }}"
+  DATABASE_DEV: "${{ secrets.DATABASE_DEV }}"
+  DATABASE_PROD: "${{ secrets.DATABASE_PROD }}"
+  WAREHOUSE_DEV: "${{ secrets.WAREHOUSE_DEV }}"
+  WAREHOUSE_PROD: "${{ secrets.WAREHOUSE_PROD }}"
+
+jobs:
+  scheduled_run:
+    name: docs_update
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.7.x"
+
+      - name: install dependencies
+        run: |
+          pip install dbt-snowflake
+          dbt deps
+      
+      - name: Run dbt models
+        run: dbt run 

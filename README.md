@@ -13,3 +13,44 @@ Try running the following commands:
 - Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
 - Find [dbt events](https://events.getdbt.com) near you
 - Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+
+
+
+Steps:
+
+step 1: update the profiles.yml 
+
+```yml
+ethereum:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: <ACCOUNT>
+      role: <ROLE>
+      user: <USERNAME>
+      password: <PASSWORD>
+      region: <REGION>
+      database: ETHEREUM_DEV
+      warehouse: <WAREHOUSE>
+      schema: silver
+      threads: 12
+      client_session_keep_alive: False
+      query_tag: <TAG>
+    prod:
+      type: snowflake
+      account: <ACCOUNT>
+      role: <ROLE>
+      user: <USERNAME>
+      password: <PASSWORD>
+      region: <REGION>
+      database: ETHEREUM
+      warehouse: <WAREHOUSE>
+      schema: silver
+      threads: 12
+      client_session_keep_alive: False
+      query_tag: <TAG>
+```
+
+
+lambda integration 
