@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - "main"
+  # uncheck the following to set it up with CRON
+  # schedule:
+    # Runs "at minute 55 past every hour" (see https://crontab.guru)
+    # - cron: '55 * * * *'
 
 env:
   ACCOUNT: "${{ secrets.ACCOUNT }}"
