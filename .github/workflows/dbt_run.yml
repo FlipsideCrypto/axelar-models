@@ -26,6 +26,8 @@ jobs:
   scheduled_run:
     name: dbt_run
     runs-on: ubuntu-latest
+    environment: 
+      name: workflow
 
     steps:
       - uses: actions/checkout@v3
