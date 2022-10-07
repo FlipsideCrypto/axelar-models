@@ -9,4 +9,4 @@ SELECT
             SEQ4()
     ) AS id
 FROM
-    TABLE(GENERATOR(rowcount => 1000))
+    TABLE(GENERATOR(rowcount => 10000))
