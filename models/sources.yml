@@ -1,9 +1,9 @@
 version: 2
 
 sources:
-  - name: prod
-    database: chainwalkers
-    schema: prod
+  - name: bronze
+    database: streamline
+    schema: axelar_dev
     tables:
-      - name: ethereum_blocks
-      - name: ethereum_txs
+      - name: blocks
+      - name: txs
