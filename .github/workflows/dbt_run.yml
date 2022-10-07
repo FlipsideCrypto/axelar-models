@@ -10,6 +10,8 @@ on:
     # - cron: '55 * * * *'
 
 env:
+  DBT_PROFILES_DIR: ./
+
   ACCOUNT: "${{ secrets.ACCOUNT }}"
   ROLE: "${{ secrets.ROLE }}"
   USER: "${{ secrets.USER }}"
@@ -22,7 +24,7 @@ env:
 
 jobs:
   scheduled_run:
-    name: docs_update
+    name: dbt_run
     runs-on: ubuntu-latest
 
     steps:
