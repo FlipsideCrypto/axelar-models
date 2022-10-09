@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - "main"
-  uncheck the following to set it up with CRON
+  # uncheck the following to set it up with CRON
   schedule:
     Runs "every 15 mins"
     - cron: "*/15 * * * *"
