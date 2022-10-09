@@ -1,7 +1,8 @@
-{% macro create_udf_get_chainhead() %}
-    CREATE EXTERNAL FUNCTION IF NOT EXISTS streamline.udf_get_chainhead() returns variant api_integration = aws_axelar_api AS {% if target.name == "prod" %}
-        'https://e03pt6v501.execute-api.us-east-1.amazonaws.com/prod/get_chainhead'
+{% macro create_udf_bulk_get_blocks() %}
+    CREATE EXTERNAL FUNCTION IF NOT EXISTS streamline.udf_bulk_get_blocks() returns variant api_integration = aws_axelar_api AS {% if target.name == "prod" %}
+        'https://69qcbfajak.execute-api.us-east-1.amazonaws.com/dev/bulk_get_blocks'
     {% else %}
-        'https://mryeusnrob.execute-api.us-east-1.amazonaws.com/dev/get_chainhead'
+        'https://69qcbfajak.execute-api.us-east-1.amazonaws.com/dev/bulk_get_blocks'
     {%- endif %};
 {% endmacro %}
+

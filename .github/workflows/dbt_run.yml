@@ -42,4 +42,6 @@ jobs:
           dbt deps
       
       - name: Run dbt models
-        run: dbt run --target dev
+        run: |
+          dbt run -m ./models/streamline/streamline__blocks_history.sql
+          dbt run -m ./models/streamline/streamline__blocks_realtime.sql

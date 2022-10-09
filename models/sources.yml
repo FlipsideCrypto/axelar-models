@@ -7,3 +7,10 @@ sources:
     tables:
       - name: blocks
       - name: txs
+  - name: bronze_streamline
+    database: streamline
+    schema: |
+      {{ "AXELAR_DEV" if var("STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES", False) else "AXELAR" }}
+    tables:
+      - name: blocks
+      - name: txs
