@@ -6,8 +6,8 @@ on:
       - "main"
   # uncheck the following to set it up with CRON
   schedule:
-    # Runs "every 30 mins"
-    - cron: "*/30 * * * *"
+    # Runs "every 20 mins"
+    - cron: "*/20 * * * *"
 
 env:
   DBT_PROFILES_DIR: ./
@@ -46,3 +46,5 @@ jobs:
         run: |
           dbt run -m ./models/streamline/streamline__blocks_history.sql
           dbt run -m ./models/streamline/streamline__blocks_realtime.sql
+          dbt run -m ./models/streamline/streamline__tx_history.sql
+          dbt run -m ./models/streamline/streamline__tx_realtime.sql

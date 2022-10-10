@@ -1,7 +1,7 @@
 {{ config (
     materialized = "view",
     post_hook = if_data_call_function(
-        func = "{{this.schema}}.udf_bulk_get_blocks()",
+        func = "{{this.schema}}.udf_bulk_get_txs()",
         target = "{{this.schema}}.{{this.identifier}}"
     )
 ) }}
@@ -16,6 +16,6 @@ SELECT
     block_id
 FROM
     {{ ref(
-        "streamline__blocks_history"
+        "streamline__txs_history"
     ) }}
 ORDER BY 1 ASC
