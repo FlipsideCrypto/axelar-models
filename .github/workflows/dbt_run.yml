@@ -7,7 +7,7 @@ on:
   # uncheck the following to set it up with CRON
   schedule:
     # Runs "every 15 mins"
-    - cron: "*/15 * * * *"
+    - cron: "*/10 * * * *"
 
 env:
   DBT_PROFILES_DIR: ./
