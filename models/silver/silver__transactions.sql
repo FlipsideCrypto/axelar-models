@@ -24,6 +24,26 @@ WITH base_table AS (
     FROM 
         {{ ref('bronze__transactions') }} t,
     TABLE(FLATTEN(data :result :txs)) d
+
+    {% if is_incremental() %}
+    WHERE _partition_by_block_id >= (
+        SELECT
+            MAX(_partition_by_block_id) -1
+        FROM
+            {{ this }}
+    )
+    AND _partition_by_block_id <= (
+        SELECT
+            MAX(_partition_by_block_id) + 10
+        FROM
+            {{ this }}
+    )
+    {% else %}
+        WHERE _partition_by_block_id IN (
+            0,
+            1
+        )
+    {% endif %}
 )
 SELECT 
     b.block_id, 
@@ -38,11 +58,31 @@ SELECT
     tx_code, 
     msgs, 
     tx_log :: STRING AS tx_log, 
-    bb._partition_by_block_id
+    b._partition_by_block_id
 FROM base_table b
 
 INNER JOIN {{ ref('silver__blocks') }} bb
 ON b.block_id = bb.block_id
+
+{% if is_incremental() %}
+WHERE bb._partition_by_block_id >= (
+    SELECT
+        MAX(_partition_by_block_id) -1
+    FROM
+        {{ this }}
+)
+AND bb._partition_by_block_id <= (
+    SELECT
+        MAX(_partition_by_block_id) + 10
+    FROM
+        {{ this }}
+)
+{% else %}
+    WHERE bb._partition_by_block_id IN (
+        0,
+        1
+    )
+{% endif %}
 
 qualify(ROW_NUMBER() over(PARTITION BY tx_id
 ORDER BY
