@@ -6,16 +6,26 @@
     )
 ) }}
 
-SELECT 
-    TO_NUMBER(TO_CHAR(SEQ4() + 1)) AS block_number
-FROM
-    TABLE(GENERATOR(rowcount => 4249236))
-
-EXCEPT
 SELECT
-    block_id
+    block_number,
+    ARRAY_SIZE(
+        DATA :result :block :data :txs
+    ) AS tx_count
 FROM
-    {{ ref(
-        "streamline__txs_history"
+    {{ source(
+        'bronze',
+        'blocks'
     ) }}
-ORDER BY 1 ASC
+WHERE
+    tx_count IS NOT NULL
+    AND tx_count > 0
+    AND block_number NOT IN (
+        SELECT
+            block_id
+        FROM
+            {{ ref(
+                "streamline__txs_history"
+            ) }}
+    )
+ORDER BY
+    1 ASC
