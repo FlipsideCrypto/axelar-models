@@ -157,3 +157,4 @@ SELECT
   _partition_by_block_id
 FROM
   FINAL
+
