@@ -40,10 +40,21 @@ FROM
 WHERE
   _partition_by_block_id >= (
     SELECT
-      MAX(
-        _partition_by_block_id
-      )
+      MAX(_partition_by_block_id) -1
     FROM
       {{ this }}
   )
+  AND _partition_by_block_id <= (
+    SELECT
+      MAX(_partition_by_block_id) + 10
+    FROM
+      {{ this }}
+  )
+{% else %}
+WHERE
+  _partition_by_block_id IN (
+    0,
+    1
+  )
 {% endif %}
+
