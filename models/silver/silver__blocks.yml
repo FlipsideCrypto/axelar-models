@@ -6,6 +6,9 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - _UNIQUE_KEY
+      - sequence_gaps:
+          column_name: block_ID
+          where: BLOCK_TIMESTAMP < CURRENT_DATE
     columns:
       - name: BLOCK_ID
         description: "{{ doc('block_id') }}"
