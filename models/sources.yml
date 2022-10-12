@@ -7,6 +7,11 @@ sources:
     tables:
       - name: blocks
       - name: txs
+  - name: crosschain
+    database: crosschain
+    schema: core
+    tables:
+      - name: address_labels
   - name: bronze_streamline
     database: streamline
     schema: |
