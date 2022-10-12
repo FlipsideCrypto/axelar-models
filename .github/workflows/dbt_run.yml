@@ -5,9 +5,9 @@ on:
     branches:
       - "main"
   # uncheck the following to set it up with CRON
-  schedule:
+  # schedule:
     # Runs "every 10 mins"
-    - cron: "*/10 * * * *"
+    # - cron: "*/10 * * * *"
 
 env:
   DBT_PROFILES_DIR: ./
