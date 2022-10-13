@@ -9,7 +9,9 @@ SELECT
     block_id,
     COALESCE(
         DATA :result :block :header :time :: TIMESTAMP,
-        DATA :block :header :time :: TIMESTAMP
+        DATA :block :header :time :: TIMESTAMP, 
+        DATA :result :block :header :timestamp :: TIMESTAMP,
+        DATA :block :header :timestamp :: TIMESTAMP
     ) AS block_timestamp,
     COALESCE(
         DATA :result :block :header :chain_id :: STRING,

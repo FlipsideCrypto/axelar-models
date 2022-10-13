@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: bronze_dev
     database: streamline
-    schema: axelar_dev
+    schema: axelar
     tables:
       - name: blocks
       - name: txs

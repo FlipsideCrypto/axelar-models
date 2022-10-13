@@ -10,7 +10,7 @@ WITH base_table AS (
 
     SELECT
         block_id,
-        d.value: HASH :: STRING AS tx_id,
+        d.value: hash :: STRING AS tx_id,
         'axelar' AS blockchain,
         d.value :tx_result :codespace AS codespace,
         d.value :tx_result :gas_used :: NUMBER AS gas_used,
@@ -66,7 +66,7 @@ SELECT
     b._partition_by_block_id
 FROM
     base_table b
-    INNER JOIN {{ ref('silver__blocks') }}
+    LEFT OUTER JOIN {{ ref('silver__blocks') }}
     bb
     ON b.block_id = bb.block_id
 
