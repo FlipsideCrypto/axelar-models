@@ -1,9 +1,15 @@
 version: 2
 
 sources:
-  - name: bronze
+  - name: bronze_dev
     database: streamline
     schema: axelar_dev
+    tables:
+      - name: blocks
+      - name: txs
+  - name: bronze
+    database: streamline
+    schema: axelar
     tables:
       - name: blocks
       - name: txs

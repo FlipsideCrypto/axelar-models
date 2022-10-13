@@ -1,0 +1,69 @@
+version: 2
+models:
+  - name: silver__transfers
+    description: Records of all transfers on Axelar, including IBC transfers as on- and off-ramps to Axelar and wallet to wallet transfers
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - TX_ID
+            - MSG_INDEX
+            - CURRENCY
+    columns:
+      - name: BLOCK_ID
+        description: "{{ doc('block_id') }}"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - NUMBER    
+                - FLOAT  
+      - name: BLOCK_TIMESTAMP
+        description: "{{ doc('block_timestamp') }}"
+        tests:
+          - not_null
+          - dbt_expectations.expect_row_values_to_have_recent_data:
+              datepart: day
+              interval: 1
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - TIMESTAMP_NTZ
+      - name: BLOCKCHAIN
+        description: "{{ doc('blockchain') }}"
+        tests: 
+          - not_null
+      - name: CHAIN_ID
+        description: "{{ doc('chain_id') }}"
+        tests:
+          - not_null
+      - name: TX_ID
+        description: "{{ doc('tx_id') }}"
+        tests: 
+          - not_null
+      - name: TX_SUCCEEDED
+        description: "{{ doc('tx_succeeded') }}"
+        tests: 
+          - not_null
+      - name: TRANSFER_TYPE
+        description: "{{ doc('transfer_type') }}"
+        tests: 
+          - not_null
+      - name: SENDER
+        description: "{{ doc('sender') }}"
+        tests: 
+          - not_null
+      - name: AMOUNT
+        description: "{{ doc('amount') }}"
+        tests: 
+          - not_null
+      - name: CURRENCY
+        description: "{{ doc('currency') }}"
+        tests: 
+          - not_null
+      - name: RECEIVER
+        description: "{{ doc('receiver') }}"
+        tests: 
+          - not_null
+      - name: _PARTITION_BY_BLOCK_ID
+        description: "{{ doc('partition_by_block_id') }}"
+        tests:
+          - not_null
