@@ -60,12 +60,6 @@ WHERE
         FROM
             {{ this }}
     )
-{% else %}
-WHERE
-    _partition_by_block_id IN (
-        0,
-        1
-    )
 {% endif %}
 
 qualify(ROW_NUMBER() over(PARTITION BY chain_id, block_id

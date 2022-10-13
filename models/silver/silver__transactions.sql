@@ -42,12 +42,6 @@ WHERE
         FROM
             {{ this }}
     )
-{% else %}
-WHERE
-    _partition_by_block_id IN (
-        0,
-        1
-    )
 {% endif %}
 )
 SELECT
@@ -83,12 +77,6 @@ WHERE
             MAX(_partition_by_block_id) + 10
         FROM
             {{ this }}
-    )
-{% else %}
-WHERE
-    bb._partition_by_block_id IN (
-        0,
-        1
     )
 {% endif %}
 
