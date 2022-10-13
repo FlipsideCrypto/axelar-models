@@ -12,7 +12,10 @@ WITH axelar_txs AS (
     FROM
         {{ ref('silver__msg_attributes') }}
     WHERE
-        attribute_value = '/cosmos.bank.v1beta1.MsgSend'
+        attribute_value in (
+             '/cosmos.bank.v1beta1.MsgSend'
+             ,'/cosmos.bank.v1beta1.MsgMultiSend'
+        )
 
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
