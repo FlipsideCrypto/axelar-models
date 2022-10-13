@@ -11,6 +11,7 @@ SELECT
   blockchain,
   chain_id,
   tx_id,
+  tx_succeeded,
   msg_group,
   msg_sub_group,
   msg_index,
