@@ -13,6 +13,11 @@ sources:
     tables:
       - name: blocks
       - name: txs
+  - name: tokens
+    database: osmosis
+    schema: core
+    tables: 
+      - name: dim_labels
   - name: crosschain
     database: crosschain
     schema: core
