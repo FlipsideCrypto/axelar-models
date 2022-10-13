@@ -30,11 +30,6 @@ AND _partition_by_block_id <= (
     FROM
         {{ this }}
 )
-{% else %}
-    AND _partition_by_block_id IN (
-        0,
-        1
-    )
 {% endif %}
 ),
 sender AS (
@@ -65,11 +60,6 @@ AND _partition_by_block_id <= (
     FROM
         {{ this }}
 )
-{% else %}
-    AND _partition_by_block_id IN (
-        0,
-        1
-    )
 {% endif %}
 ),
 msg_index AS (
@@ -102,11 +92,6 @@ AND _partition_by_block_id <= (
     FROM
         {{ this }}
 )
-{% else %}
-    AND _partition_by_block_id IN (
-        0,
-        1
-    )
 {% endif %}
 ),
 receiver AS (
@@ -139,11 +124,6 @@ AND _partition_by_block_id <= (
     FROM
         {{ this }}
 )
-{% else %}
-    AND _partition_by_block_id IN (
-        0,
-        1
-    )
 {% endif %}
 ),
 amount AS (
@@ -193,11 +173,6 @@ AND _partition_by_block_id <= (
     FROM
         {{ this }}
 )
-{% else %}
-    AND _partition_by_block_id IN (
-        0,
-        1
-    )
 {% endif %}
 )
 SELECT
@@ -251,11 +226,5 @@ WHERE
             MAX(_partition_by_block_id) + 10
         FROM
             {{ this }}
-    )
-{% else %}
-WHERE
-    _partition_by_block_id IN (
-        0,
-        1
     )
 {% endif %}
