@@ -10,6 +10,6 @@ SELECT
     data
 FROM 
      {{ source(
-    'bronze',
+    'bronze_dev',
     'txs'
   ) }} 
