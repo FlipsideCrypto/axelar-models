@@ -43,6 +43,10 @@ models:
         description: "{{ doc('currency') }}"
         tests: 
           - dbt_expectations.expect_column_to_exist
+      - name: DECIMAL 
+        description: Divide the raw amount of currency as provided in the amount column by the decimal to get the actual amount in AXL or other currency. 
+        tests: 
+          - dbt_expectations.expect_column_to_exist
       - name: RECEIVER
         description: "{{ doc('receiver') }}"
         tests: 

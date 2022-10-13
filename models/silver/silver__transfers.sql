@@ -12,9 +12,9 @@ WITH axelar_txs AS (
     FROM
         {{ ref('silver__msg_attributes') }}
     WHERE
-        attribute_value in (
-             '/cosmos.bank.v1beta1.MsgSend'
-             ,'/cosmos.bank.v1beta1.MsgMultiSend'
+        attribute_value IN (
+            '/cosmos.bank.v1beta1.MsgSend',
+            '/cosmos.bank.v1beta1.MsgMultiSend'
         )
 
 {% if is_incremental() %}
@@ -203,7 +203,7 @@ AND _partition_by_block_id <= (
 SELECT
     block_id,
     block_timestamp,
-    blockchain,
+    t.blockchain,
     chain_id,
     r.tx_id,
     tx_succeeded,
@@ -212,6 +212,10 @@ SELECT
     sender,
     amount,
     currency,
+    COALESCE(
+        l.raw_metadata [1] :exponent,
+        6
+    ) AS DECIMAL,
     receiver,
     _partition_by_block_id,
     concat_ws(
@@ -230,6 +234,9 @@ FROM
     LEFT OUTER JOIN {{ ref('silver__transactions') }}
     t
     ON r.tx_id = t.tx_id
+    LEFT OUTER JOIN {{ ref('core__dim_labels') }}
+    l
+    ON currency = l.address
 
 {% if is_incremental() %}
 WHERE
