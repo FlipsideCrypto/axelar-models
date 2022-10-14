@@ -240,6 +240,7 @@ WHERE
     chain_id,
     tx_id, 
     tx_succeeded,
+    msg_index,
     'IBC_TRANSFER_IN' as transfer_type,
     
     try_parse_json(attribute_value):sender::string as sender,
@@ -315,8 +316,9 @@ AND
     chain_id,
     tx_id, 
     tx_succeeded,
+    msg_index,
     'IBC_TRANSFER_OUT' as transfer_type,
-    
+
     try_parse_json(attribute_value):sender::string as sender,
     try_parse_json(attribute_value):amount::int as amount,
     case
@@ -388,6 +390,7 @@ ibc_tx_final as (
     i.currency,
     iff(i.currency = 'uusd', 6, d.decimal) as decimal,
     i.receiver,
+    msg_index,
     _partition_by_block_id,
     _unique_key
     from ibc_transfers_agg i 
@@ -407,6 +410,7 @@ ibc_tx_final as (
     currency, 
     decimal,
     receiver,
+    msg_index,
     _partition_by_block_id,
     _unique_key
     from ibc_tx_final 
@@ -426,6 +430,7 @@ ibc_tx_final as (
     currency, 
     decimal,
     receiver,
+    msg_index,
     _partition_by_block_id,
     _unique_key
     from axelar_txs_final
