@@ -360,13 +360,14 @@ AND
     
 decimals as (
     select*,
+    coalesce (raw_metadata[0]:aliases[0]::string, 
+                raw_metadata[1]:denom) 
+                    as denom_name ,
     case 
         when raw_metadata[0]:account_address is not null then null
         else COALESCE( raw_metadata [1] :exponent::int, 6) 
-        end AS DECIMAL,
-    coalesce (raw_metadata[0]:aliases[0]::string, 
-                raw_metadata[1]:denom) 
-                    as denom_name 
+        end AS DECIMAL
+    
     from {{ ref('core__dim_labels') }}
     ),
 
@@ -388,7 +389,11 @@ ibc_tx_final as (
     i.sender,
     i.amount,
     i.currency,
-    iff(i.currency = 'uusd', 6, d.decimal) as decimal,
+    case 
+        when i.currency in ( 'uusd', 'uosmo') then 6
+        when i.currency like '%-wei' then 18 
+        else d.decimal
+        end as decimal,
     i.receiver,
     msg_index,
     _partition_by_block_id,
