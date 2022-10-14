@@ -8,7 +8,7 @@ models:
             - _UNIQUE_KEY
       - sequence_gaps:
           column_name: block_ID
-          where: BLOCK_TIMESTAMP < CURRENT_DATE
+          where: BLOCK_TIMESTAMP < CURRENT_DATE - 1 
     columns:
       - name: BLOCK_ID
         description: "{{ doc('block_id') }}"
