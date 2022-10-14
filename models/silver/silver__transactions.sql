@@ -10,23 +10,21 @@ WITH base_table AS (
 
     SELECT
         block_id,
-        d.value: hash :: STRING AS tx_id,
+        data: hash :: STRING AS tx_id,
         'axelar' AS blockchain,
-        d.value :tx_result :codespace AS codespace,
-        d.value :tx_result :gas_used :: NUMBER AS gas_used,
-        d.value :tx_result :gas_wanted :: NUMBER AS gas_wanted,
+        data :tx_result :codespace AS codespace,
+        data :tx_result :gas_used :: NUMBER AS gas_used,
+        data :tx_result :gas_wanted :: NUMBER AS gas_wanted,
         CASE
-            WHEN d.value :tx_result :code :: NUMBER = 0 THEN TRUE
+            WHEN data :tx_result :code :: NUMBER = 0 THEN TRUE
             ELSE FALSE
         END AS tx_succeeded,
-        d.value :tx_result :code :: NUMBER AS tx_code,
-        d.value :tx_result :events AS msgs,
-        d.value :tx_result :log AS tx_log,
+        data :tx_result :code :: NUMBER AS tx_code,
+        data :tx_result :events AS msgs,
+        data :tx_result :log AS tx_log,
         _partition_by_block_id
     FROM
         {{ ref('bronze__transactions') }}
-        t,
-        TABLE(FLATTEN(DATA :result :txs)) d
 
 {% if is_incremental() %}
 WHERE
