@@ -11,5 +11,5 @@ SELECT
 FROM 
      {{ source(
     'bronze',
-    'txs'
+    'txs_details'
   ) }} 
