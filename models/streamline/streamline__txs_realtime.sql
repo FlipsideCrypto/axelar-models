@@ -1,7 +1,7 @@
 {{ config (
     materialized = "view",
     post_hook = if_data_call_function(
-        func = "{{this.schema}}.udf_bulk_get_txs()",
+        func = "{{this.schema}}.udf_bulk_get_txs(object_construct('sql_source', '{{this.identifier}}'))",
         target = "{{this.schema}}.{{this.identifier}}"
     )
 ) }}
@@ -26,6 +26,8 @@ WHERE
             {{ ref(
                 "streamline__txs_history"
             ) }}
+        GROUP BY
+            1
     )
 ORDER BY
     1 ASC
