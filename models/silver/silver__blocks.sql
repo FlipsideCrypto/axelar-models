@@ -46,8 +46,11 @@ SELECT
 FROM
     {{ ref('bronze__blocks') }}
 
+WHERE 
+    DATA :error is null 
+
 {% if is_incremental() %}
-WHERE
+AND
     _partition_by_block_id >= (
         SELECT
             MAX(_partition_by_block_id) -1
