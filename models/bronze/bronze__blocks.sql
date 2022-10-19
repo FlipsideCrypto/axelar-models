@@ -13,3 +13,5 @@ FROM
         'bronze',
         'blocks'
     ) }}
+WHERE  
+    DATA : error is null 
