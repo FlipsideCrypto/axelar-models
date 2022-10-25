@@ -7,7 +7,7 @@ on:
   # uncheck the following to set it up with CRON
   schedule:
     # Runs "every 2 hours"
-    - cron: "*/* 2 * * *"
+    - cron: "*/120 * * * *"
 
 env:
   DBT_PROFILES_DIR: ./
