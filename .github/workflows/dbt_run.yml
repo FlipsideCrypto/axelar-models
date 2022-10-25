@@ -6,7 +6,7 @@ on:
       - "main"
   # uncheck the following to set it up with CRON
   schedule:
-    # Runs "every 2 hours"
+    # Runs "every 2 hours to run the job"
     - cron: "*/120 * * * *"
 
 env:
