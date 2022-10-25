@@ -24,7 +24,7 @@ models:
       - name: CHAIN_ID
         description: "{{ doc('chain_id') }}"
         tests:
-          - not_null 
+          - not_null
       - name: TX_ID
         description: "{{ doc('tx_id') }}"
         tests: 
