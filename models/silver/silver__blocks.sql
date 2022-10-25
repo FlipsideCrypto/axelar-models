@@ -9,7 +9,7 @@ SELECT
     block_id,
     COALESCE(
         DATA :result :block :header :time :: TIMESTAMP,
-        DATA :block :header :time :: TIMESTAMP, 
+        DATA :block :header :time :: TIMESTAMP,
         DATA :result :block :header :timestamp :: TIMESTAMP,
         DATA :block :header :timestamp :: TIMESTAMP
     ) AS block_timestamp,
@@ -45,21 +45,22 @@ SELECT
     ) AS _unique_key
 FROM
     {{ ref('bronze__blocks') }}
+WHERE
+    VALUE :data :error IS NULL
 
 {% if is_incremental() %}
-WHERE
-    _partition_by_block_id >= (
-        SELECT
-            MAX(_partition_by_block_id) -1
-        FROM
-            {{ this }}
-    )
-    AND _partition_by_block_id <= (
-        SELECT
-            MAX(_partition_by_block_id) + 10
-        FROM
-            {{ this }}
-    )
+AND _partition_by_block_id >= (
+    SELECT
+        MAX(_partition_by_block_id) -1
+    FROM
+        {{ this }}
+)
+AND _partition_by_block_id <= (
+    SELECT
+        MAX(_partition_by_block_id) + 10
+    FROM
+        {{ this }}
+)
 {% endif %}
 
 qualify(ROW_NUMBER() over(PARTITION BY chain_id, block_id
