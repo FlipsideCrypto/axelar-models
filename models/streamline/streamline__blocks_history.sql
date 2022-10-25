@@ -6,7 +6,7 @@ SELECT DISTINCT
     block_number AS block_id
 FROM 
      {{ source(
-    'bronze_streamline',
+    'bronze',
     'blocks'
   ) }} 
 WHERE value:data:error IS NULL

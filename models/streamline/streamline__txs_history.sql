@@ -6,6 +6,6 @@ SELECT DISTINCT
     block_number AS block_id
 FROM 
      {{ source(
-    'bronze_streamline',
+    'bronze',
     'txs_details'
   ) }} 
