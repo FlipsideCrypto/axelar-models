@@ -50,8 +50,7 @@ WHERE
     DATA :error is null 
 
 {% if is_incremental() %}
-AND
-    _partition_by_block_id >= (
+    AND _partition_by_block_id >= (
         SELECT
             MAX(_partition_by_block_id) -1
         FROM
