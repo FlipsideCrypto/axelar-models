@@ -6,8 +6,8 @@ on:
       - "main"
   # uncheck the following to set it up with CRON
   # schedule:
-    # Runs "every 10 mins"
-    # - cron: "*/10 * * * *"
+  # Runs "every 10 mins"
+  # - cron: "*/10 * * * *"
 
 env:
   DBT_PROFILES_DIR: ./
@@ -27,7 +27,7 @@ jobs:
   scheduled_run:
     name: dbt_run
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: workflow
 
     steps:
@@ -39,12 +39,12 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip install dbt-snowflake
+          pip install dbt-snowflake cli-passthrough
           dbt deps
-      
+
       - name: Run dbt models
         run: |
-          dbt run -m ./models/streamline/streamline__txs_history.sql
-          dbt run -m ./models/streamline/streamline__txs_realtime.sql
-          dbt run -m ./models/streamline/streamline__blocks_history.sql
-          dbt run -m ./models/streamline/streamline__blocks_realtime.sql
+          python alert.py dbt run -m ./models/streamline/streamline__txs_history.sql
+          python alert.py dbt run -m ./models/streamline/streamline__txs_realtime.sql
+          python alert.py dbt run -m ./models/streamline/streamline__blocks_history.sql
+          python alert.py dbt run -m ./models/streamline/streamline__blocks_realtime.sql
