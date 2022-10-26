@@ -1,11 +1,9 @@
 import sys
 
 import click
-import pkg_resources
 from cli_passthrough import cli_passthrough
 from cli_passthrough.utils import write_to_log
 
-version = pkg_resources.get_distribution("cli-passthrough").version
 CONTEXT_SETTINGS = {"ignore_unknown_options": True, "allow_extra_args": True}
 
 
