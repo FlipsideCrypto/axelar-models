@@ -109,7 +109,7 @@ FROM
   ON t.tx_id = s.tx_id
 
 {% if is_incremental() %}
-AND
+WHERE
   _partition_by_block_id >= (
     SELECT
       _partition_by_block_id_max -1
