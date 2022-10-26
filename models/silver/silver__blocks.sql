@@ -48,6 +48,9 @@ FROM
 WHERE
     VALUE :data :error IS NULL
 
+WHERE 
+    DATA :error is null 
+
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
