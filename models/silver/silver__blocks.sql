@@ -60,7 +60,7 @@ AND _partition_by_block_id <= (
     SELECT
         MAX(_partition_by_block_id) + 10
     FROM
-        {{ this }}        
+        {{ this }}
 )
 {% endif %}
 
