@@ -27,6 +27,7 @@ fee AS (
     {{ ref('silver__msg_attributes') }}
   WHERE
     attribute_key = 'fee'
+  AND fee like '%uaxl'
 
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
@@ -43,6 +44,7 @@ AND _partition_by_block_id <= (
 )
 {% endif %}
 ),
+
 spender AS (
   SELECT
     tx_id,
@@ -74,7 +76,9 @@ AND _partition_by_block_id <= (
 qualify(ROW_NUMBER() over(PARTITION BY tx_id
 ORDER BY
   msg_index)) = 1
-)
+),
+
+final_transactions AS (
 SELECT
   t.block_id,
   t.block_timestamp,
@@ -87,7 +91,9 @@ SELECT
   COALESCE(
     fee,
     '0uaxl'
-  ) AS fee,
+  ) AS fee_raw,
+  regexp_substr(fee_raw, '[0-9]+') as fee, 
+  regexp_substr(fee_raw, '[a-z]+') as fee_denom, 
   gas_used,
   gas_wanted,
   tx_code,
@@ -117,3 +123,26 @@ WHERE
       max_block_partition
   )
 {% endif %}
+)
+
+SELECT 
+  block_id,
+  block_timestamp,
+  blockchain,
+  chain_id,
+  tx_id,
+  tx_from,
+  tx_succeeded,
+  codespace,
+  fee, 
+  fee_denom, 
+  gas_used,
+  gas_wanted,
+  tx_code,
+  tx_log,
+  msgs,
+  _partition_by_block_id
+
+FROM final_transactions
+
+
