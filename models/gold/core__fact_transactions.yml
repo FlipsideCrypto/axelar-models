@@ -44,7 +44,7 @@ models:
         description: "{{ doc('fee') }}"
         tests: 
           - not_null
-      name: FEE_DENOM
+      - name: FEE_DENOM
         description: "{{ doc('fee_denom') }}"
         tests: 
           - not_null
