@@ -1,0 +1,12 @@
+version: 2
+models:
+  - name: streamline__blocks_history
+    columns:
+      - name: block_id
+        tests:
+          # - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - TIMESTAMP_NTZ
+                # - NUMBER
+                # - FLOAT

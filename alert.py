@@ -3,6 +3,7 @@ import sys
 import click
 from cli_passthrough import cli_passthrough
 from cli_passthrough.utils import write_to_log
+import requests
 
 CONTEXT_SETTINGS = {"ignore_unknown_options": True, "allow_extra_args": True}
 
@@ -18,6 +19,15 @@ def cli(ctx):
     exit_status = cli_passthrough(" ".join(ctx.args), interactive=False)
 
     # TODO - call code to parse dbt results and send slack alerts here.
+    url = 'https://hooks.slack.com/services/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'
+    alert_text = ""
+    with open("./logs/history.log", 'r') as f:
+        for line in f:
+            if "Failure in test" in line:
+                alert_text += line + '\n'
+    myobj = {"text": alert_text}
+
+    x = requests.post(url, json = myobj)
 
     sys.exit(exit_status)
 
