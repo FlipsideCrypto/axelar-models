@@ -52,4 +52,4 @@ jobs:
         uses: actions/upload-artifact@v3.1.1
         with:
             name: failed-tests-artifact
-            path: ./logs/history.log
+            path: ./target/run/run_results.json
