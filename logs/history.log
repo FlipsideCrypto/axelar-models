@@ -377,3 +377,35 @@ NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
   --------------------------------------------------------------------------------------------------------------------
 [0m19:55:23
 [0m19:55:23  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m19:59:10  Running with dbt=1.2.1
+[0m19:59:10  Found 17 models, 129 tests, 0 snapshots, 0 analyses, 646 macros, 1 operation, 0 seed files, 8 sources, 0 exposures, 0 metrics
+[0m19:59:10
+[0m19:59:21
+[0m19:59:21  Running 1 on-run-start hook
+[0m19:59:24  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m19:59:24  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m19:59:24
+[0m19:59:25  Concurrency: 1 threads (target='dev')
+[0m19:59:25
+[0m19:59:25  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m19:59:27  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 2.74s]
+[0m19:59:27
+[0m19:59:27  Finished running 1 test, 1 hook in 0 hours 0 minutes and 17.07 seconds (17.07s).
+[0m19:59:27
+[0m19:59:27  [31mCompleted with 1 error and 0 warnings:[0m
+[0m19:59:27
+[0m19:59:27  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m19:59:27    Got 1 result, configured to fail if != 0
+[0m19:59:27
+[0m19:59:27    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m19:59:27
+[0m19:59:27    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m19:59:27
+[0m19:59:27  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
