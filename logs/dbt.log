@@ -3202,3 +3202,813 @@ select
 [0m14:28:43.616239 [info ] [MainThread]: Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
 [0m14:28:43.616657 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1169b2f10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1169b2940>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x116ac7370>]}
 [0m14:28:43.616979 [debug] [MainThread]: Flushing usage events
+
+
+============================== 2022-10-27 15:43:48.418939 | 6a1a2b46-4628-488f-8e4c-ed63e37ed490 ==============================
+[0m15:43:48.418971 [info ] [MainThread]: Running with dbt=1.2.1
+[0m15:43:48.420039 [debug] [MainThread]: running dbt with arguments {'write_json': True, 'use_colors': True, 'printer_width': 80, 'version_check': True, 'partial_parse': True, 'static_parser': True, 'profiles_dir': '/Users/xiuyangguan/.dbt', 'send_anonymous_usage_stats': True, 'event_buffer_size': 100000, 'quiet': False, 'no_print': False, 'indirect_selection': 'eager', 'select': ['./models/streamline/streamline__blocks_history.yml'], 'which': 'test', 'rpc_method': 'test'}
+[0m15:43:48.420233 [debug] [MainThread]: Tracking: tracking
+[0m15:43:48.420611 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ec6b8b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ec6b850>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ec6bcd0>]}
+[0m15:43:48.643381 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m15:43:48.643610 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m15:43:48.657347 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '6a1a2b46-4628-488f-8e4c-ed63e37ed490', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10f136a90>]}
+[0m15:43:48.689842 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '6a1a2b46-4628-488f-8e4c-ed63e37ed490', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ef3f430>]}
+[0m15:43:48.690183 [info ] [MainThread]: Found 17 models, 129 tests, 0 snapshots, 0 analyses, 646 macros, 1 operation, 0 seed files, 8 sources, 0 exposures, 0 metrics
+[0m15:43:48.690482 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '6a1a2b46-4628-488f-8e4c-ed63e37ed490', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ef3f3a0>]}
+[0m15:43:48.696986 [info ] [MainThread]: 
+[0m15:43:48.697596 [debug] [MainThread]: Acquiring new snowflake connection "master"
+[0m15:43:48.698695 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV"
+[0m15:43:48.713246 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV"
+[0m15:43:48.713520 [debug] [ThreadPool]: On list_AXELAR_DEV: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV"} */
+show terse schemas in database AXELAR_DEV
+    limit 10000
+[0m15:43:48.713687 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m15:43:49.761224 [debug] [ThreadPool]: SQL status: SUCCESS 18 in 1.05 seconds
+[0m15:43:49.764401 [debug] [ThreadPool]: On list_AXELAR_DEV: Close
+[0m15:43:49.908033 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_core"
+[0m15:43:49.965724 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_core"
+[0m15:43:49.966014 [debug] [ThreadPool]: On list_AXELAR_DEV_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_core"} */
+show terse objects in AXELAR_DEV.core
+[0m15:43:49.966210 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:50.746324 [debug] [ThreadPool]: SQL status: SUCCESS 6 in 0.78 seconds
+[0m15:43:50.748244 [debug] [ThreadPool]: On list_AXELAR_DEV_core: Close
+[0m15:43:50.901163 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core"
+[0m15:43:50.904199 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core"
+[0m15:43:50.904389 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_set_core
+[0m15:43:50.904534 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:51.339871 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.44 seconds
+[0m15:43:51.342045 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core: Close
+[0m15:43:51.488079 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_bronze"
+[0m15:43:51.490929 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_bronze"
+[0m15:43:51.491193 [debug] [ThreadPool]: On list_AXELAR_DEV_bronze: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_bronze"} */
+show terse objects in AXELAR_DEV.bronze
+[0m15:43:51.491405 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:51.970659 [debug] [ThreadPool]: SQL status: SUCCESS 2 in 0.48 seconds
+[0m15:43:51.972840 [debug] [ThreadPool]: On list_AXELAR_DEV_bronze: Close
+[0m15:43:52.106176 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver"
+[0m15:43:52.111546 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver"
+[0m15:43:52.111867 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_row_values_to_have_recent_data_silver
+[0m15:43:52.112102 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:52.562705 [debug] [ThreadPool]: SQL status: SUCCESS 5 in 0.45 seconds
+[0m15:43:52.564985 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver: Close
+[0m15:43:52.696652 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_silver"
+[0m15:43:52.700135 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_silver"
+[0m15:43:52.700477 [debug] [ThreadPool]: On list_AXELAR_DEV_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_silver"} */
+show terse objects in AXELAR_DEV.silver
+[0m15:43:52.700681 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:53.176041 [debug] [ThreadPool]: SQL status: SUCCESS 22 in 0.48 seconds
+[0m15:43:53.178810 [debug] [ThreadPool]: On list_AXELAR_DEV_silver: Close
+[0m15:43:53.370257 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver"
+[0m15:43:53.374110 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver"
+[0m15:43:53.374316 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_silver
+[0m15:43:53.374490 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:53.838871 [debug] [ThreadPool]: SQL status: SUCCESS 11 in 0.46 seconds
+[0m15:43:53.840768 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver: Close
+[0m15:43:53.954208 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core"
+[0m15:43:53.958281 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core"
+[0m15:43:53.958559 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_to_exist_core
+[0m15:43:53.958762 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:54.442359 [debug] [ThreadPool]: SQL status: SUCCESS 52 in 0.48 seconds
+[0m15:43:54.444948 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core: Close
+[0m15:43:54.558353 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver"
+[0m15:43:54.561723 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver"
+[0m15:43:54.561978 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver"} */
+show terse objects in AXELAR_DEV.dbt_utils_unique_combination_of_columns_silver
+[0m15:43:54.562131 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:55.015579 [debug] [ThreadPool]: SQL status: SUCCESS 5 in 0.45 seconds
+[0m15:43:55.017085 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver: Close
+[0m15:43:55.160676 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_not_null_core"
+[0m15:43:55.165517 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_not_null_core"
+[0m15:43:55.165946 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_not_null_core"} */
+show terse objects in AXELAR_DEV.not_null_core
+[0m15:43:55.166410 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:55.710281 [debug] [ThreadPool]: SQL status: SUCCESS 9 in 0.54 seconds
+[0m15:43:55.712324 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_core: Close
+[0m15:43:55.838633 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline"
+[0m15:43:55.841786 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline"
+[0m15:43:55.842102 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline
+[0m15:43:55.842339 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:56.298525 [debug] [ThreadPool]: SQL status: SUCCESS 2 in 0.46 seconds
+[0m15:43:56.300036 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline: Close
+[0m15:43:56.435223 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_streamline"
+[0m15:43:56.439051 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_streamline"
+[0m15:43:56.439329 [debug] [ThreadPool]: On list_AXELAR_DEV_streamline: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_streamline"} */
+show terse objects in AXELAR_DEV.streamline
+[0m15:43:56.439508 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:56.921276 [debug] [ThreadPool]: SQL status: SUCCESS 9 in 0.48 seconds
+[0m15:43:56.923359 [debug] [ThreadPool]: On list_AXELAR_DEV_streamline: Close
+[0m15:43:57.057784 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_not_null_silver"
+[0m15:43:57.061274 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_not_null_silver"
+[0m15:43:57.061480 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_not_null_silver"} */
+show terse objects in AXELAR_DEV.not_null_silver
+[0m15:43:57.061648 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:57.549484 [debug] [ThreadPool]: SQL status: SUCCESS 43 in 0.49 seconds
+[0m15:43:57.552920 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_silver: Close
+[0m15:43:57.678632 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core"
+[0m15:43:57.682161 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core"
+[0m15:43:57.682944 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core"} */
+show terse objects in AXELAR_DEV.dbt_utils_unique_combination_of_columns_core
+[0m15:43:57.683151 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:58.150269 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.47 seconds
+[0m15:43:58.152430 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core: Close
+[0m15:43:58.288488 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_sequence_gaps_silver"
+[0m15:43:58.291520 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_sequence_gaps_silver"
+[0m15:43:58.291732 [debug] [ThreadPool]: On list_AXELAR_DEV_sequence_gaps_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_sequence_gaps_silver"} */
+show terse objects in AXELAR_DEV.sequence_gaps_silver
+[0m15:43:58.292002 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:43:58.742286 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.45 seconds
+[0m15:43:58.744154 [debug] [ThreadPool]: On list_AXELAR_DEV_sequence_gaps_silver: Close
+[0m15:43:58.924944 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '6a1a2b46-4628-488f-8e4c-ed63e37ed490', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10f4c5b20>]}
+[0m15:43:58.925309 [info ] [MainThread]: 
+[0m15:43:58.925575 [info ] [MainThread]: Running 1 on-run-start hook
+[0m15:43:58.925853 [debug] [MainThread]: Compiling operation.axelar.axelar-on-run-start-0
+[0m15:43:58.933729 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:43:58.933974 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE schema if NOT EXISTS silver;
+[0m15:43:58.934123 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m15:43:59.351132 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.42 seconds
+[0m15:43:59.351616 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:43:59.351877 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE
+    OR REPLACE FUNCTION STREAMLINE.js_hex_to_int (
+        s STRING
+    ) returns DOUBLE LANGUAGE javascript AS 'if (S !== null) { yourNumber = parseInt(S, 16); } return yourNumber'
+;
+[0m15:43:59.466858 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.11 seconds
+[0m15:43:59.467302 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:43:59.467562 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+create or replace function streamline.udtf_get_base_table(max_height integer)
+returns table (height number)
+as
+$$
+    with base as (
+        select
+            row_number() over (
+                order by
+                    seq4()
+            ) as id
+        from
+            table(generator(rowcount => 100000000))
+    )
+select
+    id as height
+from
+    base
+where
+    id <= max_height
+$$
+;
+[0m15:43:59.608642 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.14 seconds
+[0m15:43:59.614983 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:43:59.615181 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE
+    OR REPLACE EXTERNAL FUNCTION streamline.udf_bulk_get_blocks(
+        json variant
+    ) returns variant api_integration = aws_axelar_api AS 
+        'https://69qcbfajak.execute-api.us-east-1.amazonaws.com/dev/bulk_get_blocks';
+[0m15:43:59.770709 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.16 seconds
+[0m15:43:59.771151 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:43:59.771419 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE
+    OR REPLACE EXTERNAL FUNCTION streamline.udf_bulk_get_txs(
+        json variant
+    ) returns variant api_integration = aws_axelar_api AS 
+        'https://69qcbfajak.execute-api.us-east-1.amazonaws.com/dev/bulk_get_txs';
+[0m15:43:59.949164 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.18 seconds
+[0m15:43:59.950530 [debug] [MainThread]: Writing injected SQL for node "operation.axelar.axelar-on-run-start-0"
+[0m15:43:59.952140 [info ] [MainThread]: 1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m15:43:59.952522 [info ] [MainThread]: 1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m15:43:59.952845 [info ] [MainThread]: 
+[0m15:43:59.953156 [debug] [MainThread]: On master: Close
+[0m15:44:00.080606 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m15:44:00.081112 [info ] [MainThread]: 
+[0m15:44:00.086296 [debug] [Thread-1  ]: Began running node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:44:00.086606 [info ] [Thread-1  ]: 1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m15:44:00.087157 [debug] [Thread-1  ]: Acquiring new snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:44:00.087371 [debug] [Thread-1  ]: Began compiling node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:44:00.087569 [debug] [Thread-1  ]: Compiling test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:44:00.112825 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:44:00.113099 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+describe table AXELAR_DEV.streamline.blocks_history
+[0m15:44:00.113261 [debug] [Thread-1  ]: Opening a new connection, currently in state closed
+[0m15:44:00.821723 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 0.71 seconds
+[0m15:44:00.826958 [debug] [Thread-1  ]: Writing injected SQL for node "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:44:00.828208 [debug] [Thread-1  ]: finished collecting timing info
+[0m15:44:00.828401 [debug] [Thread-1  ]: Began executing node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:44:00.847167 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:44:00.868444 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+drop table if exists "AXELAR_DEV"."DBT_EXPECTATIONS_EXPECT_COLUMN_VALUES_TO_BE_IN_TYPE_LIST_STREAMLINE"."BLOCKS_HISTORY_BLOCK_ID" cascade
+[0m15:44:00.991142 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 0.12 seconds
+[0m15:44:01.004906 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:44:01.005111 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+create or replace transient table AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id  as
+      (with relation_columns as (
+
+        
+        select
+            cast('BLOCK_ID' as TEXT) as relation_column,
+            cast('NUMBER' as TEXT) as relation_column_type
+        
+        
+    ),
+    test_data as (
+
+        select
+            *
+        from
+            relation_columns
+        where
+            relation_column = 'BLOCK_ID'
+            and
+            relation_column_type not in ('TIMESTAMP_NTZ')
+
+    )
+    select *
+    from test_data
+      );
+[0m15:44:02.526591 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 1.52 seconds
+[0m15:44:02.532445 [debug] [Thread-1  ]: Writing runtime SQL for node "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:44:02.533481 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:44:02.533681 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+        select *
+        from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+    
+      
+    ) dbt_internal_test
+[0m15:44:03.055533 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 0.52 seconds
+[0m15:44:03.058615 [debug] [Thread-1  ]: finished collecting timing info
+[0m15:44:03.058899 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: Close
+[0m15:44:03.181889 [error] [Thread-1  ]: 1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 3.09s]
+[0m15:44:03.182562 [debug] [Thread-1  ]: Finished running node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:44:03.183911 [debug] [MainThread]: Acquiring new snowflake connection "master"
+[0m15:44:03.184368 [info ] [MainThread]: 
+[0m15:44:03.184690 [info ] [MainThread]: Finished running 1 test, 1 hook in 0 hours 0 minutes and 14.49 seconds (14.49s).
+[0m15:44:03.184982 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m15:44:03.185144 [debug] [MainThread]: Connection 'test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec' was properly closed.
+[0m15:44:03.212352 [info ] [MainThread]: 
+[0m15:44:03.212762 [info ] [MainThread]: [31mCompleted with 1 error and 0 warnings:[0m
+[0m15:44:03.213086 [info ] [MainThread]: 
+[0m15:44:03.213377 [error] [MainThread]: [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m15:44:03.213699 [error] [MainThread]:   Got 1 result, configured to fail if != 0
+[0m15:44:03.214116 [info ] [MainThread]: 
+[0m15:44:03.214510 [info ] [MainThread]:   compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m15:44:03.214815 [info ] [MainThread]: 
+[0m15:44:03.215148 [info ] [MainThread]:   See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m15:44:03.215451 [info ] [MainThread]: 
+[0m15:44:03.215727 [info ] [MainThread]: Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+[0m15:44:03.216113 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ec54310>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10f389940>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10f2aac70>]}
+[0m15:44:03.216406 [debug] [MainThread]: Flushing usage events
+
+
+============================== 2022-10-27 15:45:44.838723 | 367f4d4b-af5d-4754-9058-f7e67b892918 ==============================
+[0m15:45:44.838780 [info ] [MainThread]: Running with dbt=1.2.1
+[0m15:45:44.839553 [debug] [MainThread]: running dbt with arguments {'write_json': True, 'use_colors': True, 'printer_width': 80, 'version_check': True, 'partial_parse': True, 'static_parser': True, 'profiles_dir': '/Users/xiuyangguan/.dbt', 'send_anonymous_usage_stats': True, 'event_buffer_size': 100000, 'quiet': False, 'no_print': False, 'indirect_selection': 'eager', 'select': ['./models/streamline/streamline__blocks_history.yml'], 'which': 'test', 'rpc_method': 'test'}
+[0m15:45:44.839803 [debug] [MainThread]: Tracking: tracking
+[0m15:45:44.840325 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104be21f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104be2ac0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104be2370>]}
+[0m15:45:44.984208 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m15:45:44.984440 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m15:45:44.996639 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '367f4d4b-af5d-4754-9058-f7e67b892918', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10509f0d0>]}
+[0m15:45:45.024820 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '367f4d4b-af5d-4754-9058-f7e67b892918', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104ea1580>]}
+[0m15:45:45.025185 [info ] [MainThread]: Found 17 models, 129 tests, 0 snapshots, 0 analyses, 646 macros, 1 operation, 0 seed files, 8 sources, 0 exposures, 0 metrics
+[0m15:45:45.025500 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '367f4d4b-af5d-4754-9058-f7e67b892918', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104ea14f0>]}
+[0m15:45:45.032589 [info ] [MainThread]: 
+[0m15:45:45.033199 [debug] [MainThread]: Acquiring new snowflake connection "master"
+[0m15:45:45.034495 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV"
+[0m15:45:45.048835 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV"
+[0m15:45:45.049185 [debug] [ThreadPool]: On list_AXELAR_DEV: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV"} */
+show terse schemas in database AXELAR_DEV
+    limit 10000
+[0m15:45:45.049379 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m15:45:45.839855 [debug] [ThreadPool]: SQL status: SUCCESS 18 in 0.79 seconds
+[0m15:45:45.842654 [debug] [ThreadPool]: On list_AXELAR_DEV: Close
+[0m15:45:45.976473 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver"
+[0m15:45:46.030559 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver"
+[0m15:45:46.030848 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver"} */
+show terse objects in AXELAR_DEV.dbt_utils_unique_combination_of_columns_silver
+[0m15:45:46.031032 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:46.494062 [debug] [ThreadPool]: SQL status: SUCCESS 5 in 0.46 seconds
+[0m15:45:46.496446 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver: Close
+[0m15:45:46.669575 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_silver"
+[0m15:45:46.673246 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_silver"
+[0m15:45:46.673451 [debug] [ThreadPool]: On list_AXELAR_DEV_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_silver"} */
+show terse objects in AXELAR_DEV.silver
+[0m15:45:46.673630 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:47.127517 [debug] [ThreadPool]: SQL status: SUCCESS 22 in 0.45 seconds
+[0m15:45:47.130340 [debug] [ThreadPool]: On list_AXELAR_DEV_silver: Close
+[0m15:45:47.252655 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline"
+[0m15:45:47.256174 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline"
+[0m15:45:47.256698 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline
+[0m15:45:47.256900 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:48.003597 [debug] [ThreadPool]: SQL status: SUCCESS 2 in 0.75 seconds
+[0m15:45:48.005270 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline: Close
+[0m15:45:48.132882 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_not_null_silver"
+[0m15:45:48.137261 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_not_null_silver"
+[0m15:45:48.137556 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_not_null_silver"} */
+show terse objects in AXELAR_DEV.not_null_silver
+[0m15:45:48.137742 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:48.588787 [debug] [ThreadPool]: SQL status: SUCCESS 43 in 0.45 seconds
+[0m15:45:48.592286 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_silver: Close
+[0m15:45:48.715881 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_core"
+[0m15:45:48.719972 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_core"
+[0m15:45:48.720177 [debug] [ThreadPool]: On list_AXELAR_DEV_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_core"} */
+show terse objects in AXELAR_DEV.core
+[0m15:45:48.720351 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:49.225602 [debug] [ThreadPool]: SQL status: SUCCESS 6 in 0.51 seconds
+[0m15:45:49.227660 [debug] [ThreadPool]: On list_AXELAR_DEV_core: Close
+[0m15:45:49.358957 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver"
+[0m15:45:49.362678 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver"
+[0m15:45:49.362873 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_silver
+[0m15:45:49.363042 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:49.872497 [debug] [ThreadPool]: SQL status: SUCCESS 11 in 0.51 seconds
+[0m15:45:49.875029 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver: Close
+[0m15:45:50.013217 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_bronze"
+[0m15:45:50.016965 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_bronze"
+[0m15:45:50.017171 [debug] [ThreadPool]: On list_AXELAR_DEV_bronze: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_bronze"} */
+show terse objects in AXELAR_DEV.bronze
+[0m15:45:50.017345 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:50.463150 [debug] [ThreadPool]: SQL status: SUCCESS 2 in 0.45 seconds
+[0m15:45:50.465339 [debug] [ThreadPool]: On list_AXELAR_DEV_bronze: Close
+[0m15:45:50.590599 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core"
+[0m15:45:50.594221 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core"
+[0m15:45:50.594417 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_to_exist_core
+[0m15:45:50.594585 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:51.051571 [debug] [ThreadPool]: SQL status: SUCCESS 52 in 0.46 seconds
+[0m15:45:51.055129 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core: Close
+[0m15:45:51.195940 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_sequence_gaps_silver"
+[0m15:45:51.200295 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_sequence_gaps_silver"
+[0m15:45:51.200502 [debug] [ThreadPool]: On list_AXELAR_DEV_sequence_gaps_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_sequence_gaps_silver"} */
+show terse objects in AXELAR_DEV.sequence_gaps_silver
+[0m15:45:51.200682 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:51.645798 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.45 seconds
+[0m15:45:51.647135 [debug] [ThreadPool]: On list_AXELAR_DEV_sequence_gaps_silver: Close
+[0m15:45:51.776618 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core"
+[0m15:45:51.780011 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core"
+[0m15:45:51.780259 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_set_core
+[0m15:45:51.780443 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:52.242398 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.46 seconds
+[0m15:45:52.244266 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core: Close
+[0m15:45:52.429669 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_streamline"
+[0m15:45:52.433213 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_streamline"
+[0m15:45:52.433412 [debug] [ThreadPool]: On list_AXELAR_DEV_streamline: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_streamline"} */
+show terse objects in AXELAR_DEV.streamline
+[0m15:45:52.433577 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:52.913781 [debug] [ThreadPool]: SQL status: SUCCESS 9 in 0.48 seconds
+[0m15:45:52.915795 [debug] [ThreadPool]: On list_AXELAR_DEV_streamline: Close
+[0m15:45:53.032641 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_not_null_core"
+[0m15:45:53.037382 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_not_null_core"
+[0m15:45:53.037808 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_not_null_core"} */
+show terse objects in AXELAR_DEV.not_null_core
+[0m15:45:53.038048 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:53.508420 [debug] [ThreadPool]: SQL status: SUCCESS 9 in 0.47 seconds
+[0m15:45:53.510012 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_core: Close
+[0m15:45:53.644741 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core"
+[0m15:45:53.648123 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core"
+[0m15:45:53.648396 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core"} */
+show terse objects in AXELAR_DEV.dbt_utils_unique_combination_of_columns_core
+[0m15:45:53.648563 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:54.136509 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.49 seconds
+[0m15:45:54.137988 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core: Close
+[0m15:45:54.280581 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver"
+[0m15:45:54.284297 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver"
+[0m15:45:54.284526 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_row_values_to_have_recent_data_silver
+[0m15:45:54.284693 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:45:54.723958 [debug] [ThreadPool]: SQL status: SUCCESS 5 in 0.44 seconds
+[0m15:45:54.726249 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver: Close
+[0m15:45:54.859507 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '367f4d4b-af5d-4754-9058-f7e67b892918', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104340f10>]}
+[0m15:45:54.860007 [info ] [MainThread]: 
+[0m15:45:54.860400 [info ] [MainThread]: Running 1 on-run-start hook
+[0m15:45:54.860813 [debug] [MainThread]: Compiling operation.axelar.axelar-on-run-start-0
+[0m15:45:54.870713 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:45:54.871088 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE schema if NOT EXISTS silver;
+[0m15:45:54.871320 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m15:45:55.313381 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.44 seconds
+[0m15:45:55.313845 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:45:55.314122 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE
+    OR REPLACE FUNCTION STREAMLINE.js_hex_to_int (
+        s STRING
+    ) returns DOUBLE LANGUAGE javascript AS 'if (S !== null) { yourNumber = parseInt(S, 16); } return yourNumber'
+;
+[0m15:45:55.500519 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.19 seconds
+[0m15:45:55.500977 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:45:55.501252 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+create or replace function streamline.udtf_get_base_table(max_height integer)
+returns table (height number)
+as
+$$
+    with base as (
+        select
+            row_number() over (
+                order by
+                    seq4()
+            ) as id
+        from
+            table(generator(rowcount => 100000000))
+    )
+select
+    id as height
+from
+    base
+where
+    id <= max_height
+$$
+;
+[0m15:45:55.642676 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.14 seconds
+[0m15:45:55.649127 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:45:55.649330 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE
+    OR REPLACE EXTERNAL FUNCTION streamline.udf_bulk_get_blocks(
+        json variant
+    ) returns variant api_integration = aws_axelar_api AS 
+        'https://69qcbfajak.execute-api.us-east-1.amazonaws.com/dev/bulk_get_blocks';
+[0m15:45:55.792811 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.14 seconds
+[0m15:45:55.793252 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:45:55.793524 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE
+    OR REPLACE EXTERNAL FUNCTION streamline.udf_bulk_get_txs(
+        json variant
+    ) returns variant api_integration = aws_axelar_api AS 
+        'https://69qcbfajak.execute-api.us-east-1.amazonaws.com/dev/bulk_get_txs';
+[0m15:45:55.919225 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.13 seconds
+[0m15:45:55.920406 [debug] [MainThread]: Writing injected SQL for node "operation.axelar.axelar-on-run-start-0"
+[0m15:45:55.921831 [info ] [MainThread]: 1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m15:45:55.922170 [info ] [MainThread]: 1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m15:45:55.922459 [info ] [MainThread]: 
+[0m15:45:55.922734 [debug] [MainThread]: On master: Close
+[0m15:45:56.046681 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m15:45:56.047218 [info ] [MainThread]: 
+[0m15:45:56.050710 [debug] [Thread-1  ]: Began running node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:45:56.051017 [info ] [Thread-1  ]: 1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m15:45:56.051591 [debug] [Thread-1  ]: Acquiring new snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:45:56.051866 [debug] [Thread-1  ]: Began compiling node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:45:56.052101 [debug] [Thread-1  ]: Compiling test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:45:56.077062 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:45:56.077394 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+describe table AXELAR_DEV.streamline.blocks_history
+[0m15:45:56.077588 [debug] [Thread-1  ]: Opening a new connection, currently in state closed
+[0m15:45:56.825081 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 0.75 seconds
+[0m15:45:56.831986 [debug] [Thread-1  ]: Writing injected SQL for node "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:45:56.832507 [debug] [Thread-1  ]: finished collecting timing info
+[0m15:45:56.832719 [debug] [Thread-1  ]: Began executing node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:45:56.853588 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:45:56.853817 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+drop table if exists "AXELAR_DEV"."DBT_EXPECTATIONS_EXPECT_COLUMN_VALUES_TO_BE_IN_TYPE_LIST_STREAMLINE"."BLOCKS_HISTORY_BLOCK_ID" cascade
+[0m15:45:56.971837 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 0.12 seconds
+[0m15:45:56.985588 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:45:56.985817 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+create or replace transient table AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id  as
+      (with relation_columns as (
+
+        
+        select
+            cast('BLOCK_ID' as TEXT) as relation_column,
+            cast('NUMBER' as TEXT) as relation_column_type
+        
+        
+    ),
+    test_data as (
+
+        select
+            *
+        from
+            relation_columns
+        where
+            relation_column = 'BLOCK_ID'
+            and
+            relation_column_type not in ('TIMESTAMP_NTZ')
+
+    )
+    select *
+    from test_data
+      );
+[0m15:45:57.832765 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 0.85 seconds
+[0m15:45:57.839416 [debug] [Thread-1  ]: Writing runtime SQL for node "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:45:57.840398 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:45:57.840591 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+        select *
+        from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+    
+      
+    ) dbt_internal_test
+[0m15:45:58.031330 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 0.19 seconds
+[0m15:45:58.034379 [debug] [Thread-1  ]: finished collecting timing info
+[0m15:45:58.034651 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: Close
+[0m15:45:58.155848 [error] [Thread-1  ]: 1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 2.10s]
+[0m15:45:58.156540 [debug] [Thread-1  ]: Finished running node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:45:58.157958 [debug] [MainThread]: Acquiring new snowflake connection "master"
+[0m15:45:58.158481 [info ] [MainThread]: 
+[0m15:45:58.158867 [info ] [MainThread]: Finished running 1 test, 1 hook in 0 hours 0 minutes and 13.13 seconds (13.13s).
+[0m15:45:58.159189 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m15:45:58.159369 [debug] [MainThread]: Connection 'test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec' was properly closed.
+[0m15:45:58.186369 [info ] [MainThread]: 
+[0m15:45:58.186768 [info ] [MainThread]: [31mCompleted with 1 error and 0 warnings:[0m
+[0m15:45:58.187096 [info ] [MainThread]: 
+[0m15:45:58.187391 [error] [MainThread]: [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m15:45:58.187713 [error] [MainThread]:   Got 1 result, configured to fail if != 0
+[0m15:45:58.188003 [info ] [MainThread]: 
+[0m15:45:58.188293 [info ] [MainThread]:   compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m15:45:58.188583 [info ] [MainThread]: 
+[0m15:45:58.188866 [info ] [MainThread]:   See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m15:45:58.189166 [info ] [MainThread]: 
+[0m15:45:58.189449 [info ] [MainThread]: Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+[0m15:45:58.189842 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1072bedf0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1072c7100>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1071c2c70>]}
+[0m15:45:58.190173 [debug] [MainThread]: Flushing usage events
+
+
+============================== 2022-10-27 15:47:28.665087 | 754bc135-643a-4f2f-a712-f11282de39ac ==============================
+[0m15:47:28.665118 [info ] [MainThread]: Running with dbt=1.2.1
+[0m15:47:28.666133 [debug] [MainThread]: running dbt with arguments {'write_json': True, 'use_colors': True, 'printer_width': 80, 'version_check': True, 'partial_parse': True, 'static_parser': True, 'profiles_dir': '/Users/xiuyangguan/.dbt', 'send_anonymous_usage_stats': True, 'event_buffer_size': 100000, 'quiet': False, 'no_print': False, 'indirect_selection': 'eager', 'select': ['./models/streamline/streamline__blocks_history.yml'], 'which': 'test', 'rpc_method': 'test'}
+[0m15:47:28.666332 [debug] [MainThread]: Tracking: tracking
+[0m15:47:28.666788 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109f69280>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109f69ca0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109f69f40>]}
+[0m15:47:28.832720 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m15:47:28.833563 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m15:47:28.847040 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '754bc135-643a-4f2f-a712-f11282de39ac', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a4480d0>]}
+[0m15:47:28.877095 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '754bc135-643a-4f2f-a712-f11282de39ac', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a2495e0>]}
+[0m15:47:28.877466 [info ] [MainThread]: Found 17 models, 129 tests, 0 snapshots, 0 analyses, 646 macros, 1 operation, 0 seed files, 8 sources, 0 exposures, 0 metrics
+[0m15:47:28.877747 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '754bc135-643a-4f2f-a712-f11282de39ac', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a249550>]}
+[0m15:47:28.884350 [info ] [MainThread]: 
+[0m15:47:28.884979 [debug] [MainThread]: Acquiring new snowflake connection "master"
+[0m15:47:28.886081 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV"
+[0m15:47:28.900017 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV"
+[0m15:47:28.900321 [debug] [ThreadPool]: On list_AXELAR_DEV: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV"} */
+show terse schemas in database AXELAR_DEV
+    limit 10000
+[0m15:47:28.900491 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m15:47:29.788126 [debug] [ThreadPool]: SQL status: SUCCESS 18 in 0.89 seconds
+[0m15:47:29.791072 [debug] [ThreadPool]: On list_AXELAR_DEV: Close
+[0m15:47:29.919573 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_core"
+[0m15:47:29.972519 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_core"
+[0m15:47:29.972824 [debug] [ThreadPool]: On list_AXELAR_DEV_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_core"} */
+show terse objects in AXELAR_DEV.core
+[0m15:47:29.973024 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:30.453251 [debug] [ThreadPool]: SQL status: SUCCESS 6 in 0.48 seconds
+[0m15:47:30.455677 [debug] [ThreadPool]: On list_AXELAR_DEV_core: Close
+[0m15:47:30.593013 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver"
+[0m15:47:30.596579 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver"
+[0m15:47:30.596943 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_silver
+[0m15:47:30.597174 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:31.360247 [debug] [ThreadPool]: SQL status: SUCCESS 11 in 0.76 seconds
+[0m15:47:31.362725 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_silver: Close
+[0m15:47:31.498951 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_silver"
+[0m15:47:31.502497 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_silver"
+[0m15:47:31.502697 [debug] [ThreadPool]: On list_AXELAR_DEV_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_silver"} */
+show terse objects in AXELAR_DEV.silver
+[0m15:47:31.502869 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:31.974502 [debug] [ThreadPool]: SQL status: SUCCESS 22 in 0.47 seconds
+[0m15:47:31.977354 [debug] [ThreadPool]: On list_AXELAR_DEV_silver: Close
+[0m15:47:32.143730 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_not_null_silver"
+[0m15:47:32.146922 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_not_null_silver"
+[0m15:47:32.147436 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_not_null_silver"} */
+show terse objects in AXELAR_DEV.not_null_silver
+[0m15:47:32.147637 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:32.579641 [debug] [ThreadPool]: SQL status: SUCCESS 43 in 0.43 seconds
+[0m15:47:32.583158 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_silver: Close
+[0m15:47:32.711238 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_streamline"
+[0m15:47:32.715304 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_streamline"
+[0m15:47:32.715518 [debug] [ThreadPool]: On list_AXELAR_DEV_streamline: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_streamline"} */
+show terse objects in AXELAR_DEV.streamline
+[0m15:47:32.715700 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:33.163396 [debug] [ThreadPool]: SQL status: SUCCESS 9 in 0.45 seconds
+[0m15:47:33.165824 [debug] [ThreadPool]: On list_AXELAR_DEV_streamline: Close
+[0m15:47:33.306345 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core"
+[0m15:47:33.310148 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core"
+[0m15:47:33.310355 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core"} */
+show terse objects in AXELAR_DEV.dbt_utils_unique_combination_of_columns_core
+[0m15:47:33.310531 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:33.772195 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.46 seconds
+[0m15:47:33.774352 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_core: Close
+[0m15:47:33.931747 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline"
+[0m15:47:33.935339 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline"
+[0m15:47:33.935546 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline
+[0m15:47:33.935720 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:34.488445 [debug] [ThreadPool]: SQL status: SUCCESS 2 in 0.55 seconds
+[0m15:47:34.490647 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_type_list_streamline: Close
+[0m15:47:34.657286 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_sequence_gaps_silver"
+[0m15:47:34.660895 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_sequence_gaps_silver"
+[0m15:47:34.661102 [debug] [ThreadPool]: On list_AXELAR_DEV_sequence_gaps_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_sequence_gaps_silver"} */
+show terse objects in AXELAR_DEV.sequence_gaps_silver
+[0m15:47:34.661281 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:35.196041 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.53 seconds
+[0m15:47:35.198191 [debug] [ThreadPool]: On list_AXELAR_DEV_sequence_gaps_silver: Close
+[0m15:47:35.316358 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver"
+[0m15:47:35.318980 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver"
+[0m15:47:35.319131 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_row_values_to_have_recent_data_silver
+[0m15:47:35.319254 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:35.814664 [debug] [ThreadPool]: SQL status: SUCCESS 5 in 0.5 seconds
+[0m15:47:35.816958 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_row_values_to_have_recent_data_silver: Close
+[0m15:47:35.998043 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_bronze"
+[0m15:47:36.001647 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_bronze"
+[0m15:47:36.001854 [debug] [ThreadPool]: On list_AXELAR_DEV_bronze: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_bronze"} */
+show terse objects in AXELAR_DEV.bronze
+[0m15:47:36.002026 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:36.501946 [debug] [ThreadPool]: SQL status: SUCCESS 2 in 0.5 seconds
+[0m15:47:36.503484 [debug] [ThreadPool]: On list_AXELAR_DEV_bronze: Close
+[0m15:47:36.626518 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver"
+[0m15:47:36.630102 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver"
+[0m15:47:36.630305 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver"} */
+show terse objects in AXELAR_DEV.dbt_utils_unique_combination_of_columns_silver
+[0m15:47:36.630478 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:37.069701 [debug] [ThreadPool]: SQL status: SUCCESS 5 in 0.44 seconds
+[0m15:47:37.072010 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_utils_unique_combination_of_columns_silver: Close
+[0m15:47:37.188393 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core"
+[0m15:47:37.192142 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core"
+[0m15:47:37.192391 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_to_exist_core
+[0m15:47:37.192563 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:37.659754 [debug] [ThreadPool]: SQL status: SUCCESS 52 in 0.47 seconds
+[0m15:47:37.663517 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_to_exist_core: Close
+[0m15:47:37.789658 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_not_null_core"
+[0m15:47:37.793818 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_not_null_core"
+[0m15:47:37.794018 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_not_null_core"} */
+show terse objects in AXELAR_DEV.not_null_core
+[0m15:47:37.794193 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:38.243450 [debug] [ThreadPool]: SQL status: SUCCESS 9 in 0.45 seconds
+[0m15:47:38.245895 [debug] [ThreadPool]: On list_AXELAR_DEV_not_null_core: Close
+[0m15:47:38.410743 [debug] [ThreadPool]: Acquiring new snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core"
+[0m15:47:38.414568 [debug] [ThreadPool]: Using snowflake connection "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core"
+[0m15:47:38.414772 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core"} */
+show terse objects in AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_set_core
+[0m15:47:38.414948 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:38.881336 [debug] [ThreadPool]: SQL status: SUCCESS 1 in 0.47 seconds
+[0m15:47:38.883474 [debug] [ThreadPool]: On list_AXELAR_DEV_dbt_expectations_expect_column_values_to_be_in_set_core: Close
+[0m15:47:39.041636 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '754bc135-643a-4f2f-a712-f11282de39ac', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a5b9ac0>]}
+[0m15:47:39.042057 [info ] [MainThread]: 
+[0m15:47:39.042375 [info ] [MainThread]: Running 1 on-run-start hook
+[0m15:47:39.042712 [debug] [MainThread]: Compiling operation.axelar.axelar-on-run-start-0
+[0m15:47:39.053053 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:47:39.053396 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE schema if NOT EXISTS silver;
+[0m15:47:39.053625 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m15:47:39.474752 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.42 seconds
+[0m15:47:39.475242 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:47:39.475515 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE
+    OR REPLACE FUNCTION STREAMLINE.js_hex_to_int (
+        s STRING
+    ) returns DOUBLE LANGUAGE javascript AS 'if (S !== null) { yourNumber = parseInt(S, 16); } return yourNumber'
+;
+[0m15:47:39.638678 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.16 seconds
+[0m15:47:39.639134 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:47:39.639407 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+create or replace function streamline.udtf_get_base_table(max_height integer)
+returns table (height number)
+as
+$$
+    with base as (
+        select
+            row_number() over (
+                order by
+                    seq4()
+            ) as id
+        from
+            table(generator(rowcount => 100000000))
+    )
+select
+    id as height
+from
+    base
+where
+    id <= max_height
+$$
+;
+[0m15:47:39.823694 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.18 seconds
+[0m15:47:39.830097 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:47:39.830296 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE
+    OR REPLACE EXTERNAL FUNCTION streamline.udf_bulk_get_blocks(
+        json variant
+    ) returns variant api_integration = aws_axelar_api AS 
+        'https://69qcbfajak.execute-api.us-east-1.amazonaws.com/dev/bulk_get_blocks';
+[0m15:47:39.961643 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.13 seconds
+[0m15:47:39.962089 [debug] [MainThread]: Using snowflake connection "master"
+[0m15:47:39.962359 [debug] [MainThread]: On master: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "connection_name": "master"} */
+CREATE
+    OR REPLACE EXTERNAL FUNCTION streamline.udf_bulk_get_txs(
+        json variant
+    ) returns variant api_integration = aws_axelar_api AS 
+        'https://69qcbfajak.execute-api.us-east-1.amazonaws.com/dev/bulk_get_txs';
+[0m15:47:40.154971 [debug] [MainThread]: SQL status: SUCCESS 1 in 0.19 seconds
+[0m15:47:40.156389 [debug] [MainThread]: Writing injected SQL for node "operation.axelar.axelar-on-run-start-0"
+[0m15:47:40.157795 [info ] [MainThread]: 1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m15:47:40.158126 [info ] [MainThread]: 1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m15:47:40.158405 [info ] [MainThread]: 
+[0m15:47:40.158669 [debug] [MainThread]: On master: Close
+[0m15:47:40.293588 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m15:47:40.294097 [info ] [MainThread]: 
+[0m15:47:40.299594 [debug] [Thread-1  ]: Began running node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:47:40.299923 [info ] [Thread-1  ]: 1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m15:47:40.300577 [debug] [Thread-1  ]: Acquiring new snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:47:40.300831 [debug] [Thread-1  ]: Began compiling node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:47:40.301070 [debug] [Thread-1  ]: Compiling test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:47:40.325502 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:47:40.325794 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+describe table AXELAR_DEV.streamline.blocks_history
+[0m15:47:40.325965 [debug] [Thread-1  ]: Opening a new connection, currently in state closed
+[0m15:47:40.760159 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 0.43 seconds
+[0m15:47:40.767079 [debug] [Thread-1  ]: Writing injected SQL for node "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:47:40.767576 [debug] [Thread-1  ]: finished collecting timing info
+[0m15:47:40.767794 [debug] [Thread-1  ]: Began executing node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:47:40.788770 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:47:40.788986 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+drop table if exists "AXELAR_DEV"."DBT_EXPECTATIONS_EXPECT_COLUMN_VALUES_TO_BE_IN_TYPE_LIST_STREAMLINE"."BLOCKS_HISTORY_BLOCK_ID" cascade
+[0m15:47:40.928699 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 0.14 seconds
+[0m15:47:40.942430 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:47:40.942648 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+create or replace transient table AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id  as
+      (with relation_columns as (
+
+        
+        select
+            cast('BLOCK_ID' as TEXT) as relation_column,
+            cast('NUMBER' as TEXT) as relation_column_type
+        
+        
+    ),
+    test_data as (
+
+        select
+            *
+        from
+            relation_columns
+        where
+            relation_column = 'BLOCK_ID'
+            and
+            relation_column_type not in ('TIMESTAMP_NTZ')
+
+    )
+    select *
+    from test_data
+      );
+[0m15:47:41.909947 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 0.97 seconds
+[0m15:47:41.916628 [debug] [Thread-1  ]: Writing runtime SQL for node "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:47:41.917616 [debug] [Thread-1  ]: Using snowflake connection "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"
+[0m15:47:41.917807 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: /* {"app": "dbt", "dbt_version": "1.2.1", "profile_name": "axelar", "target_name": "dev", "node_id": "test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec"} */
+select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+        select *
+        from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+    
+      
+    ) dbt_internal_test
+[0m15:47:42.153304 [debug] [Thread-1  ]: SQL status: SUCCESS 1 in 0.24 seconds
+[0m15:47:42.156359 [debug] [Thread-1  ]: finished collecting timing info
+[0m15:47:42.156635 [debug] [Thread-1  ]: On test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec: Close
+[0m15:47:42.292667 [error] [Thread-1  ]: 1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 1.99s]
+[0m15:47:42.293376 [debug] [Thread-1  ]: Finished running node test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec
+[0m15:47:42.294744 [debug] [MainThread]: Acquiring new snowflake connection "master"
+[0m15:47:42.295289 [info ] [MainThread]: 
+[0m15:47:42.295682 [info ] [MainThread]: Finished running 1 test, 1 hook in 0 hours 0 minutes and 13.41 seconds (13.41s).
+[0m15:47:42.296048 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m15:47:42.296252 [debug] [MainThread]: Connection 'test.axelar.dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ.08e32fd3ec' was properly closed.
+[0m15:47:42.322907 [info ] [MainThread]: 
+[0m15:47:42.323313 [info ] [MainThread]: [31mCompleted with 1 error and 0 warnings:[0m
+[0m15:47:42.323647 [info ] [MainThread]: 
+[0m15:47:42.323945 [error] [MainThread]: [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m15:47:42.324299 [error] [MainThread]:   Got 1 result, configured to fail if != 0
+[0m15:47:42.324616 [info ] [MainThread]: 
+[0m15:47:42.324897 [info ] [MainThread]:   compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m15:47:42.325196 [info ] [MainThread]: 
+[0m15:47:42.325481 [info ] [MainThread]:   See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m15:47:42.325785 [info ] [MainThread]: 
+[0m15:47:42.326064 [info ] [MainThread]: Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+[0m15:47:42.326480 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a5b9b50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11253e4f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10a4486a0>]}
+[0m15:47:42.326804 [debug] [MainThread]: Flushing usage events

@@ -12,3 +12,9 @@ NEW CMD = dbt run -m ./models/streamline/streamline__blocks_history.sql
 NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.yml
 
 NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.yml
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.yml
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.yml
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.yml
