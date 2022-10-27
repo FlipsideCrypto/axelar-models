@@ -10,39 +10,31 @@ WITH base_table AS (
 
     SELECT
         block_id,
-        data: hash :: STRING AS tx_id,
+        DATA: HASH :: STRING AS tx_id,
         'axelar' AS blockchain,
-        data :tx_result :codespace AS codespace,
-        data :tx_result :gas_used :: NUMBER AS gas_used,
-        data :tx_result :gas_wanted :: NUMBER AS gas_wanted,
+        DATA :tx_result :codespace AS codespace,
+        DATA :tx_result :gas_used :: NUMBER AS gas_used,
+        DATA :tx_result :gas_wanted :: NUMBER AS gas_wanted,
         CASE
-            WHEN data :tx_result :code :: NUMBER = 0 THEN TRUE
+            WHEN DATA :tx_result :code :: NUMBER = 0 THEN TRUE
             ELSE FALSE
         END AS tx_succeeded,
-        data :tx_result :code :: NUMBER AS tx_code,
-        data :tx_result :events AS msgs,
-        data :tx_result :log AS tx_log,
+        DATA :tx_result :code :: NUMBER AS tx_code,
+        DATA :tx_result :events AS msgs,
+        DATA :tx_result :log AS tx_log,
         _partition_by_block_id
     FROM
         {{ ref('bronze__transactions') }}
+    WHERE
+        DATA :error IS NULL
 
-WHERE 
-    DATA :error is null 
-    
 {% if is_incremental() %}
-AND 
-    _partition_by_block_id >= (
-        SELECT
-            MAX(_partition_by_block_id) -1
-        FROM
-            {{ this }}
-    )
-    AND _partition_by_block_id <= (
-        SELECT
-            MAX(_partition_by_block_id) + 10
-        FROM
-            {{ this }}
-    )
+AND _partition_by_block_id >= (
+    SELECT
+        MAX(_partition_by_block_id) - 2000
+    FROM
+        {{ this }}
+)
 {% endif %}
 )
 SELECT
@@ -67,15 +59,9 @@ FROM
 
 {% if is_incremental() %}
 WHERE
-    bb._partition_by_block_id >= (
+    b._partition_by_block_id >= (
         SELECT
-            MAX(_partition_by_block_id) -1
-        FROM
-            {{ this }}
-    )
-    AND bb._partition_by_block_id <= (
-        SELECT
-            MAX(_partition_by_block_id) + 10
+            MAX(_partition_by_block_id) - 2000
         FROM
             {{ this }}
     )
