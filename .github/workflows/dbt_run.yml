@@ -45,11 +45,4 @@ jobs:
 
       - name: Run dbt models
         run: |
-          python alert.py dbt run -m ./models/streamline/streamline__blocks_history.sql
-          python alert.py dbt test -m ./models/streamline/streamline__blocks_history.sql
-
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.1
-        with:
-            name: failed-tests-artifact
-            path: ./target/run_results.json
+          dbt run -m ./models/streamline/streamline__blocks_history.sql
