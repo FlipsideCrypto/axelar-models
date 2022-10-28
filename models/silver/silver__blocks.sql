@@ -45,22 +45,14 @@ SELECT
     ) AS _unique_key
 FROM
     {{ ref('bronze__blocks') }}
-
 WHERE
     VALUE :data :error IS NULL
-
-AND DATA :error is null 
+    AND DATA :error IS NULL
 
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) -1
-    FROM
-        {{ this }}
-)
-AND _partition_by_block_id <= (
-    SELECT
-        MAX(_partition_by_block_id) + 10
+        MAX(_partition_by_block_id) - 2000
     FROM
         {{ this }}
 )

@@ -20,13 +20,7 @@ WITH axelar_txs AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) -1
-    FROM
-        {{ this }}
-)
-AND _partition_by_block_id <= (
-    SELECT
-        MAX(_partition_by_block_id) + 10
+        MAX(_partition_by_block_id) - 2000
     FROM
         {{ this }}
 )
@@ -50,13 +44,7 @@ sender AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) -1
-    FROM
-        {{ this }}
-)
-AND _partition_by_block_id <= (
-    SELECT
-        MAX(_partition_by_block_id) + 10
+        MAX(_partition_by_block_id) - 2000
     FROM
         {{ this }}
 )
@@ -82,13 +70,7 @@ msg_index AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) -1
-    FROM
-        {{ this }}
-)
-AND _partition_by_block_id <= (
-    SELECT
-        MAX(_partition_by_block_id) + 10
+        MAX(_partition_by_block_id) - 2000
     FROM
         {{ this }}
 )
@@ -114,13 +96,7 @@ receiver AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) -1
-    FROM
-        {{ this }}
-)
-AND _partition_by_block_id <= (
-    SELECT
-        MAX(_partition_by_block_id) + 10
+        MAX(_partition_by_block_id) - 2000
     FROM
         {{ this }}
 )
@@ -163,281 +139,253 @@ amount AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) -1
-    FROM
-        {{ this }}
-)
-AND _partition_by_block_id <= (
-    SELECT
-        MAX(_partition_by_block_id) + 10
+        MAX(_partition_by_block_id) - 2000
     FROM
         {{ this }}
 )
 {% endif %}
 ),
+axelar_txs_final AS (
+    SELECT
+        block_id,
+        block_timestamp,
+        t.blockchain,
+        chain_id,
+        r.tx_id,
+        tx_succeeded,
+        'AXELAR' AS transfer_type,
+        r.msg_index,
+        sender,
+        amount,
+        currency,
+        COALESCE(
+            l.raw_metadata [1] :exponent,
+            6
+        ) AS DECIMAL,
+        receiver,
+        _partition_by_block_id,
+        concat_ws(
+            '-',
+            r.tx_id,
+            r.msg_index,
+            currency
+        ) AS _unique_key
+    FROM
+        receiver r
+        LEFT OUTER JOIN amount C
+        ON r.tx_id = C.tx_id
+        AND r.msg_index = C.msg_index
+        LEFT OUTER JOIN sender s
+        ON r.tx_id = s.tx_id
+        LEFT OUTER JOIN {{ ref('silver__transactions') }}
+        t
+        ON r.tx_id = t.tx_id
+        LEFT OUTER JOIN {{ ref('core__dim_labels') }}
+        l
+        ON currency = l.address
 
-axelar_txs_final as (
+{% if is_incremental() %}
+AND _partition_by_block_id >= (
+    SELECT
+        MAX(_partition_by_block_id) - 2000
+    FROM
+        {{ this }}
+)
+{% endif %}
+),
+ibc_in_tx AS (
+    SELECT
+        block_id,
+        block_timestamp,
+        blockchain,
+        chain_id,
+        tx_id,
+        tx_succeeded,
+        msg_index,
+        'IBC_TRANSFER_IN' AS transfer_type,
+        TRY_PARSE_JSON(attribute_value) :sender :: STRING AS sender,
+        TRY_PARSE_JSON(attribute_value) :amount :: INT AS amount,
+        CASE
+            WHEN TRY_PARSE_JSON(attribute_value) :denom :: STRING LIKE '%/%' THEN SPLIT(TRY_PARSE_JSON(attribute_value) :denom :: STRING, '/') [array_size(split(try_parse_json(attribute_value):denom::string, '/')) - 1]
+            ELSE TRY_PARSE_JSON(attribute_value) :denom :: STRING
+        END AS currency,
+        TRY_PARSE_JSON(attribute_value) :receiver :: STRING AS receiver,
+        _partition_by_block_id,
+        concat_ws(
+            '-',
+            tx_id,
+            msg_index,
+            currency
+        ) AS _unique_key
+    FROM
+        {{ ref('silver__msg_attributes') }}
+    WHERE
+        msg_type = 'write_acknowledgement'
+        AND attribute_key = 'packet_data'
+        AND TRY_PARSE_JSON(attribute_value): amount IS NOT NULL
+
+{% if is_incremental() %}
+AND _partition_by_block_id >= (
+    SELECT
+        MAX(_partition_by_block_id) - 2000
+    FROM
+        {{ this }}
+)
+{% endif %}
+),
+ibc_out_txid AS (
+    SELECT
+        tx_id
+    FROM
+        {{ ref('silver__msg_attributes') }}
+    WHERE
+        msg_type = 'ibc_transfer'
+
+{% if is_incremental() %}
+AND _partition_by_block_id >= (
+    SELECT
+        MAX(_partition_by_block_id) - 2000
+    FROM
+        {{ this }}
+)
+{% endif %}
+),
+ibc_out_tx AS (
+    SELECT
+        block_id,
+        block_timestamp,
+        blockchain,
+        chain_id,
+        tx_id,
+        tx_succeeded,
+        msg_index,
+        'IBC_TRANSFER_OUT' AS transfer_type,
+        TRY_PARSE_JSON(attribute_value) :sender :: STRING AS sender,
+        TRY_PARSE_JSON(attribute_value) :amount :: INT AS amount,
+        CASE
+            WHEN TRY_PARSE_JSON(attribute_value) :denom :: STRING LIKE '%/%' THEN SPLIT(TRY_PARSE_JSON(attribute_value) :denom :: STRING, '/') [array_size(split(try_parse_json(attribute_value):denom::string, '/')) - 1]
+            ELSE TRY_PARSE_JSON(attribute_value) :denom :: STRING
+        END AS currency,
+        TRY_PARSE_JSON(attribute_value) :receiver :: STRING AS receiver,
+        _partition_by_block_id,
+        concat_ws(
+            '-',
+            tx_id,
+            msg_index,
+            currency
+        ) AS _unique_key
+    FROM
+        {{ ref('silver__msg_attributes') }}
+    WHERE
+        tx_id IN (
+            SELECT
+                tx_id
+            FROM
+                ibc_out_txid
+        )
+        AND msg_type = 'send_packet'
+        AND attribute_key = 'packet_data'
+
+{% if is_incremental() %}
+AND _partition_by_block_id >= (
+    SELECT
+        MAX(_partition_by_block_id) - 2000
+    FROM
+        {{ this }}
+)
+{% endif %}
+),
+decimals AS (
+    SELECT
+        *,
+        COALESCE (
+            raw_metadata [0] :aliases [0] :: STRING,
+            raw_metadata [1] :denom
+        ) AS denom_name,
+        CASE
+            WHEN raw_metadata [0] :account_address IS NOT NULL THEN NULL
+            ELSE COALESCE(
+                raw_metadata [1] :exponent :: INT,
+                6
+            )
+        END AS DECIMAL
+    FROM
+        {{ ref('core__dim_labels') }}
+),
+ibc_transfers_agg AS (
+    SELECT
+        *
+    FROM
+        ibc_out_tx
+    UNION ALL
+    SELECT
+        *
+    FROM
+        ibc_in_tx
+),
+ibc_tx_final AS (
+    SELECT
+        i.block_id,
+        i.block_timestamp,
+        i.blockchain,
+        i.chain_id,
+        i.tx_id,
+        i.tx_succeeded,
+        i.transfer_type,
+        i.sender,
+        i.amount,
+        i.currency,
+        CASE
+            WHEN i.currency IN (
+                'uusd',
+                'uosmo'
+            ) THEN 6
+            WHEN i.currency LIKE '%-wei' THEN 18
+            ELSE d.decimal
+        END AS DECIMAL,
+        i.receiver,
+        msg_index,
+        _partition_by_block_id,
+        _unique_key
+    FROM
+        ibc_transfers_agg i
+        LEFT JOIN decimals d
+        ON i.currency = d.denom_name
+)
 SELECT
     block_id,
     block_timestamp,
-    t.blockchain,
+    blockchain,
     chain_id,
-    r.tx_id,
+    tx_id,
     tx_succeeded,
-    'AXELAR' AS transfer_type,
-    r.msg_index,
+    transfer_type,
     sender,
     amount,
     currency,
-    COALESCE(
-        l.raw_metadata [1] :exponent,
-        6
-    ) AS DECIMAL,
+    DECIMAL,
     receiver,
+    msg_index,
     _partition_by_block_id,
-    concat_ws(
-        '-',
-        r.tx_id,
-        r.msg_index,
-        currency
-    ) AS _unique_key
+    _unique_key
 FROM
-    receiver r
-    LEFT OUTER JOIN amount C
-    ON r.tx_id = C.tx_id
-    AND r.msg_index = C.msg_index
-    LEFT OUTER JOIN sender s
-    ON r.tx_id = s.tx_id
-    LEFT OUTER JOIN {{ ref('silver__transactions') }}
-    t
-    ON r.tx_id = t.tx_id
-    LEFT OUTER JOIN {{ ref('core__dim_labels') }}
-    l
-    ON currency = l.address
-
-{% if is_incremental() %}
-WHERE
-    _partition_by_block_id >= (
-        SELECT
-            MAX(_partition_by_block_id) -1
-        FROM
-            {{ this }}
-    )
-    AND _partition_by_block_id <= (
-        SELECT
-            MAX(_partition_by_block_id) + 10
-        FROM
-            {{ this }}
-    )
-{% endif %}
-),
-
-    ibc_in_tx as (
-    select 
-    block_id, 
+    ibc_tx_final
+UNION ALL
+SELECT
+    block_id,
     block_timestamp,
     blockchain,
     chain_id,
-    tx_id, 
-    tx_succeeded,
-    msg_index,
-    'IBC_TRANSFER_IN' as transfer_type,
-    
-    try_parse_json(attribute_value):sender::string as sender,
-    try_parse_json(attribute_value):amount::int as amount,
-    case
-        when try_parse_json(attribute_value):denom::string like '%/%'
-                then split(try_parse_json(attribute_value):denom::string, '/')
-                            [array_size(split(try_parse_json(attribute_value):denom::string, '/')) - 1]
-        else try_parse_json(attribute_value):denom::string 
-        end as currency,
-    
-    try_parse_json(attribute_value):receiver::string as receiver,
-
-    _partition_by_block_id,
-    concat_ws(
-        '-',
-        tx_id,
-        msg_index,
-        currency
-    ) AS _unique_key
-    
-    from {{ ref('silver__msg_attributes') }}
-    where msg_type = 'write_acknowledgement'
-    and attribute_key = 'packet_data'
-    and try_parse_json(attribute_value): amount is not null 
-
-{% if is_incremental() %}
-AND
-    _partition_by_block_id >= (
-        SELECT
-            MAX(_partition_by_block_id) -1
-        FROM
-            {{ this }}
-    )
-    AND _partition_by_block_id <= (
-        SELECT
-            MAX(_partition_by_block_id) + 10
-        FROM
-            {{ this }}
-    )
-{% endif %}
-
-    ),
-
-    ibc_out_txid as (
-    select 
-    tx_id 
-    from {{ ref('silver__msg_attributes') }}
-    where msg_type = 'ibc_transfer'
-    
-    {% if is_incremental() %}
-AND
-    _partition_by_block_id >= (
-        SELECT
-            MAX(_partition_by_block_id) -1
-        FROM
-            {{ this }}
-    )
-    AND _partition_by_block_id <= (
-        SELECT
-            MAX(_partition_by_block_id) + 10
-        FROM
-            {{ this }}
-    )
-{% endif %}
-    ),
-
-    ibc_out_tx as (
-    select 
-    block_id, 
-    block_timestamp,
-    blockchain,
-    chain_id,
-    tx_id, 
-    tx_succeeded,
-    msg_index,
-    'IBC_TRANSFER_OUT' as transfer_type,
-
-    try_parse_json(attribute_value):sender::string as sender,
-    try_parse_json(attribute_value):amount::int as amount,
-    case
-        when try_parse_json(attribute_value):denom::string like '%/%'
-                then split(try_parse_json(attribute_value):denom::string, '/')
-                            [array_size(split(try_parse_json(attribute_value):denom::string, '/')) - 1]
-        else try_parse_json(attribute_value):denom::string 
-        end as currency,
-    
-    try_parse_json(attribute_value):receiver::string as receiver,
-    _partition_by_block_id,
-    concat_ws(
-        '-',
-        tx_id,
-        msg_index,
-        currency
-    ) AS _unique_key
-    from {{ ref('silver__msg_attributes') }}
-    where tx_id in (select tx_id from ibc_out_txid)
-    and msg_type = 'send_packet'
-    and attribute_key = 'packet_data'
-
-    {% if is_incremental() %}
-AND
-    _partition_by_block_id >= (
-        SELECT
-            MAX(_partition_by_block_id) -1
-        FROM
-            {{ this }}
-    )
-    AND _partition_by_block_id <= (
-        SELECT
-            MAX(_partition_by_block_id) + 10
-        FROM
-            {{ this }}
-    )
-{% endif %}
-    ),     
-    
-decimals as (
-    select*,
-    coalesce (raw_metadata[0]:aliases[0]::string, 
-                raw_metadata[1]:denom) 
-                    as denom_name ,
-    case 
-        when raw_metadata[0]:account_address is not null then null
-        else COALESCE( raw_metadata [1] :exponent::int, 6) 
-        end AS DECIMAL
-    
-    from {{ ref('core__dim_labels') }}
-    ),
-
-    ibc_transfers_agg as (
-        select * from ibc_out_tx
-        union all 
-        select * from ibc_in_tx
-    ),
-
-ibc_tx_final as (
-    select 
-    i.block_id, 
-    i.block_timestamp,
-    i.blockchain,
-    i.chain_id,
-    i.tx_id, 
-    i.tx_succeeded,
-    i.transfer_type,
-    i.sender,
-    i.amount,
-    i.currency,
-    case 
-        when i.currency in ( 'uusd', 'uosmo') then 6
-        when i.currency like '%-wei' then 18 
-        else d.decimal
-        end as decimal,
-    i.receiver,
-    msg_index,
-    _partition_by_block_id,
-    _unique_key
-    from ibc_transfers_agg i 
-    left join decimals d  on i.currency = d.denom_name 
-    )
-    
-    select 
-    block_id, 
-    block_timestamp,
-    blockchain,
-    chain_id,
-    tx_id, 
+    tx_id,
     tx_succeeded,
     transfer_type,
-    sender, 
-    amount, 
-    currency, 
-    decimal,
+    sender,
+    amount,
+    currency,
+    DECIMAL,
     receiver,
     msg_index,
     _partition_by_block_id,
     _unique_key
-    from ibc_tx_final 
-    
-    union all 
-
-    select 
-    block_id, 
-    block_timestamp,
-    blockchain,
-    chain_id,
-    tx_id, 
-    tx_succeeded,
-    transfer_type,
-    sender, 
-    amount, 
-    currency, 
-    decimal,
-    receiver,
-    msg_index,
-    _partition_by_block_id,
-    _unique_key
-    from axelar_txs_final
-    
-
+FROM
+    axelar_txs_final

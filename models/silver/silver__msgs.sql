@@ -55,13 +55,7 @@ WITH base AS (
 WHERE
   _partition_by_block_id >= (
     SELECT
-      MAX(_partition_by_block_id) -1
-    FROM
-      {{ this }}
-  )
-  AND _partition_by_block_id <= (
-    SELECT
-      MAX(_partition_by_block_id) + 10
+      MAX(_partition_by_block_id) - 2000
     FROM
       {{ this }}
   )
@@ -151,4 +145,3 @@ SELECT
   _partition_by_block_id
 FROM
   FINAL
-
