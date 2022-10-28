@@ -1,10 +1,12 @@
 name: dbt_run
 
 on:
-  push:
-    branches:
-      - "main"
-      - "slack-alerts"
+  workflow_dispatch
+
+  # push:
+  #   branches:
+  #     - "main"
+  #     - "slack-alerts"
   # uncheck the following to set it up with CRON
   # schedule:
   # Runs "every 10 mins"
