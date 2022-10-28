@@ -32,3 +32,7 @@ NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
 NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
 
 NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql

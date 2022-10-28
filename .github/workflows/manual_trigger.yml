@@ -1,14 +1,7 @@
 name: dbt_run
 
 on:
-  push:
-    branches:
-      - "main"
-      - "slack-alerts"
-  # uncheck the following to set it up with CRON
-  # schedule:
-  # Runs "every 10 mins"
-  - cron: "*/10 * * * *"
+  - workflow_dispatch
 
 env:
   DBT_PROFILES_DIR: ./
@@ -43,12 +36,10 @@ jobs:
           pip install dbt-snowflake cli-passthrough
           dbt deps
 
-      - name: Run dbt models
+      - name: Run refresh
         run: |
           python alert.py dbt run -m ./models/streamline/streamline__blocks_history.sql
           python alert.py dbt test -m ./models/streamline/streamline__blocks_history.sql
-          dbt seed -m ./models/streamline/streamline__blocks_history.sql
-          
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1

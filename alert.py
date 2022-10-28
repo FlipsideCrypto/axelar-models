@@ -20,13 +20,13 @@ def cli(ctx):
     exit_status = cli_passthrough(" ".join(ctx.args), interactive=False)
 
     # TODO - call code to parse dbt results and send slack alerts here.
-    url = 'https://hooks.slack.com/services/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'
+    url = 'https://hooks.slack.com/services/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'
     alert_text = ""
     f = open('./target/run_results.json')
     data = json.load(f)
     failed_message = [x for x in data["results"] if x["status"] != "pass"]
     for message in failed_message:
-        alert_text = alert_text + (str(message) + "\n")
+        alert_text = alert_text + (str(message) + "\n" + "@Xiuyang")
 
     myobj = {"text": alert_text}
     x = requests.post(url, json = myobj)
