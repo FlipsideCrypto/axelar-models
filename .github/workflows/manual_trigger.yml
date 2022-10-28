@@ -1,4 +1,4 @@
-name: dbt_run
+name: maunal_trigger
 
 on:
   workflow_dispatch
