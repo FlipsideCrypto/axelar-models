@@ -26,3 +26,4 @@ sources:
       - name: blocks
       - name: txs
       - name: txs_details
+      - name: validators

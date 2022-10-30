@@ -11,6 +11,7 @@
     {% set sql %}
     {{ create_udf_bulk_get_blocks() }}
     {{ create_udf_bulk_get_txs() }}
+    {{ create_udf_bulk_get_validators() }}
 
     {% endset %}
     {% do run_query(sql) %}
