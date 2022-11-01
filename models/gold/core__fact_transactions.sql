@@ -27,18 +27,12 @@ fee AS (
     {{ ref('silver__msg_attributes') }}
   WHERE
     attribute_key = 'fee'
-  AND fee like '%uaxl'
+    AND fee like '%uaxl'
 
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
   SELECT
-    _partition_by_block_id_max -1
-  FROM
-    max_block_partition
-)
-AND _partition_by_block_id <= (
-  SELECT
-    _partition_by_block_id_max + 10
+    _partition_by_block_id_max 
   FROM
     max_block_partition
 )
@@ -61,13 +55,7 @@ spender AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
   SELECT
-    _partition_by_block_id_max -1
-  FROM
-    max_block_partition
-)
-AND _partition_by_block_id <= (
-  SELECT
-    _partition_by_block_id_max + 10
+    _partition_by_block_id_max
   FROM
     max_block_partition
 )
@@ -105,20 +93,14 @@ FROM
   t
   LEFT OUTER JOIN fee f
   ON t.tx_id = f.tx_id
-  LEFT OUTER JOIN spender s
+  INNER JOIN spender s
   ON t.tx_id = s.tx_id
 
 {% if is_incremental() %}
 WHERE
   _partition_by_block_id >= (
     SELECT
-      _partition_by_block_id_max -1
-    FROM
-      max_block_partition
-  )
-  AND _partition_by_block_id <= (
-    SELECT
-      _partition_by_block_id_max + 10
+      _partition_by_block_id_max
     FROM
       max_block_partition
   )

@@ -20,7 +20,7 @@ WITH axelar_txs AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) - 2000
+        MAX(_partition_by_block_id)
     FROM
         {{ this }}
 )
@@ -44,7 +44,7 @@ sender AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) - 2000
+        MAX(_partition_by_block_id)
     FROM
         {{ this }}
 )
@@ -70,7 +70,7 @@ msg_index AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) - 2000
+        MAX(_partition_by_block_id)
     FROM
         {{ this }}
 )
@@ -96,7 +96,7 @@ receiver AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) - 2000
+        MAX(_partition_by_block_id) 
     FROM
         {{ this }}
 )
@@ -139,7 +139,7 @@ amount AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) - 2000
+        MAX(_partition_by_block_id) 
     FROM
         {{ this }}
 )
@@ -187,7 +187,7 @@ axelar_txs_final AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) - 2000
+        MAX(_partition_by_block_id) 
     FROM
         {{ this }}
 )
@@ -227,7 +227,7 @@ ibc_in_tx AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) - 2000
+        MAX(_partition_by_block_id) 
     FROM
         {{ this }}
 )
@@ -244,7 +244,7 @@ ibc_out_txid AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) - 2000
+        MAX(_partition_by_block_id) 
     FROM
         {{ this }}
 )
@@ -289,7 +289,7 @@ ibc_out_tx AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) - 2000
+        MAX(_partition_by_block_id) 
     FROM
         {{ this }}
 )
