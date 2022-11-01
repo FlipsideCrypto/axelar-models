@@ -10,7 +10,7 @@ WITH base_table AS (
 
     SELECT
         block_id,
-        DATA: HASH :: STRING AS tx_id,
+        DATA :hash :: STRING AS tx_id,
         'axelar' AS blockchain,
         DATA :tx_result :codespace AS codespace,
         DATA :tx_result :gas_used :: NUMBER AS gas_used,
@@ -31,7 +31,7 @@ WITH base_table AS (
 {% if is_incremental() %}
 AND _partition_by_block_id >= (
     SELECT
-        MAX(_partition_by_block_id) - 2000
+        MAX(_partition_by_block_id)
     FROM
         {{ this }}
 )
@@ -61,7 +61,7 @@ FROM
 WHERE
     b._partition_by_block_id >= (
         SELECT
-            MAX(_partition_by_block_id) - 2000
+            MAX(_partition_by_block_id)
         FROM
             {{ this }}
     )

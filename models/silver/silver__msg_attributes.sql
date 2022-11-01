@@ -41,7 +41,7 @@ FROM
 WHERE
   _partition_by_block_id >= (
     SELECT
-      MAX(_partition_by_block_id) - 2000
+      MAX(_partition_by_block_id) 
     FROM
       {{ this }}
   )
