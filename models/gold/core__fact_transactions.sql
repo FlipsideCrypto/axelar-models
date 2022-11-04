@@ -12,8 +12,8 @@ max_block_partition AS (
 
   SELECT
     MAX(
-      _partition_by_block_id
-    ) AS _partition_by_block_id_max
+      _inserted_timestamp
+    ) :: DATE - 2 AS max_date
   FROM
     {{ ref('silver__transactions') }}
 ),
@@ -30,9 +30,9 @@ fee AS (
     AND fee like '%uaxl'
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
   SELECT
-    _partition_by_block_id_max 
+    max_date
   FROM
     max_block_partition
 )
@@ -53,9 +53,9 @@ spender AS (
     attribute_key = 'acc_seq'
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
   SELECT
-    _partition_by_block_id_max
+    max_date
   FROM
     max_block_partition
 )
@@ -87,7 +87,7 @@ SELECT
   tx_code,
   tx_log,
   msgs,
-  _partition_by_block_id
+  _inserted_timestamp
 FROM
   {{ ref('silver__transactions') }}
   t
@@ -98,9 +98,9 @@ FROM
 
 {% if is_incremental() %}
 WHERE
-  _partition_by_block_id >= (
+  _inserted_timestamp :: DATE >= (
     SELECT
-      _partition_by_block_id_max
+      max_date
     FROM
       max_block_partition
   )
@@ -123,7 +123,7 @@ SELECT
   tx_code,
   tx_log,
   msgs,
-  _partition_by_block_id
+  _inserted_timestamp
 
 FROM final_transactions
 

@@ -65,7 +65,7 @@ models:
         description: "{{ doc('receiver') }}"
         tests: 
           - not_null
-      - name: _PARTITION_BY_BLOCK_ID
-        description: "{{ doc('partition_by_block_id') }}"
+      - name: _INSERTED_TIMESTAMP
+        description: "{{ doc('inserted_timestamp') }}"
         tests:
           - not_null
