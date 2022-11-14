@@ -8,7 +8,5 @@ on:
 jobs:
   called_workflow_template:
     uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/run_chain_template.yml@main
-    with:
-      environment: ${{ inputs.environment }}
     secrets: inherit # pass all secrets
   
