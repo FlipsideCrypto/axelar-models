@@ -1,0 +1,20 @@
+run-name: Call workflow template 
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'Version Tag to Release'
+        default: 'dev'
+        required: true
+        options:
+        - dev
+        - prod
+
+jobs:
+  called_workflow_template:
+    uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/run_chain_template.yml@main
+    with:
+      version: ${{ inputs.environment }}
+    secrets: inherit # pass all secrets
