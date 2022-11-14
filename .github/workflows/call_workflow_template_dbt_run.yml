@@ -1,18 +1,10 @@
 run-name: call_workflow_template
 
 on:
-  workflow_dispatch:
+  push:
     branches:
       - "workflow-template-implementation"
-    inputs:
-      environment:
-        type: choice
-        description: 'Version Tag to Release'
-        default: 'dev'
-        required: true
-        options:
-        - dev
-        - prod
+    
 
 jobs:
   called_workflow_template:
