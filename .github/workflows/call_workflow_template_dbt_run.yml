@@ -2,9 +2,9 @@ run-name: Call workflow template
 
 on:
   workflow_dispatch:
+    branches:
+      - "workflow-template-implementation"
     inputs:
-      branches:
-        - "workflow-template-implementation"
       environment:
         type: choice
         description: 'Version Tag to Release'
