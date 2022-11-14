@@ -1,5 +1,7 @@
 {{ config(
-    materialized = 'view'
+    materialized = "incremental",
+    unique_key = "id",
+    cluster_by = "ROUND(block_id, -3)",
 ) }}
 
 SELECT DISTINCT

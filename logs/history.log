@@ -473,3 +473,420 @@ NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
   --------------------------------------------------------------------------------------------------------------------
 [0m20:12:50
 [0m20:12:50  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m14:25:06  Running with dbt=1.2.1
+[0m14:25:06  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m14:25:06
+[0m14:25:16
+[0m14:25:16  Running 1 on-run-start hook
+[0m14:25:17  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m14:25:17  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m14:25:17
+[0m14:25:17  Concurrency: 1 threads (target='dev')
+[0m14:25:17
+[0m14:25:17  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m14:25:19  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 1.92s]
+[0m14:25:19
+[0m14:25:19  Finished running 1 test, 1 hook in 0 hours 0 minutes and 13.40 seconds (13.40s).
+[0m14:25:19
+[0m14:25:19  [31mCompleted with 1 error and 0 warnings:[0m
+[0m14:25:19
+[0m14:25:19  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m14:25:19    Got 1 result, configured to fail if != 0
+[0m14:25:19
+[0m14:25:19    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m14:25:19
+[0m14:25:19    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m14:25:19
+[0m14:25:19  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m14:29:06  Running with dbt=1.2.1
+[0m14:29:06  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m14:29:06
+[0m14:29:17
+[0m14:29:17  Running 1 on-run-start hook
+[0m14:29:18  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m14:29:18  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m14:29:18
+[0m14:29:18  Concurrency: 1 threads (target='dev')
+[0m14:29:18
+[0m14:29:18  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m14:29:20  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 2.60s]
+[0m14:29:20
+[0m14:29:20  Finished running 1 test, 1 hook in 0 hours 0 minutes and 14.13 seconds (14.13s).
+[0m14:29:20
+[0m14:29:20  [31mCompleted with 1 error and 0 warnings:[0m
+[0m14:29:20
+[0m14:29:20  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m14:29:20    Got 1 result, configured to fail if != 0
+[0m14:29:20
+[0m14:29:20    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m14:29:20
+[0m14:29:20    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m14:29:20
+[0m14:29:20  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m14:43:07  Running with dbt=1.2.1
+[0m14:43:07  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m14:43:07
+[0m14:43:17
+[0m14:43:17  Running 1 on-run-start hook
+[0m14:43:18  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m14:43:18  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m14:43:18
+[0m14:43:18  Concurrency: 1 threads (target='dev')
+[0m14:43:18
+[0m14:43:18  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m14:43:20  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 1.57s]
+[0m14:43:20
+[0m14:43:20  Finished running 1 test, 1 hook in 0 hours 0 minutes and 12.66 seconds (12.66s).
+[0m14:43:20
+[0m14:43:20  [31mCompleted with 1 error and 0 warnings:[0m
+[0m14:43:20
+[0m14:43:20  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m14:43:20    Got 1 result, configured to fail if != 0
+[0m14:43:20
+[0m14:43:20    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m14:43:20
+[0m14:43:20    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m14:43:20
+[0m14:43:20  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m14:44:31  Running with dbt=1.2.1
+[0m14:44:31  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m14:44:31
+[0m14:44:41
+[0m14:44:41  Running 1 on-run-start hook
+[0m14:44:42  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m14:44:42  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m14:44:42
+[0m14:44:42  Concurrency: 1 threads (target='dev')
+[0m14:44:42
+[0m14:44:42  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m14:44:44  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 1.54s]
+[0m14:44:44
+[0m14:44:44  Finished running 1 test, 1 hook in 0 hours 0 minutes and 12.58 seconds (12.58s).
+[0m14:44:44
+[0m14:44:44  [31mCompleted with 1 error and 0 warnings:[0m
+[0m14:44:44
+[0m14:44:44  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m14:44:44    Got 1 result, configured to fail if != 0
+[0m14:44:44
+[0m14:44:44    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m14:44:44
+[0m14:44:44    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m14:44:44
+[0m14:44:44  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m14:50:12  Running with dbt=1.2.1
+[0m14:50:12  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m14:50:12
+[0m14:50:23
+[0m14:50:23  Running 1 on-run-start hook
+[0m14:50:24  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m14:50:24  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m14:50:24
+[0m14:50:24  Concurrency: 1 threads (target='dev')
+[0m14:50:24
+[0m14:50:24  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m14:50:27  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 2.33s]
+[0m14:50:27
+[0m14:50:27  Finished running 1 test, 1 hook in 0 hours 0 minutes and 14.30 seconds (14.30s).
+[0m14:50:27
+[0m14:50:27  [31mCompleted with 1 error and 0 warnings:[0m
+[0m14:50:27
+[0m14:50:27  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m14:50:27    Got 1 result, configured to fail if != 0
+[0m14:50:27
+[0m14:50:27    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m14:50:27  
+[0m14:50:27    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m14:50:27
+[0m14:50:27  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m14:52:45  Running with dbt=1.2.1
+[0m14:52:45  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m14:52:45
+[0m14:52:54
+[0m14:52:54  Running 1 on-run-start hook
+[0m14:52:55  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m14:52:55  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m14:52:55
+[0m14:52:55  Concurrency: 1 threads (target='dev')
+[0m14:52:55
+[0m14:52:55  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m14:52:57  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 1.91s]
+[0m14:52:57
+[0m14:52:57  Finished running 1 test, 1 hook in 0 hours 0 minutes and 12.51 seconds (12.51s).
+[0m14:52:57
+[0m14:52:57  [31mCompleted with 1 error and 0 warnings:[0m
+[0m14:52:57
+[0m14:52:57  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m14:52:57    Got 1 result, configured to fail if != 0
+[0m14:52:57
+[0m14:52:57    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m14:52:57
+[0m14:52:57    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m14:52:57
+[0m14:52:57  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m15:24:49  Running with dbt=1.2.1
+[0m15:24:49  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m15:24:49
+[0m15:24:59
+[0m15:24:59  Running 1 on-run-start hook
+[0m15:25:00  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m15:25:00  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m15:25:00
+[0m15:25:00  Concurrency: 1 threads (target='dev')
+[0m15:25:00
+[0m15:25:00  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m15:25:02  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 2.15s]
+[0m15:25:02
+[0m15:25:02  Finished running 1 test, 1 hook in 0 hours 0 minutes and 13.12 seconds (13.12s).
+[0m15:25:02
+[0m15:25:02  [31mCompleted with 1 error and 0 warnings:[0m
+[0m15:25:02
+[0m15:25:02  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m15:25:02    Got 1 result, configured to fail if != 0
+[0m15:25:02
+[0m15:25:02    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m15:25:02
+[0m15:25:02    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m15:25:02
+[0m15:25:02  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m15:28:16  Running with dbt=1.2.1
+[0m15:28:16  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m15:28:16
+[0m15:28:26
+[0m15:28:26  Running 1 on-run-start hook
+[0m15:28:27  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m15:28:27  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m15:28:27
+[0m15:28:27  Concurrency: 1 threads (target='dev')
+[0m15:28:27
+[0m15:28:27  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m15:28:29  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 1.77s]
+[0m15:28:29
+[0m15:28:29  Finished running 1 test, 1 hook in 0 hours 0 minutes and 12.96 seconds (12.96s).
+[0m15:28:29
+[0m15:28:29  [31mCompleted with 1 error and 0 warnings:[0m
+[0m15:28:29
+[0m15:28:29  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m15:28:29    Got 1 result, configured to fail if != 0
+[0m15:28:29
+[0m15:28:29    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m15:28:29
+[0m15:28:29    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m15:28:29
+[0m15:28:29  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m15:47:29  Running with dbt=1.2.1
+[0m15:47:30  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m15:47:30
+[0m15:47:39
+[0m15:47:39  Running 1 on-run-start hook
+[0m15:47:40  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m15:47:40  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m15:47:40
+[0m15:47:40  Concurrency: 1 threads (target='dev')
+[0m15:47:40
+[0m15:47:40  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m15:47:43  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 2.75s]
+[0m15:47:43  
+[0m15:47:43  Finished running 1 test, 1 hook in 0 hours 0 minutes and 13.51 seconds (13.51s).
+[0m15:47:43
+[0m15:47:43  [31mCompleted with 1 error and 0 warnings:[0m
+[0m15:47:43
+[0m15:47:43  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m15:47:43    Got 1 result, configured to fail if != 0
+[0m15:47:43
+[0m15:47:43    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m15:47:43
+[0m15:47:43    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m15:47:43
+[0m15:47:43  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m15:55:00  Running with dbt=1.2.1
+[0m15:55:01  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m15:55:01
+[0m15:55:10
+[0m15:55:10  Running 1 on-run-start hook
+[0m15:55:11  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m15:55:11  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m15:55:11
+[0m15:55:11  Concurrency: 1 threads (target='dev')
+[0m15:55:11
+[0m15:55:11  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m15:55:16  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 4.46s]
+[0m15:55:16
+[0m15:55:16  Finished running 1 test, 1 hook in 0 hours 0 minutes and 15.27 seconds (15.27s).
+[0m15:55:16
+[0m15:55:16  [31mCompleted with 1 error and 0 warnings:[0m
+[0m15:55:16
+[0m15:55:16  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m15:55:16    Got 1 result, configured to fail if != 0
+[0m15:55:16
+[0m15:55:16    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m15:55:16
+[0m15:55:16    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m15:55:16
+[0m15:55:16  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m17:58:33  Running with dbt=1.2.1
+[0m17:58:33  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m17:58:33
+[0m17:58:43
+[0m17:58:43  Running 1 on-run-start hook
+[0m17:58:44  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m17:58:44  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m17:58:44
+[0m17:58:44  Concurrency: 1 threads (target='dev')
+[0m17:58:44
+[0m17:58:44  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m17:58:47  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 3.25s]
+[0m17:58:47
+[0m17:58:47  Finished running 1 test, 1 hook in 0 hours 0 minutes and 14.45 seconds (14.45s).
+[0m17:58:47
+[0m17:58:47  [31mCompleted with 1 error and 0 warnings:[0m
+[0m17:58:47
+[0m17:58:47  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m17:58:47    Got 1 result, configured to fail if != 0
+[0m17:58:47  
+[0m17:58:47    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m17:58:47
+[0m17:58:47    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m17:58:47
+[0m17:58:47  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m20:01:07  Running with dbt=1.2.1
+[0m20:01:07  Unable to do partial parsing because profile has changed
+[0m20:01:09  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m20:01:09
+[0m20:01:20
+[0m20:01:20  Running 1 on-run-start hook
+[0m20:01:21  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m20:01:21  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m20:01:21
+[0m20:01:21  Concurrency: 1 threads (target='dev')
+[0m20:01:21
+[0m20:01:21  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m20:01:25  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 3.52s]
+[0m20:01:25
+[0m20:01:25  Finished running 1 test, 1 hook in 0 hours 0 minutes and 15.55 seconds (15.55s).
+[0m20:01:25
+[0m20:01:25  [31mCompleted with 1 error and 0 warnings:[0m
+[0m20:01:25
+[0m20:01:25  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m20:01:25    Got 1 result, configured to fail if != 0
+[0m20:01:25
+[0m20:01:25    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m20:01:25
+[0m20:01:25    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m20:01:25
+[0m20:01:25  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+
+NEW CMD = dbt test -m ./models/streamline/streamline__blocks_history.sql
+[0m20:15:03  Running with dbt=1.2.1
+[0m20:15:03  Found 19 models, 129 tests, 0 snapshots, 0 analyses, 647 macros, 1 operation, 0 seed files, 9 sources, 0 exposures, 0 metrics
+[0m20:15:03
+[0m20:15:14
+[0m20:15:14  Running 1 on-run-start hook
+[0m20:15:15  1 of 1 START hook: axelar.on-run-start.0 ....................................... [RUN]
+[0m20:15:15  1 of 1 OK hook: axelar.on-run-start.0 .......................................... [[32mOK[0m in 0.00s]
+[0m20:15:15
+[0m20:15:15  Concurrency: 1 threads (target='dev')
+[0m20:15:15
+[0m20:15:15  1 of 1 START test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [RUN]
+[0m20:15:17  1 of 1 FAIL 1 dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ  [[31mFAIL 1[0m in 1.66s]
+[0m20:15:17
+[0m20:15:17  Finished running 1 test, 1 hook in 0 hours 0 minutes and 13.65 seconds (13.65s).
+[0m20:15:17
+[0m20:15:17  [31mCompleted with 1 error and 0 warnings:[0m
+[0m20:15:17
+[0m20:15:17  [31mFailure in test dbt_expectations_expect_column_values_to_be_in_type_list_streamline__blocks_history_block_id__TIMESTAMP_NTZ (models/streamline/streamline__blocks_history.yml)[0m
+[0m20:15:17    Got 1 result, configured to fail if != 0
+[0m20:15:17  
+[0m20:15:17    compiled SQL at target/compiled/axelar/models/streamline/streamline__blocks_history.yml/dbt_expectations_expect_column_415c050dccde5b6e0cf2a0776b895cdf.sql
+[0m20:15:17
+[0m20:15:17    See test failures:
+  --------------------------------------------------------------------------------------------------------------------
+  select * from AXELAR_DEV.dbt_expectations_expect_column_values_to_be_in_type_list_streamline.blocks_history_block_id
+  --------------------------------------------------------------------------------------------------------------------
+[0m20:15:17
+[0m20:15:17  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 TOTAL=1
