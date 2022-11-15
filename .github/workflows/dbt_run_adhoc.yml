@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - "workflow-template-implementation"
+  workflow_dispatch:
+      branches:
+      - "workflow-template-implementation"
+    inputs:
+      dbt_command:
+        type: string
+        description: 'DBT Run Command'
+        required: true
     
 env:
   DBT_PROFILES_DIR: ./
@@ -23,5 +31,7 @@ env:
 jobs:
   called_workflow_template:
     uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/run_chain_template.yml@main
+    with:
+      dbt_command: ${{ inputs.dbt_command }}
     secrets: inherit # pass all secrets
   
