@@ -3,6 +3,7 @@ run-name: call_workflow_template
 on:
   workflow_dispatch:
     branches:
+      - "main"
       - "workflow-template-implementation"
     inputs:
       dbt_command:
