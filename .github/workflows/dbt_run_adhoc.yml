@@ -1,9 +1,6 @@
 run-name: call_workflow_template
 
 on:
-  push:
-    branches:
-      - "workflow-template-implementation"
   workflow_dispatch:
       branches:
       - "workflow-template-implementation"
