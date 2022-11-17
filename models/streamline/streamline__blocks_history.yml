@@ -4,4 +4,4 @@ models:
     columns:
       - name: block_id
         tests:
-          - not_null
+          - null
