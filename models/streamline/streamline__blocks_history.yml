@@ -1,0 +1,7 @@
+version: 2
+models:
+  - name: streamline__blocks_history
+    columns:
+      - name: block_number
+        tests:
+          - not_null
