@@ -5,6 +5,7 @@ from cli_passthrough import cli_passthrough
 from cli_passthrough.utils import write_to_log
 import requests
 import json
+from slackd import send_alert
 
 CONTEXT_SETTINGS = {"ignore_unknown_options": True, "allow_extra_args": True}
 
@@ -80,12 +81,10 @@ def cli(ctx):
     write_to_log("\nNEW CMD = {}".format(" ".join(sys.argv[1:])))
     write_to_log("\nNEW CMD = {}".format(" ".join(sys.argv[1:])), "stderr")
 
-    print()
-
-    exit_status = cli_passthrough(" ".join(ctx.args), interactive=False)
+    # exit_status = cli_passthrough(" ".join(ctx.args), interactive=False)
 
     # TODO - call code to parse dbt results and send slack alerts here.
-    url = 'https://hooks.slack.com/services/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'
+    url = sys.argv[1:][0]
     alert_text = ""
     f = open('./run_results.json')
     data = json.load(f)
@@ -100,7 +99,7 @@ def cli(ctx):
     )
     x = requests.post(url, json = send_message)
 
-    sys.exit(exit_status)
+    # sys.exit(exit_status)
 
 if __name__ == "__main__":
     cli(obj={})
