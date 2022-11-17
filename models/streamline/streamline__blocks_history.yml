@@ -5,7 +5,5 @@ models:
       - name: block_id
         tests:
           - dbt_expectations.expect_column_values_to_be_in_type_list:
-              config:
-                severity: warn
               column_type_list:
                 - TIMESTAMP_NTZ
