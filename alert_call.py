@@ -85,7 +85,7 @@ def cli(ctx):
     # TODO - call code to parse dbt results and send slack alerts here.
     url = sys.argv[1:][0]
     alert_text = ""
-    f = open('./run_results.json')
+    f = open('./target/run_results.json')
     data = json.load(f)
     failed_message = [x for x in data["results"] if x["status"] != "pass"]
     for message in failed_message:
