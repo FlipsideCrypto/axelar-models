@@ -12,6 +12,10 @@ on:
         type: string
         description: 'DBT Run Command'
         required: true
+      slackd_command:
+        type: string
+        description: 'SlackD alert Command'
+        required: true
     
 env:
   DBT_PROFILES_DIR: ./
@@ -33,5 +37,6 @@ jobs:
     uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/run_chain_template.yml@main
     with:
       dbt_command: ${{ inputs.dbt_command }}
+      slackd_command: ${{ inputs.slackd_command }}
     secrets: inherit # pass all secrets
   
