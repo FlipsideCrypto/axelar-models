@@ -83,7 +83,7 @@ def cli(ctx):
     exit_status = cli_passthrough(" ".join(ctx.args), interactive=False)
 
     # TODO - call code to parse dbt results and send slack alerts here.
-    url = 'https://hooks.slack.com/services/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'
+    url = 'https://hooks.slack.com/services/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'
     alert_text = ""
     f = open('./target/run_results.json')
     data = json.load(f)
