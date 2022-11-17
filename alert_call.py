@@ -5,7 +5,6 @@ from cli_passthrough import cli_passthrough
 from cli_passthrough.utils import write_to_log
 import requests
 import json
-from slackd import send_alert
 
 CONTEXT_SETTINGS = {"ignore_unknown_options": True, "allow_extra_args": True}
 
