@@ -5,6 +5,12 @@ from cli_passthrough import cli_passthrough
 from cli_passthrough.utils import write_to_log
 import requests
 import json
+from dotenv import load_dotenv   
+import os 
+
+load_dotenv()                    
+
+webhook_url = os.environ.get('WEBHOOK_URL')
 
 CONTEXT_SETTINGS = {"ignore_unknown_options": True, "allow_extra_args": True}
 
@@ -83,7 +89,7 @@ def cli(ctx):
     exit_status = cli_passthrough(" ".join(ctx.args), interactive=False)
 
     # TODO - call code to parse dbt results and send slack alerts here.
-    url = 'https://hooks.slack.com/services/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'
+    url = webhook_url
     alert_text = ""
     f = open('./target/run_results.json')
     data = json.load(f)
