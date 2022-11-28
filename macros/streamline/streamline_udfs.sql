@@ -1,6 +1,5 @@
 {% macro create_udf_bulk_get_blocks() %}
-    CREATE
-    OR REPLACE EXTERNAL FUNCTION streamline.udf_bulk_get_blocks(
+    CREATE EXTERNAL FUNCTION IF NOT EXISTS streamline.udf_bulk_get_blocks(
         json variant
     ) returns variant api_integration = aws_axelar_api AS {% if target.name == "prod" %}
         'https://klo2pavknf.execute-api.us-east-1.amazonaws.com/prod/bulk_get_blocks'
@@ -10,8 +9,7 @@
 {% endmacro %}
 
 {% macro create_udf_bulk_get_txs() %}
-    CREATE
-    OR REPLACE EXTERNAL FUNCTION streamline.udf_bulk_get_txs(
+    CREATE EXTERNAL FUNCTION IF NOT EXISTS streamline.udf_bulk_get_txs(
         json variant
     ) returns variant api_integration = aws_axelar_api AS {% if target.name == "prod" %}
         'https://klo2pavknf.execute-api.us-east-1.amazonaws.com/prod/bulk_get_txs'
