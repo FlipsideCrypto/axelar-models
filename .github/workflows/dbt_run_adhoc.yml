@@ -33,13 +33,11 @@ jobs:
     secrets: inherit 
 
   run_dbt_jobs:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         msg: ${{fromJson(inputs.dbt_command)}}
-
-    runs-on: ubuntu-latest
-
     steps:
-    - name: Send greeting
-      run: echo "Hello ${{ matrix.msg }}"
+      - name: Send greeting
+        run: echo "Hello ${{ matrix.msg }}"
   
