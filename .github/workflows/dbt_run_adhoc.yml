@@ -29,7 +29,7 @@ env:
 
 jobs:
   called_workflow_template:
-    uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run-adhoc.yml
+    uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run-adhoc.yml@main
     with:
       dbt_command: ${{ inputs.dbt_command }}
     secrets: inherit # pass all secrets
