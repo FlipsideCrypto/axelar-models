@@ -4,9 +4,8 @@ run-name: call_workflow_template
 on:
   workflow_dispatch:
     branches:
-      - "main"
-      - "workflow-template-implementation"
-      - "clean_up_workflow_template"
+      - main
+      - test_update_dbt_adhoc_command
     inputs:
       dbt_command:
         type: string
@@ -30,7 +29,7 @@ env:
 
 jobs:
   called_workflow_template:
-    uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/run_chain_template.yml@main
+    uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run-adhoc.yml
     with:
       dbt_command: ${{ inputs.dbt_command }}
     secrets: inherit # pass all secrets
