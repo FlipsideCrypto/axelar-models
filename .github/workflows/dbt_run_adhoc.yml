@@ -28,10 +28,6 @@ env:
 
 
 jobs:
-  install_dependencies:
-    uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/install_dependencies.yml@main
-    secrets: inherit 
-
   run_dbt_jobs:
     runs-on: ubuntu-latest
     strategy:
