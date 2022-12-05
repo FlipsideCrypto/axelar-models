@@ -11,11 +11,6 @@ on:
         type: string
         description: 'DBT Run Command'
         required: true
-    inputs:
-      enviroment:
-        type: string
-        description: 'DBT Run Command'
-        required: true
     
 env:
   DBT_PROFILES_DIR: ./
