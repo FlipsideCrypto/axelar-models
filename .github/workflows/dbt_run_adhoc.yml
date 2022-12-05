@@ -1,5 +1,5 @@
-name: adhoc_dbt_run
-run-name: call_workflow_template
+name: dbt_run_adhoc
+run-name: dbt_run_adhoc
 
 on:
   workflow_dispatch:
@@ -8,6 +8,11 @@ on:
       - test_update_dbt_adhoc_command
     inputs:
       dbt_command:
+        type: string
+        description: 'DBT Run Command'
+        required: true
+    inputs:
+      enviroment:
         type: string
         description: 'DBT Run Command'
         required: true
