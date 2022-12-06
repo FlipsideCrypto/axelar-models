@@ -1,5 +1,5 @@
 {% macro create_udtf_get_base_table(schema) %}
-create or replace function {{ schema }}.udtf_get_base_table(max_height integer)
+create function if not exists {{ schema }}.udtf_get_base_table(max_height integer)
 returns table (height number)
 as
 $$
