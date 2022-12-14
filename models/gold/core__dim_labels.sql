@@ -20,7 +20,7 @@ WHERE
     blockchain = 'axelar'
 UNION ALL
 SELECT
-    'axelar',
+    'axelar' AS blockchain,
     creator,
     address,
     label_type,
@@ -29,10 +29,16 @@ SELECT
     project_name,
     raw_metadata
 FROM
-    {{ source(
-        'tokens',
-        'dim_labels'
-    ) }}
-WHERE
-    label_type = 'token'
-    AND label_subtype = 'token_contract'
+    {{ ref('core__dim_tokens') }}
+UNION ALL
+SELECT
+    'axelar' AS blockchain,
+    creator,
+    address,
+    label_type,
+    label_subtype,
+    label,
+    project_name,
+    raw_metadata
+FROM
+    {{ ref('core__fact_validators') }}

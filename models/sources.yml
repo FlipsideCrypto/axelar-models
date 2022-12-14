@@ -26,3 +26,8 @@ sources:
       - name: blocks
       - name: txs
       - name: txs_details
+  - name: osmo
+    database: osmosis
+    schema: silver
+    tables: 
+      - name: asset_metadata
