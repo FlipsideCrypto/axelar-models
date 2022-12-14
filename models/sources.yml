@@ -9,6 +9,7 @@ sources:
       - name: blocks
       - name: txs
       - name: txs_details
+      - name: validators
   - name: tokens
     database: osmosis
     schema: core

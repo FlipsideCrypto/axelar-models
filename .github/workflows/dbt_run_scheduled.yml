@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - turn-off-dev-turn-on-prod
   schedule:
     # Runs "every 6 hours" (see https://crontab.guru)
     - cron: '0 */6 * * *'
@@ -26,10 +27,14 @@ env:
 
 jobs:
   called_workflow_template:
-    uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template.yml@main
-    with:
-      dbt_command: '["dbt run -m ./models/streamline/*"]'
-    secrets: inherit # pass all secrets
-  
+    steps:
+      - uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template.yml@main
+        with:
+          dbt_command: '["dbt run -m ./models/streamline/*"]'
+        secrets: inherit # pass all secrets
+      - uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template.yml@main
+        with:
+          dbt_command: '["dbt run -m ./models/streamline/*"]'
+        secrets: inherit # pass all secrets
 
 
