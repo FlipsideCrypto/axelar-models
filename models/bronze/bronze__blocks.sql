@@ -13,5 +13,5 @@ FROM
         'bronze',
         'blocks'
     ) }}
-WHERE  
-    DATA : error is null 
+WHERE
+    DATA: error IS NULL
