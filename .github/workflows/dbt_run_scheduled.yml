@@ -24,17 +24,12 @@ env:
   WAREHOUSE_PROD: "${{ secrets.WAREHOUSE_PROD }}"
   SCHEMA: "${{ secrets.SCHEMA }}"
 
-
 jobs:
   called_workflow_template:
-    steps:
-      - uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template.yml@main
-        with:
-          dbt_command: '["dbt run -m ./models/streamline/*"]'
-        secrets: inherit # pass all secrets
-      - uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template.yml@main
-        with:
-          dbt_command: '["dbt run -m ./models/streamline/*"]'
-        secrets: inherit # pass all secrets
+    uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template.yml@main
+    with:
+      dbt_command: '["dbt run -m ./models/streamline/*"]'
+    secrets: inherit # pass all secrets
+
 
 
