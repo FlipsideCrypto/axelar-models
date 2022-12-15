@@ -3,11 +3,13 @@ version: 2
 sources:
   - name: bronze
     database: streamline
-    schema: axelar_dev
+    schema: |
+      {{ "AXELAR_DEV" if var("STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES", False) else "AXELAR" }}
     tables:
       - name: blocks
       - name: txs
       - name: txs_details
+      - name: validators
   - name: tokens
     database: osmosis
     schema: core
