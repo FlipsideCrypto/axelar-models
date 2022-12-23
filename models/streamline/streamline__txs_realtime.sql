@@ -21,7 +21,7 @@ WHERE
     AND tx_count > 0
     AND block_number NOT IN (
         SELECT
-            block_id
+            block_number
         FROM
             {{ ref(
                 "streamline__txs_history"
