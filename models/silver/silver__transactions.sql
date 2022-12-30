@@ -10,7 +10,7 @@ WITH base_table AS (
 
     SELECT
         block_id,
-        DATA :hash :: STRING AS tx_id,
+        tx_id,
         'axelar' AS blockchain,
         DATA :tx_result :codespace AS codespace,
         DATA :tx_result :gas_used :: NUMBER AS gas_used,
@@ -22,16 +22,16 @@ WITH base_table AS (
         DATA :tx_result :code :: NUMBER AS tx_code,
         DATA :tx_result :events AS msgs,
         DATA :tx_result :log AS tx_log,
-        _partition_by_block_id
+        _inserted_timestamp
     FROM
         {{ ref('bronze__transactions') }}
     WHERE
         DATA :error IS NULL
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
     SELECT
-        MAX(_partition_by_block_id)
+        MAX(_inserted_timestamp) :: DATE - 2
     FROM
         {{ this }}
 )
@@ -50,7 +50,7 @@ SELECT
     tx_code,
     msgs,
     tx_log :: STRING AS tx_log,
-    b._partition_by_block_id
+    b._inserted_timestamp
 FROM
     base_table b
     LEFT OUTER JOIN {{ ref('silver__blocks') }}
@@ -59,14 +59,13 @@ FROM
 
 {% if is_incremental() %}
 WHERE
-    b._partition_by_block_id >= (
+    bb._inserted_timestamp :: DATE >= (
         SELECT
-            MAX(_partition_by_block_id)
+            MAX(_inserted_timestamp) :: DATE - 2
         FROM
             {{ this }}
     )
 {% endif %}
-
-qualify(ROW_NUMBER() over(PARTITION BY tx_id
+qualify(ROW_NUMBER() over (PARTITION BY tx_id
 ORDER BY
-    b._partition_by_block_id DESC)) = 1
+    b._inserted_timestamp DESC)) = 1

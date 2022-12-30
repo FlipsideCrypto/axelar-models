@@ -45,7 +45,7 @@ WITH base AS (
     TRY_BASE64_DECODE_STRING(
       msg :attributes [0] :value :: STRING
     ) AS attribute_value,
-    t._partition_by_block_id
+    t._inserted_timestamp
   FROM
     {{ ref('silver__transactions') }}
     t,
@@ -53,9 +53,9 @@ WITH base AS (
 
 {% if is_incremental() %}
 WHERE
-  _partition_by_block_id >= (
+  _inserted_timestamp :: DATE >= (
     SELECT
-      MAX(_partition_by_block_id)
+      MAX(_inserted_timestamp) :: DATE - 2
     FROM
       {{ this }}
   )
@@ -122,7 +122,7 @@ FINAL AS (
       A.tx_id,
       A.msg_index
     ) AS _unique_key,
-    _partition_by_block_id
+    _inserted_timestamp
   FROM
     base A
     LEFT JOIN GROUPING b
@@ -142,6 +142,6 @@ SELECT
   msg_type,
   msg,
   _unique_key,
-  _partition_by_block_id
+  _inserted_timestamp
 FROM
   FINAL
