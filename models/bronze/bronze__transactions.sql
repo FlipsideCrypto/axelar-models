@@ -1,8 +1,8 @@
 {{ config(
     materialized = 'incremental',
-    unique_key = 'tx_id',
+    unique_key = 'block_id',
     cluster_by = ['_inserted_timestamp::date'],
-    merge_update_columns = ["tx_id"],
+    merge_update_columns = ["block_id"],
 ) }}
 
 WITH meta AS (
@@ -57,3 +57,6 @@ FROM
     ON m.file_name = metadata$filename
 WHERE
     DATA: error IS NULL
+    qualify(ROW_NUMBER() over (PARTITION BY block_number
+ORDER BY
+    _inserted_timestamp DESC)) = 1
