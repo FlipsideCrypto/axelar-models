@@ -18,9 +18,9 @@ WITH axelar_txs AS (
         )
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
     SELECT
-        MAX(_partition_by_block_id)
+        MAX(_inserted_timestamp) :: DATE - 2
     FROM
         {{ this }}
 )
@@ -42,9 +42,9 @@ sender AS (
         AND attribute_key = 'acc_seq'
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
     SELECT
-        MAX(_partition_by_block_id)
+        MAX(_inserted_timestamp) :: DATE - 2
     FROM
         {{ this }}
 )
@@ -68,9 +68,9 @@ msg_index AS (
         AND m.msg_index > s.msg_index
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
     SELECT
-        MAX(_partition_by_block_id)
+        MAX(_inserted_timestamp) :: DATE - 2 
     FROM
         {{ this }}
 )
@@ -94,9 +94,9 @@ receiver AS (
         AND m.msg_index > s.msg_index
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
     SELECT
-        MAX(_partition_by_block_id) 
+        MAX(_inserted_timestamp) :: DATE - 2
     FROM
         {{ this }}
 )
@@ -137,9 +137,9 @@ amount AS (
         AND m.msg_index > s.msg_index
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
     SELECT
-        MAX(_partition_by_block_id) 
+        MAX(_inserted_timestamp) :: DATE - 2 
     FROM
         {{ this }}
 )
@@ -163,7 +163,7 @@ axelar_txs_final AS (
             6
         ) AS DECIMAL,
         receiver,
-        _partition_by_block_id,
+        _inserted_timestamp,
         concat_ws(
             '-',
             r.tx_id,
@@ -185,9 +185,9 @@ axelar_txs_final AS (
         ON currency = l.address
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
     SELECT
-        MAX(_partition_by_block_id) 
+        MAX(_inserted_timestamp) :: DATE - 2
     FROM
         {{ this }}
 )
@@ -210,7 +210,7 @@ ibc_in_tx AS (
             ELSE TRY_PARSE_JSON(attribute_value) :denom :: STRING
         END AS currency,
         TRY_PARSE_JSON(attribute_value) :receiver :: STRING AS receiver,
-        _partition_by_block_id,
+        _inserted_timestamp,
         concat_ws(
             '-',
             tx_id,
@@ -225,9 +225,9 @@ ibc_in_tx AS (
         AND TRY_PARSE_JSON(attribute_value): amount IS NOT NULL
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
     SELECT
-        MAX(_partition_by_block_id) 
+        MAX(_inserted_timestamp) :: DATE - 2
     FROM
         {{ this }}
 )
@@ -242,9 +242,9 @@ ibc_out_txid AS (
         msg_type = 'ibc_transfer'
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
     SELECT
-        MAX(_partition_by_block_id) 
+        MAX(_inserted_timestamp) :: DATE - 2 
     FROM
         {{ this }}
 )
@@ -267,7 +267,7 @@ ibc_out_tx AS (
             ELSE TRY_PARSE_JSON(attribute_value) :denom :: STRING
         END AS currency,
         TRY_PARSE_JSON(attribute_value) :receiver :: STRING AS receiver,
-        _partition_by_block_id,
+        _inserted_timestamp,
         concat_ws(
             '-',
             tx_id,
@@ -287,9 +287,9 @@ ibc_out_tx AS (
         AND attribute_key = 'packet_data'
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
     SELECT
-        MAX(_partition_by_block_id) 
+        MAX(_inserted_timestamp) :: DATE - 2  
     FROM
         {{ this }}
 )
@@ -345,7 +345,7 @@ ibc_tx_final AS (
         END AS DECIMAL,
         i.receiver,
         msg_index,
-        _partition_by_block_id,
+        _inserted_timestamp,
         _unique_key
     FROM
         ibc_transfers_agg i
@@ -366,7 +366,7 @@ SELECT
     DECIMAL,
     receiver,
     msg_index,
-    _partition_by_block_id,
+    _inserted_timestamp,
     _unique_key
 FROM
     ibc_tx_final
@@ -385,7 +385,7 @@ SELECT
     DECIMAL,
     receiver,
     msg_index,
-    _partition_by_block_id,
+    _inserted_timestamp,
     _unique_key
 FROM
     axelar_txs_final

@@ -29,7 +29,7 @@ SELECT
     msg_index,
     attribute_index
   ) AS _unique_key,
-  _partition_by_block_id
+  _inserted_timestamp
 FROM
   {{ ref('silver__msgs') }} A,
   LATERAL FLATTEN(
@@ -39,9 +39,9 @@ FROM
 
 {% if is_incremental() %}
 WHERE
-  _partition_by_block_id >= (
+  _inserted_timestamp :: DATE >= (
     SELECT
-      MAX(_partition_by_block_id) 
+      MAX(_inserted_timestamp) :: DATE - 2 
     FROM
       {{ this }}
   )

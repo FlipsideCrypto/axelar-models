@@ -37,7 +37,7 @@ SELECT
         data :result :block :header,
         data :block :header
     ) AS header,
-    _partition_by_block_id,
+    _inserted_timestamp,
     concat_ws(
         '-',
         chain_id,
@@ -50,14 +50,10 @@ WHERE
     AND data :error IS NULL
 
 {% if is_incremental() %}
-AND _partition_by_block_id >= (
+AND _inserted_timestamp :: DATE >= (
     SELECT
-        MAX(_partition_by_block_id)
+        MAX(_inserted_timestamp) :: DATE - 2
     FROM
         {{ this }}
 )
 {% endif %}
-
-qualify(ROW_NUMBER() over(PARTITION BY chain_id, block_id
-ORDER BY
-    _partition_by_block_id DESC)) = 1
