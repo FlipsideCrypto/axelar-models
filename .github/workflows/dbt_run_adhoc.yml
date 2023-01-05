@@ -15,6 +15,7 @@ on:
         options:
         - dev
         - prod
+        - workflow
       dbt_command:
         type: string
         description: 'DBT Run Command'
@@ -28,18 +29,30 @@ env:
   USER: "${{ secrets.USER }}"
   PASSWORD: "${{ secrets.PASSWORD }}"
   REGION: "${{ secrets.REGION }}"
-  DATABASE_DEV: "${{ secrets.DATABASE_DEV }}"
-  DATABASE_PROD: "${{ secrets.DATABASE_PROD }}"
-  WAREHOUSE_DEV: "${{ secrets.WAREHOUSE_DEV }}"
-  WAREHOUSE_PROD: "${{ secrets.WAREHOUSE_PROD }}"
+  DATABASE: "${{ secrets.DATABASE }}"
+  WAREHOUSE: "${{ secrets.WAREHOUSE }}"
   SCHEMA: "${{ secrets.SCHEMA }}"
 
-
 jobs:
-  called_workflow_template:
-    uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template_dev.yml@main
-    with:
-      environment: ${{ inputs.environment }}
-      dbt_command: ${{ inputs.dbt_command }}
-    secrets: inherit 
-  
+  run_dbt_jobs:
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ inputs.environment }}
+    strategy:
+      matrix:
+        command: ${{fromJson(inputs.dbt_command)}}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.7.x"
+
+      - name: install dependencies
+        run: |
+          pip3 install dbt-snowflake cli_passthrough requests click
+          dbt deps
+      - name: Run DBT Jobs
+        run: |
+          ${{ matrix.command }}
