@@ -8,7 +8,6 @@ on:
       - update-profiles-env-settings
     inputs:
       environment:
-        type: string
         description: 'Environment to run the DBT command'
         required: true
         default: 'prod' 
