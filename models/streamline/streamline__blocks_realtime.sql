@@ -19,7 +19,7 @@ FROM
     TABLE(streamline.udtf_get_base_table({{ block_height }}))
 EXCEPT
 SELECT
-    block_id
+    block_number
 FROM
     {{ ref(
         "streamline__blocks_history"
