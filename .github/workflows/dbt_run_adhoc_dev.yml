@@ -1,4 +1,5 @@
 name: dbt_run_adhoc_dev
+run-name: dbt_run_adhoc_dev
 
 on:
   workflow_dispatch:
