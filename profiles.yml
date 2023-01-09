@@ -1,16 +1,38 @@
 axelar:
-  target: prod
+  target: dev
   outputs:
-    prod:
+<<<<<<< HEAD
+=======
+    dev:
       type: snowflake
       account: "{{ env_var('ACCOUNT') }}"
-      role: "{{ env_var('ROLE') }}"
       user: "{{ env_var('USER') }}"
       password: "{{ env_var('PASSWORD') }}"
+      role: "{{ env_var('ROLE') }}"
+      schema: "{{ env_var('SCHEMA') }}"
       region: "{{ env_var('REGION') }}"
       database: "{{ env_var('DATABASE') }}"
       warehouse: "{{ env_var('WAREHOUSE') }}"
+      threads: 8
+      client_session_keep_alive: False
+>>>>>>> main
+    prod:
+      type: snowflake
+      account: "{{ env_var('ACCOUNT') }}"
+      user: "{{ env_var('USER') }}"
+      password: "{{ env_var('PASSWORD') }}"
+      role: "{{ env_var('ROLE') }}"
+      schema: "{{ env_var('SCHEMA') }}"
+      region: "{{ env_var('REGION') }}"
+      database: "{{ env_var('DATABASE') }}"
+      warehouse: "{{ env_var('WAREHOUSE') }}"
+<<<<<<< HEAD
       schema: STREAMLINE
       threads: 4
+=======
+      threads: 8
+>>>>>>> main
       client_session_keep_alive: False
-      query_tag: axelar_curator
+  config:
+    send_anonymous_usage_stats: False
+      
