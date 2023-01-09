@@ -1,8 +1,6 @@
 axelar:
   target: dev
   outputs:
-<<<<<<< HEAD
-=======
     dev:
       type: snowflake
       account: "{{ env_var('ACCOUNT') }}"
@@ -15,7 +13,6 @@ axelar:
       warehouse: "{{ env_var('WAREHOUSE') }}"
       threads: 8
       client_session_keep_alive: False
->>>>>>> main
     prod:
       type: snowflake
       account: "{{ env_var('ACCOUNT') }}"
@@ -26,12 +23,7 @@ axelar:
       region: "{{ env_var('REGION') }}"
       database: "{{ env_var('DATABASE') }}"
       warehouse: "{{ env_var('WAREHOUSE') }}"
-<<<<<<< HEAD
-      schema: STREAMLINE
-      threads: 4
-=======
       threads: 8
->>>>>>> main
       client_session_keep_alive: False
   config:
     send_anonymous_usage_stats: False
