@@ -70,8 +70,6 @@ final_transactions AS (
 SELECT
   t.block_id,
   t.block_timestamp,
-  t.blockchain,
-  t.chain_id,
   t.tx_id,
   s.tx_from,
   tx_succeeded,
@@ -110,8 +108,6 @@ WHERE
 SELECT 
   block_id,
   block_timestamp,
-  blockchain,
-  chain_id,
   tx_id,
   tx_from,
   tx_succeeded,

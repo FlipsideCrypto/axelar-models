@@ -29,10 +29,6 @@ models:
         description: "{{ doc('tx_id') }}"
         tests: 
           - not_null
-      - name: CHAIN_ID
-        description: "{{ doc('chain_id') }}"
-        tests:
-          - not_null
       - name: CODESPACE
         description: "{{ doc('codespace') }}"
       - name: GAS_USED

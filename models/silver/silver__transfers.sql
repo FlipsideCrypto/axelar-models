@@ -149,8 +149,6 @@ axelar_txs_final AS (
     SELECT
         block_id,
         block_timestamp,
-        t.blockchain,
-        chain_id,
         r.tx_id,
         tx_succeeded,
         'AXELAR' AS transfer_type,
@@ -197,8 +195,6 @@ ibc_in_tx AS (
     SELECT
         block_id,
         block_timestamp,
-        blockchain,
-        chain_id,
         tx_id,
         tx_succeeded,
         msg_index,
@@ -254,8 +250,6 @@ ibc_out_tx AS (
     SELECT
         block_id,
         block_timestamp,
-        blockchain,
-        chain_id,
         tx_id,
         tx_succeeded,
         msg_index,
@@ -327,8 +321,6 @@ ibc_tx_final AS (
     SELECT
         i.block_id,
         i.block_timestamp,
-        i.blockchain,
-        i.chain_id,
         i.tx_id,
         i.tx_succeeded,
         i.transfer_type,
@@ -355,8 +347,6 @@ ibc_tx_final AS (
 SELECT
     block_id,
     block_timestamp,
-    blockchain,
-    chain_id,
     tx_id,
     tx_succeeded,
     transfer_type,
@@ -374,8 +364,6 @@ UNION ALL
 SELECT
     block_id,
     block_timestamp,
-    blockchain,
-    chain_id,
     tx_id,
     tx_succeeded,
     transfer_type,
