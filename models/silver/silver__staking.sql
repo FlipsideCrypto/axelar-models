@@ -2,7 +2,7 @@
     materialized = 'incremental',
     unique_key = "_unique_key",
     incremental_strategy = 'merge',
-    cluster_by = ['block_timestamp::DATE'],
+    cluster_by = ['block_timestamp::DATE']
 ) }}
 
 WITH att_base AS (
@@ -17,7 +17,7 @@ WITH att_base AS (
         A.msg_index,
         A.msg_type,
         A.msg_group,
-        A._inserted_timestampa.
+        A._inserted_timestamp
     FROM
         {{ ref('silver__msg_attributes') }} A
     WHERE

@@ -8,7 +8,6 @@ models:
             - TX_ID
             - MSG_GROUP
             - ACTION
-            - CURRENCY
             - DELEGATOR_ADDRESS
             - VALIDATOR_ADDRESS
     columns:

@@ -2,10 +2,10 @@
     materialized = 'incremental',
     unique_key = "_unique_key",
     incremental_strategy = 'merge',
-    cluster_by = ['block_timestamp::DATE'],
+    cluster_by = ['block_timestamp::DATE']
 ) }}
 
-WITH msg_attributes_cte AS (
+WITH msg_attributes_base AS (
 
     SELECT
         A.tx_id,
@@ -42,6 +42,46 @@ AND _inserted_timestamp >= (
 )
 {% endif %}
 ),
+msg_attributes_cte AS (
+    SELECT
+        A.tx_id,
+        A.block_id,
+        A.block_timestamp,
+        A.tx_succeeded,
+        A.msg_type,
+        A.msg_group,
+        A.msg_index,
+        A.attribute_key,
+        A.attribute_value,
+        A._inserted_timestamp,
+        DENSE_RANK() over(
+            PARTITION BY A.tx_id,
+            A.msg_group,
+            CASE
+                WHEN A.msg_type IN(
+                    'withdraw_rewards',
+                    'message'
+                ) THEN TRUE
+            END
+            ORDER BY
+                A.msg_index
+        ) dr
+    FROM
+        msg_attributes_base A
+        LEFT JOIN (
+            SELECT
+                tx_id,
+                msg_index
+            FROM
+                msg_attributes_base
+            WHERE
+                attribute_value LIKE '%stake'
+        ) exc
+        ON A.tx_id = exc.tx_id
+        AND A.msg_index = exc.msg_index
+    WHERE
+        exc.tx_id IS NULL
+),
 block_tx_inserted AS (
     SELECT
         DISTINCT A.tx_id,
@@ -57,7 +97,8 @@ reward_base AS (
         A.tx_id,
         A.msg_type,
         A.msg_index,
-        msg_group
+        msg_group,
+        dr
     FROM
         msg_attributes_cte A
     WHERE
@@ -77,20 +118,29 @@ msg_attr_rewards AS (
         JOIN (
             SELECT
                 DISTINCT tx_id,
-                msg_index,
-                msg_index group_id
+                dr,
+                msg_index AS group_id,
+                msg_group
             FROM
                 reward_base
             UNION ALL
             SELECT
                 DISTINCT tx_id,
-                msg_index + 1 msg_index,
-                msg_index group_id
+                dr + 1 dr,
+                msg_index AS group_id,
+                msg_group
             FROM
                 reward_base
         ) b
         ON A.tx_id = b.tx_id
-        AND A.msg_index = b.msg_index
+        AND A.msg_group = b.msg_group
+        AND A.dr = b.dr
+    WHERE
+        A.msg_type IN(
+            'withdraw_rewards',
+            'message'
+        )
+        AND A.msg_group IS NOT NULL
 ),
 reward_combo AS (
     SELECT
@@ -111,6 +161,12 @@ reward_combo AS (
             'sender',
             'amount',
             'validator'
+        )
+        AND NOT (msg_type IN ('transfer', 'redelegate', 'unbond')
+        AND attribute_key = 'amount')
+        AND NOT (
+            msg_type = 'unbond'
+            AND attribute_key = 'validator'
         )
     GROUP BY
         tx_id,
