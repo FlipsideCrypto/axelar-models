@@ -12,11 +12,11 @@ models:
         tests:
           - dbt_expectations.expect_column_to_exist
       - name: BLOCKCHAIN
-        description: "{{ doc('blockchain') }}"
+        description: This column is deprecating on 18 January. In this table, always Axelar. Used to join to cross-chain tables. 
         tests: 
           - dbt_expectations.expect_column_to_exist
       - name: CHAIN_ID
-        description: "{{ doc('chain_id') }}"
+        description: This column is deprecating on 18 January. The name and version of the blockchain. 
         tests:
           - dbt_expectations.expect_column_to_exist
       - name: TX_ID
