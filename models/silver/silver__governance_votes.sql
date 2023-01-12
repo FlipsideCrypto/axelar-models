@@ -63,7 +63,7 @@ fin AS (
         ) AS j,
         j :proposal_id :: INT AS proposal_id,
         j :option :: STRING AS vote_option,
-        j :option :: NUMBER AS vote_weight
+        j :weight :: NUMBER AS vote_weight
     FROM
         base_atts
     WHERE
