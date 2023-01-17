@@ -42,7 +42,7 @@ jobs:
           dbt deps
       - name: Run DBT Jobs
         run: |
-          dbt run -m ./models/streamline/*
+          dbt run --full-refresh -x -m 1+models/streamline/streamline__validators_realtime.sql
 
 
 
