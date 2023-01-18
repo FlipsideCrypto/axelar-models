@@ -11,8 +11,6 @@ WITH base AS (
     t.block_id,
     t.block_timestamp,
     t.tx_id,
-    t.blockchain,
-    t.chain_id,
     t.gas_used,
     t.gas_wanted,
     t.tx_succeeded,
@@ -95,8 +93,6 @@ FINAL AS (
   SELECT
     block_id,
     block_timestamp,
-    blockchain,
-    chain_id,
     A.tx_id,
     tx_succeeded,
     msg_group,
@@ -132,8 +128,6 @@ FINAL AS (
 SELECT
   block_id,
   block_timestamp,
-  blockchain,
-  chain_id,
   tx_id,
   tx_succeeded,
   msg_group,

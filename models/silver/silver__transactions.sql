@@ -11,7 +11,6 @@ WITH base_table AS (
     SELECT
         block_id,
         tx_id,
-        'axelar' AS blockchain,
         DATA :tx_result :codespace AS codespace,
         DATA :tx_result :gas_used :: NUMBER AS gas_used,
         DATA :tx_result :gas_wanted :: NUMBER AS gas_wanted,
@@ -41,8 +40,6 @@ SELECT
     b.block_id,
     block_timestamp,
     tx_id,
-    blockchain,
-    chain_id,
     codespace,
     gas_used,
     gas_wanted,
@@ -66,6 +63,7 @@ WHERE
             {{ this }}
     )
 {% endif %}
+
 qualify(ROW_NUMBER() over (PARTITION BY tx_id
 ORDER BY
     b._inserted_timestamp DESC)) = 1
