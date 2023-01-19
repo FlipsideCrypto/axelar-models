@@ -1,0 +1,53 @@
+version: 2
+models:
+  - name: silver__link_events
+    description: Records of all link events on Axelar
+    columns:
+      - name: BLOCK_ID
+        description: "{{ doc('block_id') }}"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - NUMBER    
+                - FLOAT  
+      - name: BLOCK_TIMESTAMP
+        description: "{{ doc('block_timestamp') }}"
+        tests:
+          - not_null
+          - dbt_expectations.expect_row_values_to_have_recent_data:
+              datepart: day
+              interval: 1
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - TIMESTAMP_NTZ
+      - name: TX_ID
+        description: "{{ doc('tx_id') }}"
+        tests: 
+          - not_null
+          - unique
+      - name: TX_SUCCEEDED
+        description: "{{ doc('tx_succeeded') }}"
+        tests: 
+          - not_null
+      - name: MODULE
+        tests: 
+          - not_null
+      - name: SOURCE_CHAIN
+
+      - name: DEPOSIT_ADDRESS
+        tests:
+          - not_null
+
+      - name: DESTINATION_CHAIN
+
+      - name: DESTINATION_ADDRESS 
+        tests:
+          - not_null
+        
+      - name: ASSET
+
+      - name: _INSERTED_TIMESTAMP
+        description: "{{ doc('inserted_timestamp') }}"
+        tests:
+          - not_null

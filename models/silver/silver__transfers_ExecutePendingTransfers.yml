@@ -1,7 +1,6 @@
 version: 2
 models:
-  - name: silver__transfers
-    description: Records of all transfers on Axelar, including IBC transfers as on- and off-ramps to Axelar and wallet to wallet transfers
+  - name: silver__transfers_ExecutePendingTransfers
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:

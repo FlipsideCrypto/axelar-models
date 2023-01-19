@@ -5,16 +5,53 @@
     cluster_by = 'block_timestamp::DATE',
 ) }}
 
-WITH axelar_txs AS (
+WITH base_atts AS (
 
     SELECT
-        DISTINCT tx_id
+        block_id,
+        block_timestamp,
+        tx_id,
+        tx_succeeded,
+        _inserted_timestamp,
+        msg_group,
+        msg_index,
+        msg_type,
+        attribute_key,
+        attribute_value
     FROM
         {{ ref('silver__msg_attributes') }}
     WHERE
-        attribute_value IN (
-            '/cosmos.bank.v1beta1.MsgSend',
-            '/cosmos.bank.v1beta1.MsgMultiSend'
+        (
+            msg_type = 'message'
+            AND attribute_key = 'action'
+            AND attribute_value IN (
+                '/cosmos.bank.v1beta1.MsgSend',
+                '/cosmos.bank.v1beta1.MsgMultiSend'
+            )
+            OR (
+                msg_type = 'tx'
+                AND attribute_key = 'acc_seq'
+            )
+            OR (
+                msg_type = 'transfer'
+                AND attribute_key IN (
+                    'amount',
+                    'recipient',
+                    'sender'
+                )
+            )
+            OR (
+                msg_type = 'write_acknowledgement'
+                AND attribute_key = 'packet_data'
+                AND TRY_PARSE_JSON(attribute_value): amount IS NOT NULL
+            )
+            OR (
+                msg_type = 'ibc_transfer'
+            )
+            OR (
+                msg_type = 'send_packet'
+                AND attribute_key = 'packet_data'
+            )
         )
 
 {% if is_incremental() %}
@@ -36,81 +73,39 @@ sender AS (
             0
         ) AS sender
     FROM
-        {{ ref('silver__msg_attributes') }}
+        base_atts
     WHERE
         msg_type = 'tx'
         AND attribute_key = 'acc_seq'
-
-{% if is_incremental() %}
-AND _inserted_timestamp :: DATE >= (
-    SELECT
-        MAX(_inserted_timestamp) :: DATE - 2
-    FROM
-        {{ this }}
-)
-{% endif %}
 ),
-msg_index AS (
+axelar_txs AS (
     SELECT
-        v.tx_id,
-        attribute_key,
-        m.msg_index
+        DISTINCT tx_id
     FROM
-        axelar_txs v
-        LEFT OUTER JOIN {{ ref('silver__msg_attributes') }}
-        m
-        ON v.tx_id = m.tx_id
-        INNER JOIN sender s
-        ON v.tx_id = s.tx_id
+        base_atts
     WHERE
-        msg_type = 'transfer'
-        AND attribute_key = 'amount'
-        AND m.msg_index > s.msg_index
-
-{% if is_incremental() %}
-AND _inserted_timestamp :: DATE >= (
-    SELECT
-        MAX(_inserted_timestamp) :: DATE - 2 
-    FROM
-        {{ this }}
-)
-{% endif %}
+        msg_type = 'message'
+        AND attribute_key = 'action'
+        AND attribute_value IN (
+            '/cosmos.bank.v1beta1.MsgSend',
+            '/cosmos.bank.v1beta1.MsgMultiSend'
+        )
 ),
-receiver AS (
+transfer_values AS (
     SELECT
         v.tx_id,
         m.msg_index,
-        attribute_value AS receiver
-    FROM
-        axelar_txs v
-        LEFT OUTER JOIN {{ ref('silver__msg_attributes') }}
-        m
-        ON v.tx_id = m.tx_id
-        INNER JOIN sender s
-        ON v.tx_id = s.tx_id
-    WHERE
-        msg_type = 'transfer'
-        AND attribute_key = 'recipient'
-        AND m.msg_index > s.msg_index
-
-{% if is_incremental() %}
-AND _inserted_timestamp :: DATE >= (
-    SELECT
-        MAX(_inserted_timestamp) :: DATE - 2
-    FROM
-        {{ this }}
-)
-{% endif %}
-),
-amount AS (
-    SELECT
-        v.tx_id,
-        m.msg_index,
+        OBJECT_AGG(
+            m.attribute_key :: STRING,
+            m.attribute_value :: variant
+        ) AS j,
+        j :sender :: STRING AS sender,
+        j :recipient :: STRING AS receiver,
         COALESCE(
             SPLIT_PART(
                 TRIM(
                     REGEXP_REPLACE(
-                        attribute_value,
+                        j :amount,
                         '[^[:digit:]]',
                         ' '
                     )
@@ -118,32 +113,31 @@ amount AS (
                 ' ',
                 0
             ),
-            TRY_PARSE_JSON(attribute_value) :amount
+            TRY_PARSE_JSON(
+                j :amount
+            ) :amount
         ) AS amount,
         COALESCE(
-            RIGHT(attribute_value, LENGTH(attribute_value) - LENGTH(SPLIT_PART(TRIM(REGEXP_REPLACE(attribute_value, '[^[:digit:]]', ' ')), ' ', 0))),
-            TRY_PARSE_JSON(attribute_value) [1] :denom
+            RIGHT(j :amount, LENGTH(j :amount) - LENGTH(SPLIT_PART(TRIM(REGEXP_REPLACE(j :amount, '[^[:digit:]]', ' ')), ' ', 0))),
+            TRY_PARSE_JSON(
+                j :amount
+            ) [1] :denom
         ) AS currency
     FROM
         axelar_txs v
-        LEFT OUTER JOIN {{ ref('silver__msg_attributes') }}
-        m
+        JOIN base_atts m
         ON v.tx_id = m.tx_id
-        INNER JOIN sender s
-        ON v.tx_id = s.tx_id
     WHERE
-        msg_type = 'transfer'
-        AND attribute_key = 'amount'
-        AND m.msg_index > s.msg_index
-
-{% if is_incremental() %}
-AND _inserted_timestamp :: DATE >= (
-    SELECT
-        MAX(_inserted_timestamp) :: DATE - 2 
-    FROM
-        {{ this }}
-)
-{% endif %}
+        m.msg_type = 'transfer'
+        AND m.attribute_key IN(
+            'amount',
+            'recipient',
+            'sender'
+        )
+        AND msg_group IS NOT NULL
+    GROUP BY
+        v.tx_id,
+        m.msg_index
 ),
 axelar_txs_final AS (
     SELECT
@@ -151,9 +145,21 @@ axelar_txs_final AS (
         block_timestamp,
         r.tx_id,
         tx_succeeded,
-        'AXELAR' AS transfer_type,
+        CASE
+            WHEN len(receiver) = 65 THEN 'IBC_TRANSFER_OUT'
+            WHEN len(
+                COALESCE(
+                    r.sender,
+                    snd.sender
+                )
+            ) = 65 THEN 'IBC_TRANSFER_IN'
+            ELSE 'AXELAR'
+        END AS transfer_type,
         r.msg_index,
-        sender,
+        COALESCE(
+            r.sender,
+            snd.sender
+        ) AS sender,
         amount,
         currency,
         COALESCE(
@@ -169,27 +175,23 @@ axelar_txs_final AS (
             currency
         ) AS _unique_key
     FROM
-        receiver r
-        LEFT OUTER JOIN amount C
-        ON r.tx_id = C.tx_id
-        AND r.msg_index = C.msg_index
-        LEFT OUTER JOIN sender s
-        ON r.tx_id = s.tx_id
-        LEFT OUTER JOIN {{ ref('silver__transactions') }}
-        t
+        transfer_values r
+        JOIN (
+            SELECT
+                DISTINCT block_id,
+                block_timestamp,
+                tx_id,
+                tx_succeeded,
+                _inserted_timestamp
+            FROM
+                base_atts
+        ) t
         ON r.tx_id = t.tx_id
         LEFT OUTER JOIN {{ ref('core__dim_labels') }}
         l
         ON currency = l.address
-
-{% if is_incremental() %}
-AND _inserted_timestamp :: DATE >= (
-    SELECT
-        MAX(_inserted_timestamp) :: DATE - 2
-    FROM
-        {{ this }}
-)
-{% endif %}
+        LEFT JOIN sender snd
+        ON r.tx_id = snd.tx_id
 ),
 ibc_in_tx AS (
     SELECT
@@ -214,37 +216,19 @@ ibc_in_tx AS (
             currency
         ) AS _unique_key
     FROM
-        {{ ref('silver__msg_attributes') }}
+        base_atts
     WHERE
         msg_type = 'write_acknowledgement'
         AND attribute_key = 'packet_data'
         AND TRY_PARSE_JSON(attribute_value): amount IS NOT NULL
-
-{% if is_incremental() %}
-AND _inserted_timestamp :: DATE >= (
-    SELECT
-        MAX(_inserted_timestamp) :: DATE - 2
-    FROM
-        {{ this }}
-)
-{% endif %}
 ),
 ibc_out_txid AS (
     SELECT
         tx_id
     FROM
-        {{ ref('silver__msg_attributes') }}
+        base_atts
     WHERE
         msg_type = 'ibc_transfer'
-
-{% if is_incremental() %}
-AND _inserted_timestamp :: DATE >= (
-    SELECT
-        MAX(_inserted_timestamp) :: DATE - 2 
-    FROM
-        {{ this }}
-)
-{% endif %}
 ),
 ibc_out_tx AS (
     SELECT
@@ -269,7 +253,7 @@ ibc_out_tx AS (
             currency
         ) AS _unique_key
     FROM
-        {{ ref('silver__msg_attributes') }}
+        base_atts
     WHERE
         tx_id IN (
             SELECT
@@ -279,15 +263,6 @@ ibc_out_tx AS (
         )
         AND msg_type = 'send_packet'
         AND attribute_key = 'packet_data'
-
-{% if is_incremental() %}
-AND _inserted_timestamp :: DATE >= (
-    SELECT
-        MAX(_inserted_timestamp) :: DATE - 2  
-    FROM
-        {{ this }}
-)
-{% endif %}
 ),
 decimals AS (
     SELECT
@@ -343,37 +318,61 @@ ibc_tx_final AS (
         ibc_transfers_agg i
         LEFT JOIN decimals d
         ON i.currency = d.denom_name
+),
+fin AS (
+    SELECT
+        block_id,
+        block_timestamp,
+        tx_id,
+        tx_succeeded,
+        transfer_type,
+        sender,
+        amount,
+        currency,
+        DECIMAL,
+        receiver,
+        msg_index,
+        _inserted_timestamp,
+        _unique_key
+    FROM
+        ibc_tx_final
+    UNION ALL
+    SELECT
+        block_id,
+        block_timestamp,
+        tx_id,
+        tx_succeeded,
+        transfer_type,
+        sender,
+        amount,
+        currency,
+        DECIMAL,
+        receiver,
+        msg_index,
+        _inserted_timestamp,
+        _unique_key
+    FROM
+        axelar_txs_final
 )
 SELECT
-    block_id,
-    block_timestamp,
-    tx_id,
-    tx_succeeded,
-    transfer_type,
-    sender,
-    amount,
-    currency,
-    DECIMAL,
-    receiver,
-    msg_index,
-    _inserted_timestamp,
-    _unique_key
+    A.block_id,
+    A.block_timestamp,
+    A.tx_id,
+    A.tx_succeeded,
+    A.transfer_type,
+    A.sender,
+    A.amount,
+    A.currency,
+    A.decimal,
+    A.receiver,
+    A.msg_index,
+    b.destination_address AS foreign_address,
+    b.destination_chain AS foreign_chain,
+    A._inserted_timestamp,
+    A._unique_key
 FROM
-    ibc_tx_final
-UNION ALL
-SELECT
-    block_id,
-    block_timestamp,
-    tx_id,
-    tx_succeeded,
-    transfer_type,
-    sender,
-    amount,
-    currency,
-    DECIMAL,
-    receiver,
-    msg_index,
-    _inserted_timestamp,
-    _unique_key
-FROM
-    axelar_txs_final
+    fin A
+    LEFT JOIN {{ ref('silver__link_events') }}
+    b
+    ON A.receiver = b.deposit_address
+    AND len(receiver) = 65
