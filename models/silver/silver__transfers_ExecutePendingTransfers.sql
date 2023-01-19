@@ -73,7 +73,23 @@ txn AS (
             attribute_value :: variant
         ) AS j,
         j :sender :: STRING AS sender,
-        j :recipient :: STRING AS receiver
+        j :recipient :: STRING AS receiver,
+        COALESCE(
+            SPLIT_PART(
+                TRIM(
+                    REGEXP_REPLACE(
+                        j :amount,
+                        '[^[:digit:]]',
+                        ' '
+                    )
+                ),
+                ' ',
+                0
+            ),
+            TRY_PARSE_JSON(
+                j :amount
+            ) :amount
+        ) AS amount
     FROM
         base_atts
     WHERE
@@ -91,7 +107,7 @@ txs_final AS (
         'IBC_TRANSFER_IN' AS transfer_type,
         r.msg_index,
         snd.sender AS sender,
-        amount,
+        r.amount,
         currency,
         r.receiver,
         transfer_id,
@@ -118,6 +134,7 @@ txs_final AS (
         ON r.tx_id = snd.tx_id
         AND snd.msg_index < r.msg_index
         AND r.receiver = snd.receiver
+        AND r.amount = snd.amount
 ),
 decimals AS (
     SELECT
