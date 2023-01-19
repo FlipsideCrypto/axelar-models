@@ -10,8 +10,6 @@ WITH base_atts AS (
     SELECT
         block_id,
         block_timestamp,
-        blockchain,
-        chain_id,
         tx_id,
         tx_succeeded,
         msg_index,
@@ -29,7 +27,10 @@ WITH base_atts AS (
         {{ ref('silver__msg_attributes') }},
         LATERAL FLATTEN(TRY_PARSE_JSON(attribute_value), outer => TRUE) b
     WHERE
-        msg_type = 'axelar.axelarnet.v1beta1.AxelarTransferCompleted'
+        msg_type IN (
+            'axelar.axelarnet.v1beta1.AxelarTransferCompleted',
+            'transfer'
+        )
 
 {% if is_incremental() %}
 AND _inserted_timestamp :: DATE >= (
@@ -57,6 +58,26 @@ msg_index AS (
         ) :: STRING AS transfer_id
     FROM
         base_atts v
+    WHERE
+        msg_type = 'axelar.axelarnet.v1beta1.AxelarTransferCompleted'
+    GROUP BY
+        tx_id,
+        msg_index
+),
+txn AS (
+    SELECT
+        tx_id,
+        msg_index,
+        OBJECT_AGG(
+            attribute_key :: STRING,
+            attribute_value :: variant
+        ) AS j,
+        j :sender :: STRING AS sender,
+        j :recipient :: STRING AS receiver
+    FROM
+        base_atts
+    WHERE
+        msg_type = 'transfer'
     GROUP BY
         tx_id,
         msg_index
@@ -65,16 +86,14 @@ txs_final AS (
     SELECT
         block_id,
         block_timestamp,
-        t.blockchain,
-        chain_id,
         r.tx_id,
         tx_succeeded,
-        'BRIDGE_IN' AS transfer_type,
+        'IBC_TRANSFER_IN' AS transfer_type,
         r.msg_index,
-        NULL AS sender,
+        snd.sender AS sender,
         amount,
         currency,
-        receiver,
+        r.receiver,
         transfer_id,
         _inserted_timestamp,
         concat_ws(
@@ -88,8 +107,6 @@ txs_final AS (
             SELECT
                 DISTINCT block_id,
                 block_timestamp,
-                blockchain,
-                chain_id,
                 tx_id,
                 tx_succeeded,
                 _inserted_timestamp
@@ -97,6 +114,10 @@ txs_final AS (
                 base_atts
         ) t
         ON r.tx_id = t.tx_id
+        LEFT JOIN txn snd
+        ON r.tx_id = snd.tx_id
+        AND snd.msg_index < r.msg_index
+        AND r.receiver = snd.receiver
 ),
 decimals AS (
     SELECT
@@ -132,12 +153,10 @@ links AS (
 SELECT
     i.block_id,
     i.block_timestamp,
-    i.blockchain,
-    i.chain_id,
     i.tx_id,
     i.tx_succeeded,
     i.transfer_type,
-    snd.deposit_address AS sender,
+    i.sender,
     i.amount,
     i.currency,
     CASE
@@ -151,6 +170,8 @@ SELECT
     i.receiver,
     msg_index,
     transfer_id,
+    snd.deposit_address AS foreign_address,
+    snd.source_chain AS foreign_chain,
     _inserted_timestamp,
     _unique_key
 FROM
@@ -160,7 +181,8 @@ FROM
     LEFT JOIN (
         SELECT
             destination_address,
-            deposit_address
+            deposit_address,
+            source_chain
         FROM
             links z
             JOIN txs_final x

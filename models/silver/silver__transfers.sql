@@ -10,8 +10,6 @@ WITH base_atts AS (
     SELECT
         block_id,
         block_timestamp,
-        blockchain,
-        chain_id,
         tx_id,
         tx_succeeded,
         _inserted_timestamp,
@@ -182,8 +180,6 @@ axelar_txs_final AS (
             SELECT
                 DISTINCT block_id,
                 block_timestamp,
-                blockchain,
-                chain_id,
                 tx_id,
                 tx_succeeded,
                 _inserted_timestamp
@@ -327,8 +323,6 @@ fin AS (
     SELECT
         block_id,
         block_timestamp,
-        blockchain,
-        chain_id,
         tx_id,
         tx_succeeded,
         transfer_type,
@@ -346,8 +340,6 @@ fin AS (
     SELECT
         block_id,
         block_timestamp,
-        blockchain,
-        chain_id,
         tx_id,
         tx_succeeded,
         transfer_type,
@@ -365,8 +357,6 @@ fin AS (
 SELECT
     A.block_id,
     A.block_timestamp,
-    A.blockchain,
-    A.chain_id,
     A.tx_id,
     A.tx_succeeded,
     A.transfer_type,
@@ -377,6 +367,7 @@ SELECT
     A.receiver,
     A.msg_index,
     b.destination_address AS foreign_address,
+    b.destination_chain AS foreign_chain,
     A._inserted_timestamp,
     A._unique_key
 FROM
