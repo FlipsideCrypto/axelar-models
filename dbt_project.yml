@@ -38,7 +38,11 @@ tests:
 on-run-start:
   - "{{ create_udfs() }}"
 
+on-run-end:
+  - '{{ apply_meta_as_tags(results) }}'
+
 vars:
   "dbt_date:time_zone": GMT
   STREAMLINE_INVOKE_STREAMS: True
   STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES: False
+  "UPDATE_SNOWFLAKE_TAGS": TRUE
