@@ -59,6 +59,8 @@ WITH base AS (
                             DISTINCT block_id
                           FROM
                             {{ ref('silver__blocks') }}
+                          WHERE
+                            block_timestamp :: DATE >= '2023-01-01'
 
 {% if is_incremental() %}
 EXCEPT
@@ -76,7 +78,7 @@ GROUP BY
 )
 )
 WHERE
-  groupID_out < 11
+  groupID_out < 6
 ),
 calls AS (
   SELECT
