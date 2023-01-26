@@ -1,6 +1,6 @@
 {{ config(
     materialized = 'incremental',
-    unique_key = 'block_id',
+    unique_key = 'tx_id',
     cluster_by = ['_inserted_timestamp::date'],
     merge_update_columns = ["block_id"],
 ) }}
@@ -36,14 +36,13 @@ WHERE
 {% else %}
 )
 {% endif %}
-
 SELECT
     VALUE,
     _partition_by_block_id,
     block_number AS block_id,
     metadata,
     DATA,
-    tx_hash :: STRING AS tx_id, 
+    tx_hash :: STRING AS tx_id,
     tx_result,
     TO_TIMESTAMP(
         m._inserted_timestamp
@@ -56,7 +55,6 @@ FROM
     JOIN meta m
     ON m.file_name = metadata$filename
 WHERE
-    DATA: error IS NULL
-    qualify(ROW_NUMBER() over (PARTITION BY block_number
+    DATA: error IS NULL qualify(ROW_NUMBER() over (PARTITION BY tx_hash :: STRING
 ORDER BY
     _inserted_timestamp DESC)) = 1
