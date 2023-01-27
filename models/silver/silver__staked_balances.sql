@@ -1,7 +1,8 @@
 {{ config(
     materialized = 'incremental',
+    unique_key = ["block_id","address","currency"],
     incremental_strategy = 'delete+insert',
-    cluster_by = ['block_timestamp'],
+    cluster_by = ['block_timestamp']
 ) }}
 
 WITH all_staked AS (

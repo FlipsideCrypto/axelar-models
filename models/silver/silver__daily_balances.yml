@@ -18,9 +18,9 @@ models:
             - address
             - currency
             - balance
-          model_condition: "where date = '2022-07-17' 
-                and ADDRESS IN ('osmo195khh6nr3zsvaxkm53wavkxv46uucdlatdux5m','osmo1ka4zctlzr2uee5s29y9qn2rcer3hcaunxvcptc','osmo1fjh798fyn9vqldc8ru09c99r89v5mt3czu4jfp')
-                and balance <> 0"
+          model_condition: "where date'2022-12-25'
+           and address in ('axelar16f45ett9zyn2e0u0ezvj3uarytmza5zx6ngvx7','axelar1yyjzhp0whwnrdu4v3rgjxnjttg8zddmdpkqa4t'
+           ,'axelar10fcdx00j74a0guvfn4dyenwyu4a4capq90d4mf','axelar1wqqgh49meanrvyuexfchm4lhqj5rp4vuu86j9s')"
     columns:
       - name: DATE
         description: The day the balance was recorded on. 

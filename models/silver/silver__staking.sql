@@ -26,7 +26,8 @@ WITH att_base AS (
                 'delegate',
                 'redelegate',
                 'unbond',
-                'message'
+                'message',
+                'create_validator'
             )
             OR attribute_key = 'acc_seq'
         )
@@ -60,7 +61,8 @@ base AS (
         msg_type IN (
             'delegate',
             'redelegate',
-            'unbond'
+            'unbond',
+            'create_validator'
         )
 ),
 msg_attr AS (
@@ -97,7 +99,8 @@ msg_attr AS (
             'delegate',
             'message',
             'redelegate',
-            'unbond'
+            'unbond',
+            'create_validator'
         )
 ),
 tx_address AS (
@@ -224,9 +227,13 @@ prefinal AS (
                 msg_group,
                 msg_index,
                 REPLACE(
-                    msg_type,
-                    'unbond',
-                    'undelegate'
+                    REPLACE(
+                        msg_type,
+                        'unbond',
+                        'undelegate'
+                    ),
+                    'create_validator',
+                    'delegate'
                 ) msg_type,
                 _inserted_timestamp
             FROM
