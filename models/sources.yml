@@ -16,10 +16,11 @@ sources:
     tables: 
       - name: dim_labels
   - name: crosschain
-    database: crosschain
+    database: "{{ 'crosschain' if target.database == 'AXELAR' else 'crosschain_dev' }}"
     schema: core
     tables:
       - name: address_labels
+      - name: dim_dates
   - name: bronze_streamline
     database: streamline
     schema: |
