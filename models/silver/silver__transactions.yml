@@ -29,6 +29,10 @@ models:
         description: "{{ doc('tx_id') }}"
         tests: 
           - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - STRING
+                - VARCHAR
       - name: CODESPACE
         description: "{{ doc('codespace') }}"
       - name: GAS_USED
@@ -51,6 +55,9 @@ models:
         description: "{{ doc('tx_succeeded') }}"
         tests: 
           - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - BOOLEAN
       - name: TX_CODE
         description: "{{ doc('tx_code') }}"
         tests: 
@@ -71,3 +78,6 @@ models:
         description: "{{ doc('inserted_timestamp') }}"
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - TIMESTAMP_NTZ
