@@ -61,4 +61,4 @@ jobs:
           dbt deps
       - name: Run DBT Jobs
         run: |
-          ${{ dbt_command }}
+          ${{ inputs.dbt_command }}
