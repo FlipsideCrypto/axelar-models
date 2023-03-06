@@ -26,7 +26,7 @@ max_date AS (
         {{ this }})
     {% endif %}
     SELECT
-        {{ dbt_utils.surrogate_key(
+        {{ dbt_utils.generate_surrogate_key(
             ['block_number']
         ) }} AS id,
         block_number,
@@ -52,4 +52,3 @@ WHERE
 qualify(ROW_NUMBER() over (PARTITION BY id
 ORDER BY
     _inserted_timestamp DESC)) = 1
-
