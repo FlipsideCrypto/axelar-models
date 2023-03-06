@@ -22,8 +22,7 @@ a_minus_b AS (
     SELECT
         *
     FROM
-        A 
-        except
+        A {{ dbt_utils.except() }}
     SELECT
         *
     FROM
@@ -33,8 +32,7 @@ b_minus_a AS (
     SELECT
         *
     FROM
-        b 
-        except
+        b {{ dbt_utils.except() }}
     SELECT
         *
     FROM
