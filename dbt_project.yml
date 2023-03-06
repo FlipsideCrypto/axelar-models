@@ -6,8 +6,6 @@ name: 'axelar'
 version: '1.0.0'
 config-version: 2
 
-require-dbt-version: ">=1.4.0"
-
 # This setting configures which "profile" dbt uses for this project.
 profile: 'axelar'
 
@@ -48,4 +46,3 @@ vars:
   STREAMLINE_INVOKE_STREAMS: True
   STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES: False
   "UPDATE_SNOWFLAKE_TAGS": True
-  SURROGATE_KEY_TREAT_NULLS_AS_EMPTY_STRINGS: True
