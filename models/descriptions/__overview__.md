@@ -37,6 +37,9 @@ There is more information on how to use dbt docs in the last section of this doc
 - [fact_transfers](#!/model/model.axelar.core__fact_transfers)
 - [fact_validators](#!/model/model.axelar.core__fact_validators)
 
+**EZ Tables:**
+- [ez_satellite](#!/model/model.axelar.core__ez_satellite)
+- [ez_squid](#!/model/model.axelar.core__ez_squid)
 
 ## **Data Model Overview**
 
