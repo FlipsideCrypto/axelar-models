@@ -1,0 +1,53 @@
+version: 2
+models:
+  - name: silver__satellite_axelar
+    columns:
+      - name: BLOCK_NUMBER
+        tests:
+          - not_null  
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - NUMBER    
+      - name: BLOCK_TIMESTAMP
+        tests:
+          - not_null
+          - dbt_expectations.expect_row_values_to_have_recent_data:
+              datepart: day
+              interval: 2
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - TIMESTAMP_NTZ
+      - name: TX_HASH
+        tests:
+          - not_null
+      - name: SOURCE_CHAIN
+        tests:
+          - not_null
+      - name: SENDER
+        tests:
+          - not_null
+      - name: DESTINATION_CHAIN
+        tests:
+          - not_null
+      - name: RECEIVER
+        tests:
+          - not_null
+      - name: TOKEN_ADDRESS
+        tests:
+          - not_null
+      - name: RAW_AMOUNT
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - NUMBER    
+                - FLOAT
+      - name: DEPOSIT_ADDRESS
+        tests:
+          - not_null
+      - name: TRANSFER_ID
+      - name: DESTINATION_TX_HASH
+      - name: RAW_AMOUNT_RECEIVED
+      - name: RAW_AMOUNT_DENOM
+      - name: RAW_FEE_PAID
+      - name: RAW_FEE_DENOM

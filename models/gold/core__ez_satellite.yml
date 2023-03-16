@@ -1,0 +1,42 @@
+version: 2
+models:
+  - name: core__ez_cross_chain_transfers
+    description: This table contains transactions from Arbitrum, Avalanche, Binance Smart Chain (BSC), Ethereum, and Polygon that have interacted with the Squid router contract
+    columns:
+      - name: BLOCK_NUMBER
+        description: "{{ doc('evm_block_number') }}"
+        tests: 
+          - dbt_expectations.expect_column_to_exist
+      - name: BLOCK_TIMESTAMP
+        description: "{{ doc('evm_block_timestamp') }}"
+        tests: 
+          - dbt_expectations.expect_column_to_exist
+      - name: TX_HASH
+        description: "{{ doc('evm_tx_hash') }}"
+        tests: 
+          - dbt_expectations.expect_column_to_exist
+      - name: EOA
+        description: "{{ doc('evm_eoa') }}"
+        tests: 
+          - dbt_expectations.expect_column_to_exist
+      - name: TOKEN_ADDRESS
+        description: "{{ doc('evm_token_address') }}"
+        tests: 
+          - dbt_expectations.expect_column_to_exist
+      - name: AMOUNT
+        description: "{{ doc('amount') }}"
+        tests: 
+          - dbt_expectations.expect_column_to_exist
+      - name: TOKEN_SYMBOL
+        description: "{{ doc('symbol') }}"
+        tests: 
+          - dbt_expectations.expect_column_to_exist
+      - name: SOURCE_CHAIN
+        description: "{{ doc('evm_source_chain') }}"
+        tests: 
+          - dbt_expectations.expect_column_to_exist
+          - not_null
+      - name: DESTINATION_CHAIN
+        description: "{{ doc('evm_destination_chain') }}"
+        tests: 
+          - dbt_expectations.expect_column_to_exist
