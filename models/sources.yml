@@ -34,3 +34,58 @@ sources:
     schema: silver
     tables: 
       - name: asset_metadata
+  - name: arbitrum_silver
+    database: arbitrum
+    schema: silver
+    tables: 
+      - name: contracts
+      - name: logs
+      - name: transfers
+  - name: avalanche_silver
+    database: avalanche
+    schema: silver
+    tables: 
+      - name: contracts
+      - name: logs
+      - name: transfers
+  - name: bsc_silver
+    database: bsc
+    schema: silver
+    tables: 
+      - name: logs
+      - name: transfers
+  - name: ethereum_silver
+    database: ethereum
+    schema: silver
+    tables: 
+      - name: contracts
+      - name: decoded_logs
+      - name: logs
+      - name: transfers
+  - name: polygon_silver
+    database: polygon
+    schema: silver
+    tables: 
+      - name: contracts
+      - name: logs
+      - name: transfers
+  - name: arbitrum
+    database: arbitrum
+    schema: core
+    tables: 
+      - name: dim_contracts
+  - name: avalanche
+    database: avalanche
+    schema: core
+    tables: 
+      - name: dim_contracts
+  - name: ethereum
+    database: ethereum
+    schema: core
+    tables: 
+      - name: dim_contracts
+  - name: polygon
+    database: polygon
+    schema: core
+    tables: 
+      - name: dim_contracts
