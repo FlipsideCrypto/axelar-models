@@ -82,7 +82,10 @@ SELECT
     C.origin_from_address AS sender,
     b.token_address,
     A.decoded_flat :amount :: DECIMAL AS raw_amount,
-    A.decoded_flat :symbol :: STRING AS token_symbol,
+    REGEXP_REPLACE(
+        A.decoded_flat :symbol :: STRING,
+        '[^a-zA-Z0-9]+'
+    ) AS token_symbol,
     LOWER(
         REGEXP_REPLACE(
             A.decoded_flat :destinationChain :: STRING,

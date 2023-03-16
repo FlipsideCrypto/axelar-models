@@ -176,7 +176,10 @@ nonevm_fix_data AS (
         eoa AS sender,
         token_address,
         raw_amount :: DECIMAL AS raw_amount,
-        token_symbol,
+        REGEXP_REPLACE(
+            token_symbol,
+            '[^a-zA-Z0-9]+'
+        ) AS token_symbol,
         CASE
             WHEN LOWER(REGEXP_REPLACE(destination_chain, '[^a-zA-Z0-9]+')) = 'avalanch' THEN 'avalanche'
             ELSE LOWER(REGEXP_REPLACE(destination_chain, '[^a-zA-Z0-9]+'))
