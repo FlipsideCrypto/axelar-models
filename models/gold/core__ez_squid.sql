@@ -18,7 +18,7 @@ SELECT
         )
         ELSE NULL
     END AS amount,
-    'Arbitrum' AS source_chain,
+    'arbitrum' AS source_chain,
     destination_chain
 FROM
     {{ ref('silver__squid_arbitrum') }} A
@@ -43,7 +43,7 @@ SELECT
         )
         ELSE NULL
     END AS amount,
-    'Avalanche' AS source_chain,
+    'avalanche' AS source_chain,
     destination_chain
 FROM
     {{ ref('silver__squid_avalanche') }} A
@@ -68,7 +68,7 @@ SELECT
         )
         ELSE NULL
     END AS amount,
-    'Binance' AS source_chain,
+    'binance' AS source_chain,
     destination_chain
 FROM
     {{ ref('silver__squid_bsc') }} A
@@ -87,7 +87,7 @@ SELECT
         )
         ELSE NULL
     END AS amount,
-    'Ethereum' AS source_chain,
+    'ethereum' AS source_chain,
     destination_chain
 FROM
     {{ ref('silver__squid_ethereum') }} A
@@ -112,7 +112,7 @@ SELECT
         )
         ELSE NULL
     END AS amount,
-    'Polygon' AS source_chain,
+    'polygon' AS source_chain,
     destination_chain
 FROM
     {{ ref('silver__squid_polygon') }} A
