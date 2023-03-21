@@ -23,6 +23,11 @@ WITH axel_dec AS (
             'asset_metadata'
         ) }}
         b
+    UNION
+    SELECT
+        'uusd',
+        6,
+        'UST'
 )
 SELECT
     block_number,
