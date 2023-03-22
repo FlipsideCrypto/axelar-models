@@ -35,6 +35,46 @@ AND _inserted_timestamp :: DATE >= (
 )
 {% endif %}
 ),
+decode_base AS (
+    SELECT
+        DISTINCT block_number,
+        tx_hash,
+        decoded_flat :amount AS amount,
+        decoded_flat :destinationChain AS destinationChain,
+        decoded_flat :symbol AS symbol
+    FROM
+        {{ source(
+            'polygon_silver',
+            'decoded_logs'
+        ) }}
+    WHERE
+        ROUND(
+            block_number,
+            -3
+        ) >= 35046000
+        AND (
+            (
+                event_name = 'ContractCallWithToken'
+                AND contract_address = '0x6f015f16de9fc8791b234ef68d486d2bf203fba8'
+            )
+            OR (
+                event_name = 'NativeGasPaidForContractCallWithToken'
+                AND contract_address = '0x2d5d7d31f671f86c782533cc367f14109a082712'
+            )
+        )
+
+{% if is_incremental() %}
+AND ROUND(
+    block_number,
+    -3
+) >= (
+    SELECT
+        MAX(ROUND(block_number, -3))
+    FROM
+        {{ this }}
+)
+{% endif %}
+),
 squid_to_burn AS (
     SELECT
         block_number,
@@ -59,26 +99,17 @@ all_transfers AS (
         A.eoa,
         A.token_address,
         A.raw_amount,
-        TRY_HEX_DECODE_STRING(SUBSTR(b.data, 3 + (64 * 6), 16)) AS destination_chain,
-        TRY_HEX_DECODE_STRING(RIGHT(b.data, 64)) AS token_symbol,
+        b.destinationchain :: STRING AS destination_chain,
+        b.symbol :: STRING AS token_symbol,
         _inserted_timestamp
     FROM
         squid_to_burn A
-        LEFT JOIN (
-            SELECT
-                b.data,
-                b.tx_hash,
-                b.block_number
-            FROM
-                logs_base b
-            WHERE
-                b.topics [0] = '0x999d431b58761213cf53af96262b67a069cbd963499fd8effd1e21556217b841'
-        ) b
+        LEFT JOIN decode_base b
         ON A.tx_hash = b.tx_hash
         AND A.block_number = b.block_number
     WHERE
         raw_amount IS NOT NULL
-),
+) {# ,
 evm_transfers AS (
     SELECT
         A.block_number,
@@ -142,45 +173,46 @@ nonevm_fix_data AS (
                 JOIN nonevm_fix_data b
                 ON A.tx_hash = b.tx_hash
         ),
-        arb_result AS (
-            SELECT
-                block_number,
-                block_timestamp,
-                tx_hash,
-                eoa,
-                token_address,
-                raw_amount :: DECIMAL AS raw_amount,
-                token_symbol,
-                destination_chain,
-                _inserted_timestamp
-            FROM
-                evm_transfers
-            UNION ALL
-            SELECT
-                block_number,
-                block_timestamp,
-                tx_hash,
-                eoa,
-                token_address,
-                raw_amount,
-                token_symbol,
-                destination_chain,
-                _inserted_timestamp
-            FROM
-                non_evm_fix
-        )
+        #}
+        {# arb_result AS (
     SELECT
-        A.block_number,
+        block_number,
         block_timestamp,
-        A.tx_hash,
-        eoa AS sender,
+        tx_hash,
+        eoa,
         token_address,
         raw_amount :: DECIMAL AS raw_amount,
-        REGEXP_REPLACE(
-            token_symbol,
-            '[^a-zA-Z0-9]+'
-        ) AS token_symbol,
-        LOWER(REGEXP_REPLACE(destination_chain, '[^a-zA-Z0-9]+')) AS destination_chain,
+        token_symbol,
+        destination_chain,
         _inserted_timestamp
     FROM
-        arb_result A
+        evm_traansfers
+    UNION ALL
+    SELECT
+        block_number,
+        block_timestamp,
+        tx_hash,
+        eoa,
+        token_address,
+        raw_amount,
+        token_symbol,
+        destination_chain,
+        _inserted_timestamp
+    FROM
+        non_evm_fix
+) #}
+SELECT
+    A.block_number,
+    block_timestamp,
+    A.tx_hash,
+    eoa AS sender,
+    token_address,
+    raw_amount :: DECIMAL AS raw_amount,
+    REGEXP_REPLACE(
+        token_symbol,
+        '[^a-zA-Z0-9]+'
+    ) AS token_symbol,
+    LOWER(REGEXP_REPLACE(destination_chain, '[^a-zA-Z0-9]+')) AS destination_chain,
+    _inserted_timestamp
+FROM
+    all_transfers A
