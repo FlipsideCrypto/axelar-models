@@ -2,7 +2,7 @@
     materialized = 'incremental',
     unique_key = "tx_hash",
     incremental_strategy = 'merge',
-    cluster_by = 'block_timestamp::DATE'
+    cluster_by = 'block_timestamp::DATE',
 ) }}
 
 WITH logs_base AS (
@@ -59,10 +59,7 @@ all_transfers AS (
         A.eoa,
         A.token_address,
         A.raw_amount,
-        NULLIF(
-            TRY_HEX_DECODE_STRING(SUBSTR(b.data, 3 + (64 * 6), 16)),
-            ''
-        ) AS destination_chain,
+        TRY_HEX_DECODE_STRING(SUBSTR(b.data, 3 + (64 * 7), 16)) AS destination_chain,
         TRY_HEX_DECODE_STRING(RIGHT(b.data, 64)) AS token_symbol,
         _inserted_timestamp
     FROM
@@ -81,7 +78,7 @@ all_transfers AS (
         AND A.block_number = b.block_number
     WHERE
         raw_amount IS NOT NULL
-) {# ,
+),
 evm_transfers AS (
     SELECT
         A.block_number,
@@ -145,53 +142,45 @@ nonevm_fix_data AS (
                 JOIN nonevm_fix_data b
                 ON A.tx_hash = b.tx_hash
         ),
-        #}
-        {# arb_result AS (
+        arb_result AS (
+            SELECT
+                block_number,
+                block_timestamp,
+                tx_hash,
+                eoa,
+                token_address,
+                raw_amount :: DECIMAL AS raw_amount,
+                token_symbol,
+                destination_chain,
+                _inserted_timestamp
+            FROM
+                evm_transfers
+            UNION ALL
+            SELECT
+                block_number,
+                block_timestamp,
+                tx_hash,
+                eoa,
+                token_address,
+                raw_amount,
+                token_symbol,
+                destination_chain,
+                _inserted_timestamp
+            FROM
+                non_evm_fix
+        )
     SELECT
-        block_number,
+        A.block_number,
         block_timestamp,
-        tx_hash,
-        eoa,
+        A.tx_hash,
+        eoa AS sender,
         token_address,
         raw_amount :: DECIMAL AS raw_amount,
-        token_symbol,
-        destination_chain,
-        _inserted_timestamp
-    FROM
-        evm_traansfers
-    UNION ALL
-    SELECT
-        block_number,
-        block_timestamp,
-        tx_hash,
-        eoa,
-        token_address,
-        raw_amount,
-        token_symbol,
-        destination_chain,
-        _inserted_timestamp
-    FROM
-        non_evm_fix
-) #}
-SELECT
-    A.block_number,
-    block_timestamp,
-    A.tx_hash,
-    eoa AS sender,
-    token_address,
-    raw_amount :: DECIMAL AS raw_amount,
-    REGEXP_REPLACE(
-        A.token_symbol,
-        '[^a-zA-Z0-9]+'
-    ) AS token_symbol,
-    LOWER(
         REGEXP_REPLACE(
-            A.destination_chain,
+            token_symbol,
             '[^a-zA-Z0-9]+'
-        )
-    ) AS destination_chain,
-    _inserted_timestamp
-FROM
-    all_transfers A {# LEFT JOIN decode_base b
-    ON A.tx_hash = b.tx_hash
-    AND A.block_number = b.block_number #}
+        ) AS token_symbol,
+        LOWER(REGEXP_REPLACE(destination_chain, '[^a-zA-Z0-9]+')) AS destination_chain,
+        _inserted_timestamp
+    FROM
+        arb_result A
