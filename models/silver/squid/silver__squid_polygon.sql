@@ -59,7 +59,7 @@ all_transfers AS (
         A.eoa,
         A.token_address,
         A.raw_amount,
-        TRY_HEX_DECODE_STRING(SUBSTR(b.data, 3 + (64 * 6), 16)) AS destination_chain,
+        TRY_HEX_DECODE_STRING(SUBSTR(b.data, 3 + (64 * 7), 16)) AS destination_chain,
         TRY_HEX_DECODE_STRING(RIGHT(b.data, 64)) AS token_symbol,
         _inserted_timestamp
     FROM
