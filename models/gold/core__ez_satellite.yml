@@ -15,7 +15,7 @@ models:
         description: "{{ doc('evm_tx_hash') }}"
         tests: 
           - dbt_expectations.expect_column_to_exist
-      - name: EOA
+      - name: SENDER
         description: "{{ doc('evm_eoa') }}"
         tests: 
           - dbt_expectations.expect_column_to_exist
