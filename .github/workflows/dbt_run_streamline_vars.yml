@@ -28,7 +28,7 @@ jobs:
     uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template_vars.yml@main
     with:
       dbt_command: >
-        dbt seed; dbt run -s tag:helper tag:load+ tag:api --exclude streamline__s3_sync
-      environment: workflow_prod
-      warehouse: "${{ github.env.WAREHOUSE }}"
+        dbt run -m 1+models/streamline/streamline__validators_realtime.sql
+      environment: workflow_dev
+      warehouse: "${{ vars.WAREHOUSE }}"
     secrets: inherit 
