@@ -26,3 +26,4 @@ FROM
     ) }}
 ORDER BY
     1 ASC
+LIMIT 100
