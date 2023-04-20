@@ -40,3 +40,7 @@ models:
         description: "{{ doc('evm_destination_chain') }}"
         tests: 
           - dbt_expectations.expect_column_to_exist
+      - name: RECEIVER
+        description: "The wallet address of the individual received tokens in the transfer. For EVM to EVM it will be the sender for EVM to IBC it will be the IBC chain's address"
+        tests: 
+          - dbt_expectations.expect_column_to_exist
