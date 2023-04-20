@@ -93,6 +93,15 @@ SELECT
         )
     ) AS destination_chain,
     A.decoded_flat :sender :: STRING AS xfer_sender,
+    COALESCE(
+        LOWER(
+            REGEXP_REPLACE(
+                A.decoded_flat :destinationAddress :: STRING,
+                '[^a-zA-Z0-9]+'
+            )
+        ),
+        sender
+    ) AS receiver,
     _inserted_timestamp
 FROM
     dec_logs_base A

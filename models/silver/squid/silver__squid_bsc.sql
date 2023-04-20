@@ -136,6 +136,11 @@ nonevm_fix_data AS (
                 TRY_HEX_DECODE_STRING(
                     DATA [5]
                 ) AS destination_chain,
+                TRY_HEX_DECODE_STRING(
+                    DATA [7]
+                ) || TRY_HEX_DECODE_STRING(
+                    DATA [8]
+                ) AS receiver,
                 _inserted_timestamp
             FROM
                 nonevm_transfers A
@@ -152,6 +157,7 @@ nonevm_fix_data AS (
                 raw_amount :: DECIMAL AS raw_amount,
                 token_symbol,
                 destination_chain,
+                eoa AS receiver,
                 _inserted_timestamp
             FROM
                 evm_transfers
@@ -165,6 +171,7 @@ nonevm_fix_data AS (
                 raw_amount,
                 token_symbol,
                 destination_chain,
+                receiver,
                 _inserted_timestamp
             FROM
                 non_evm_fix
@@ -181,6 +188,7 @@ nonevm_fix_data AS (
             '[^a-zA-Z0-9]+'
         ) AS token_symbol,
         LOWER(REGEXP_REPLACE(destination_chain, '[^a-zA-Z0-9]+')) AS destination_chain,
+        LOWER(receiver) AS receiver,
         _inserted_timestamp
     FROM
         arb_result A

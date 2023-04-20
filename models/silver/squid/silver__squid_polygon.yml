@@ -44,6 +44,9 @@ models:
       - name: DESTINATION_CHAIN
         tests:
           - not_null
+      - name: RECEIVER
+        tests:
+          - not_null
       - name: _INSERTED_TIMESTAMP
         description: "{{ doc('inserted_timestamp') }}"
         tests:
