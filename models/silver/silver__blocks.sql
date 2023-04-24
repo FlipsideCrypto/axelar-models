@@ -4,56 +4,66 @@
     incremental_strategy = 'delete+insert',
     cluster_by = ['block_timestamp::DATE'],
 ) }}
+-- depends_on: {{ ref('streamline__blocks_history') }}
+-- depends_on: {{ ref('streamline__blocks_history_FR') }}
 
 SELECT
-    block_id,
+    block_number AS block_id,
     COALESCE(
-        data :result :block :header :time :: TIMESTAMP,
-        data :block :header :time :: TIMESTAMP,
-        data :result :block :header :timestamp :: TIMESTAMP,
-        data :block :header :timestamp :: TIMESTAMP
+        DATA :result :block :header :time :: TIMESTAMP,
+        DATA :block :header :time :: TIMESTAMP,
+        DATA :result :block :header :timestamp :: TIMESTAMP,
+        DATA :block :header :timestamp :: TIMESTAMP
     ) AS block_timestamp,
     COALESCE(
-        data :result :block :header :chain_id :: STRING,
-        data :block :header :chain_id :: STRING
+        DATA :result :block :header :chain_id :: STRING,
+        DATA :block :header :chain_id :: STRING
     ) AS chain_id,
     COALESCE(
         ARRAY_SIZE(
-            data :result :block :data :txs
+            DATA :result :block :data :txs
         ) :: NUMBER,
         ARRAY_SIZE(
-            data :block :data :txs
+            DATA :block :data :txs
         ) :: NUMBER
     ) AS tx_count,
     COALESCE(
-        data :result :block :header :proposer_address :: STRING,
-        data :block :header :proposer_address :: STRING
+        DATA :result :block :header :proposer_address :: STRING,
+        DATA :block :header :proposer_address :: STRING
     ) AS proposer_address,
     COALESCE(
-        data :result :block :header :validators_hash :: STRING,
-        data :block :header :validators_hash :: STRING
+        DATA :result :block :header :validators_hash :: STRING,
+        DATA :block :header :validators_hash :: STRING
     ) AS validator_hash,
     COALESCE(
-        data :result :block :header,
-        data :block :header
+        DATA :result :block :header,
+        DATA :block :header
     ) AS header,
-    _inserted_timestamp,
+    TO_TIMESTAMP(
+        _inserted_timestamp
+    ) AS _inserted_timestamp,
     concat_ws(
         '-',
         chain_id,
         block_id
     ) AS _unique_key
 FROM
-    {{ ref('bronze__blocks') }}
-WHERE
-    value :data :error IS NULL
-    AND data :error IS NULL
 
 {% if is_incremental() %}
-AND _inserted_timestamp :: DATE >= (
-    SELECT
-        MAX(_inserted_timestamp) :: DATE - 2
-    FROM
-        {{ this }}
-)
+{{ ref('streamline__blocks_history') }}
+WHERE
+    _inserted_timestamp >= (
+        SELECT
+            MAX(_inserted_timestamp)
+        FROM
+            {{ this }}
+    )
+{% else %}
+    {{ ref('streamline__blocks_history_FR') }}
+WHERE
+    1 = 1
 {% endif %}
+AND VALUE :data :error IS NULL
+AND DATA :error IS NULL qualify(ROW_NUMBER() over (PARTITION BY block_number
+ORDER BY
+    _inserted_timestamp DESC)) = 1
