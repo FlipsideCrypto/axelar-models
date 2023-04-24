@@ -60,10 +60,8 @@ WHERE
     )
 {% else %}
     {{ ref('streamline__blocks_history_FR') }}
-WHERE
-    1 = 1
 {% endif %}
-AND VALUE :data :error IS NULL
-AND DATA :error IS NULL qualify(ROW_NUMBER() over (PARTITION BY block_number
+
+qualify(ROW_NUMBER() over (PARTITION BY block_number
 ORDER BY
     _inserted_timestamp DESC)) = 1

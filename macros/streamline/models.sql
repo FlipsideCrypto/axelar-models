@@ -38,22 +38,7 @@
             AND b.{{ partition_name }} = s.{{ partition_name }}
         WHERE
             b.{{ partition_name }} = s.{{ partition_name }}
-            AND (
-                DATA :error :code IS NULL
-                OR DATA :error :code NOT IN (
-                    '-32000',
-                    '-32001',
-                    '-32002',
-                    '-32003',
-                    '-32004',
-                    '-32005',
-                    '-32006',
-                    '-32007',
-                    '-32008',
-                    '-32009',
-                    '-32010'
-                )
-            )
+            AND DATA :error :code IS NULL
 {% endmacro %}
 
 {% macro streamline_external_table_FR_query(
@@ -96,20 +81,5 @@ FROM
     AND b.{{ partition_name }} = s.{{ partition_name }}
 WHERE
     b.{{ partition_name }} = s.{{ partition_name }}
-    AND (
-        DATA :error :code IS NULL
-        OR DATA :error :code NOT IN (
-            '-32000',
-            '-32001',
-            '-32002',
-            '-32003',
-            '-32004',
-            '-32005',
-            '-32006',
-            '-32007',
-            '-32008',
-            '-32009',
-            '-32010'
-        )
-    )
+    AND DATA :error :code IS NULL
 {% endmacro %}

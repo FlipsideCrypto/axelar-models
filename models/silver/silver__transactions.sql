@@ -38,10 +38,9 @@ WHERE
     )
 {% else %}
     {{ ref('streamline__txs_history_FR') }}
-WHERE
-    1 = 1
 {% endif %}
-AND DATA :error IS NULL qualify(ROW_NUMBER() over (PARTITION BY DATA :hash :: STRING
+
+qualify(ROW_NUMBER() over (PARTITION BY DATA :hash :: STRING
 ORDER BY
     _inserted_timestamp DESC)) = 1
 )
