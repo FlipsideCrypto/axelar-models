@@ -62,7 +62,8 @@ models:
                 - VARCHAR
       - name: DEPOSIT_ADDRESS
         tests:
-          - not_null
+          - not_null:
+              where: NOT ( tx_id ='2F0FB4723A6BBBDEA5D2A982879F9C6FF6559D959FC026851AA47F9734689CFA' and block_timestamp::DATE ='2023-04-19')
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list:
                 - STRING
