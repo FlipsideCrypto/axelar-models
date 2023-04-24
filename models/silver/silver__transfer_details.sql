@@ -44,7 +44,6 @@ WITH base_atts AS (
             tx_id = '2F0FB4723A6BBBDEA5D2A982879F9C6FF6559D959FC026851AA47F9734689CFA'
             AND block_timestamp :: DATE = '2023-04-19'
         )
-)
 
 {% if is_incremental() %}
 AND _inserted_timestamp :: DATE >= (
