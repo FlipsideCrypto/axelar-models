@@ -11,10 +11,9 @@ WITH logs_base AS (
         block_number,
         block_timestamp,
         tx_hash,
-        event_name,
+        event_index,
         origin_from_address,
         contract_address,
-        event_inputs,
         topics,
         DATA,
         _inserted_timestamp
@@ -35,35 +34,65 @@ AND _inserted_timestamp :: DATE >= (
 )
 {% endif %}
 ),
+deco_logs_base AS (
+    SELECT
+        block_number,
+        tx_hash,
+        event_index,
+        event_name,
+        decoded_flat,
+        _inserted_timestamp
+    FROM
+        {{ source(
+            'avalanche_silver',
+            'decoded_logs'
+        ) }}
+    WHERE
+        ROUND(
+            block_number,
+            -3
+        ) >= 21794000
+
+{% if is_incremental() %}
+AND block_number >= (
+    SELECT
+        MAX(block_number)
+    FROM
+        {{ this }}
+)
+{% endif %}
+),
 squid_to_burn AS (
     SELECT
         block_number,
-        block_timestamp,
         tx_hash,
-        origin_from_address AS eoa,
-        contract_address AS token_address,
-        event_inputs :value AS raw_amount,
+        event_index,
+        decoded_flat :value AS raw_amount,
         _inserted_timestamp
     FROM
-        logs_base
+        deco_logs_base
     WHERE
         event_name = 'Transfer'
-        AND event_inputs :from = '0xce16f69375520ab01377ce7b88f5ba8c48f8d666'
-        AND event_inputs :to = '0x0000000000000000000000000000000000000000'
+        AND decoded_flat :from = '0xce16f69375520ab01377ce7b88f5ba8c48f8d666'
+        AND decoded_flat :to = '0x0000000000000000000000000000000000000000'
 ),
 all_transfers AS (
     SELECT
         A.block_number,
-        A.block_timestamp,
+        lb.block_timestamp,
         A.tx_hash,
-        A.eoa,
-        A.token_address,
+        lb.origin_from_address AS eoa,
+        lb.contract_address AS token_address,
         A.raw_amount,
         TRY_HEX_DECODE_STRING(SUBSTR(b.data, 3 + (64 * 6), 16)) AS destination_chain,
         TRY_HEX_DECODE_STRING(RIGHT(b.data, 64)) AS token_symbol,
-        _inserted_timestamp
+        A._inserted_timestamp
     FROM
         squid_to_burn A
+        JOIN logs_base lb
+        ON A.tx_hash = lb.tx_hash
+        AND A.block_number = lb.block_number
+        AND A.event_index = lb.event_index
         LEFT JOIN (
             SELECT
                 b.data,
