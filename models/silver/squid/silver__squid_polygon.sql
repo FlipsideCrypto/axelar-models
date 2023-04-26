@@ -5,22 +5,24 @@
     cluster_by = 'block_timestamp::DATE',
 ) }}
 
-WITH logs_base AS (
+WITH deco_logs_base AS (
 
     SELECT
         block_number,
         block_timestamp,
         tx_hash,
-        event_index,
         origin_from_address,
         contract_address,
         topics,
         DATA,
+        event_index,
+        event_name,
+        decoded_flat,
         _inserted_timestamp
     FROM
         {{ source(
             'polygon_silver',
-            'logs'
+            'decoded_logs_full'
         ) }}
     WHERE
         block_timestamp :: DATE >= '2022-11-01'
@@ -34,39 +36,14 @@ AND _inserted_timestamp :: DATE >= (
 )
 {% endif %}
 ),
-deco_logs_base AS (
-    SELECT
-        block_number,
-        tx_hash,
-        event_index,
-        event_name,
-        decoded_flat,
-        _inserted_timestamp
-    FROM
-        {{ source(
-            'polygon_silver',
-            'decoded_logs'
-        ) }}
-    WHERE
-        ROUND(
-            block_number,
-            -3
-        ) >= 35046000
-
-{% if is_incremental() %}
-AND block_number >= (
-    SELECT
-        MAX(block_number)
-    FROM
-        {{ this }}
-)
-{% endif %}
-),
 squid_to_burn AS (
     SELECT
         block_number,
+        block_timestamp,
         tx_hash,
         event_index,
+        origin_from_address AS eoa,
+        contract_address AS token_address,
         decoded_flat :value AS raw_amount,
         _inserted_timestamp
     FROM
@@ -79,27 +56,23 @@ squid_to_burn AS (
 all_transfers AS (
     SELECT
         A.block_number,
-        lb.block_timestamp,
+        A.block_timestamp,
         A.tx_hash,
-        lb.origin_from_address AS eoa,
-        lb.contract_address AS token_address,
+        A.eoa,
+        A.token_address,
         A.raw_amount,
         TRY_HEX_DECODE_STRING(SUBSTR(b.data, 3 + (64 * 7), 16)) AS destination_chain,
         TRY_HEX_DECODE_STRING(RIGHT(b.data, 64)) AS token_symbol,
         A._inserted_timestamp
     FROM
         squid_to_burn A
-        JOIN logs_base lb
-        ON A.tx_hash = lb.tx_hash
-        AND A.block_number = lb.block_number
-        AND A.event_index = lb.event_index
         LEFT JOIN (
             SELECT
                 b.data,
                 b.tx_hash,
                 b.block_number
             FROM
-                logs_base b
+                deco_logs_base b
             WHERE
                 b.topics [0] = '0x999d431b58761213cf53af96262b67a069cbd963499fd8effd1e21556217b841'
         ) b
@@ -145,7 +118,7 @@ nonevm_fix_data AS (
         A.tx_hash,
         regexp_substr_all(SUBSTR(DATA, 3, len(DATA)), '.{64}') AS DATA
     FROM
-        logs_base A
+        deco_logs_base A
         JOIN nonevm_transfers b
         ON A.tx_hash = b.tx_hash
         AND A.block_number = b.block_number
