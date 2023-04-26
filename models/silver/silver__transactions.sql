@@ -5,13 +5,12 @@
     cluster_by = 'block_timestamp::DATE',
     post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION",
 ) }}
--- depends_on: {{ ref('streamline__txs_history') }}
--- depends_on: {{ ref('streamline__txs_history_FR') }}
+
 WITH base_table AS (
 
     SELECT
-        block_number AS block_id,
-        DATA :hash :: STRING AS tx_id,
+        block_id,
+        tx_id,
         DATA :tx_result :codespace AS codespace,
         DATA :tx_result :gas_used :: NUMBER AS gas_used,
         DATA :tx_result :gas_wanted :: NUMBER AS gas_wanted,
@@ -22,25 +21,22 @@ WITH base_table AS (
         DATA :tx_result :code :: NUMBER AS tx_code,
         DATA :tx_result :events AS msgs,
         DATA :tx_result :log AS tx_log,
-        TO_TIMESTAMP(
-            _inserted_timestamp
-        ) AS _inserted_timestamp
+        _inserted_timestamp
     FROM
+        {{ ref('bronze__transactions') }}
+    WHERE
+        DATA :error :code IS NULL
 
 {% if is_incremental() %}
-{{ ref('streamline__txs_history') }}
-WHERE
-    _inserted_timestamp >= (
-        SELECT
-            MAX(_inserted_timestamp)
-        FROM
-            {{ this }}
-    )
-{% else %}
-    {{ ref('streamline__txs_history_FR') }}
+AND _inserted_timestamp >= (
+    SELECT
+        MAX(_inserted_timestamp)
+    FROM
+        {{ this }}
+)
 {% endif %}
 
-qualify(ROW_NUMBER() over (PARTITION BY DATA :hash :: STRING
+qualify(ROW_NUMBER() over (PARTITION BY tx_id
 ORDER BY
     _inserted_timestamp DESC)) = 1
 )

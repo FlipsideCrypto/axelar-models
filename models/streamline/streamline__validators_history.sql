@@ -1,9 +1,54 @@
 {{ config (
-    materialized = 'view'
+    materialized = "incremental",
+    unique_key = "id",
+    cluster_by = "ROUND(block_number, -3)",
+    merge_update_columns = ["id"]
 ) }}
-{{ streamline_external_table_query(
-    model = "validators",
-    partition_function = "CAST(SPLIT_PART(SPLIT_PART(file_name, '/', 3), '_', 1) AS INTEGER)",
-    partition_name = "_partition_by_block_id",
-    unique_key = "block_number"
-) }}
+
+WITH meta AS (
+
+    SELECT
+        last_modified,
+        file_name
+    FROM
+        TABLE(
+            information_schema.external_table_files(
+                table_name => '{{ source( "bronze", "validators") }}'
+            )
+        ) A
+)
+
+{% if is_incremental() %},
+max_date AS (
+    SELECT
+        COALESCE(MAX(_INSERTED_TIMESTAMP), '1970-01-01' :: DATE) max_INSERTED_TIMESTAMP
+    FROM
+        {{ this }})
+    {% endif %}
+    SELECT
+        {{ dbt_utils.generate_surrogate_key(
+            ['block_number']
+        ) }} AS id,
+        block_number,
+        last_modified AS _inserted_timestamp
+    FROM
+        {{ source(
+            "bronze",
+            "validators"
+        ) }}
+        JOIN meta b
+        ON b.file_name = metadata$filename
+
+{% if is_incremental() %}
+WHERE
+    b.last_modified > (
+        SELECT
+            max_INSERTED_TIMESTAMP
+        FROM
+            max_date
+    )
+{% endif %}
+
+qualify(ROW_NUMBER() over (PARTITION BY id
+ORDER BY
+    _inserted_timestamp DESC)) = 1

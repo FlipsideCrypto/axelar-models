@@ -4,11 +4,9 @@
     incremental_strategy = 'delete+insert',
     cluster_by = ['block_timestamp::DATE'],
 ) }}
--- depends_on: {{ ref('streamline__blocks_history') }}
--- depends_on: {{ ref('streamline__blocks_history_FR') }}
 
 SELECT
-    block_number AS block_id,
+    block_id,
     COALESCE(
         DATA :result :block :header :time :: TIMESTAMP,
         DATA :block :header :time :: TIMESTAMP,
@@ -39,29 +37,26 @@ SELECT
         DATA :result :block :header,
         DATA :block :header
     ) AS header,
-    TO_TIMESTAMP(
-        _inserted_timestamp
-    ) AS _inserted_timestamp,
+    _inserted_timestamp,
     concat_ws(
         '-',
         chain_id,
         block_id
     ) AS _unique_key
 FROM
+    {{ ref('bronze__blocks') }}
+WHERE
+    DATA :error :code IS NULL
 
 {% if is_incremental() %}
-{{ ref('streamline__blocks_history') }}
-WHERE
-    _inserted_timestamp >= (
-        SELECT
-            MAX(_inserted_timestamp)
-        FROM
-            {{ this }}
-    )
-{% else %}
-    {{ ref('streamline__blocks_history_FR') }}
+AND _inserted_timestamp >= (
+    SELECT
+        MAX(_inserted_timestamp) :: DATE - 1
+    FROM
+        {{ this }}
+)
 {% endif %}
 
-qualify(ROW_NUMBER() over (PARTITION BY block_number
+qualify(ROW_NUMBER() over (PARTITION BY block_id
 ORDER BY
     _inserted_timestamp DESC)) = 1

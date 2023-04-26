@@ -22,7 +22,7 @@ SELECT
     block_number
 FROM
     {{ ref(
-        "streamline__validators_history_FR"
+        "streamline__validators_history"
     ) }}
 ORDER BY
     1 ASC

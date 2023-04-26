@@ -24,7 +24,7 @@ WHERE
             block_number
         FROM
             {{ ref(
-                "streamline__txs_history_FR"
+                "streamline__txs_history"
             ) }}
         GROUP BY
             1

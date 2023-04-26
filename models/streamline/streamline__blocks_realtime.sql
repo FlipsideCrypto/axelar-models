@@ -22,7 +22,7 @@ SELECT
     block_number
 FROM
     {{ ref(
-        "streamline__blocks_history_FR"
+        "streamline__blocks_history"
     ) }}
 ORDER BY
     1 ASC
