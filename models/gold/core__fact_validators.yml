@@ -56,11 +56,11 @@ models:
         tests: 
           - dbt_expectations.expect_column_to_exist
       - name: MIN_SELF_DELEGATION
-        description: The minimum number of OSMO tokens that the operator must be staking with their own validator
+        description: The minimum number of AXL tokens that the operator must be staking with their own validator
         tests: 
           - dbt_expectations.expect_column_to_exist
       - name: RANK
-        description: The rank of the validator in the validator set. Rank is determined by the number of OSMO tokens staked to the validator
+        description: The rank of the validator in the validator set. Rank is determined by the number of AXL tokens staked to the validator
         tests: 
           - dbt_expectations.expect_column_to_exist
       - name: RAW_METADATA
