@@ -12,12 +12,9 @@ SELECT
     address_name AS address_name,
     NULL AS raw_metadata
 FROM
-    {{ source(
-        'crosschain',
-        'address_labels'
+    {{ ref(
+        'silver__address_labels'
     ) }}
-WHERE
-    blockchain = 'axelar'
 UNION ALL
 SELECT
     'axelar' AS blockchain,

@@ -1,5 +1,5 @@
 {{ config(
-    materialized = 'view'
+    materialized = 'table'
 ) }}
 
 SELECT
@@ -12,7 +12,7 @@ SELECT
     project_name,
     alias,
     DECIMAL,
-    raw_metadata, 
+    raw_metadata,
     concat_ws(
         '-',
         address,
