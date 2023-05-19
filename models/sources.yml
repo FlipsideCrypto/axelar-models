@@ -46,7 +46,7 @@ sources:
     schema: silver
     tables: 
       - name: contracts
-      - name: decoded_logs_full
+      - name: decoded_logs
       # - name: logs
       - name: transfers
   - name: bsc_silver
@@ -68,7 +68,7 @@ sources:
     schema: silver
     tables: 
       - name: contracts
-      - name: decoded_logs_full
+      - name: decoded_logs
       # - name: logs
       - name: transfers
   - name: arbitrum

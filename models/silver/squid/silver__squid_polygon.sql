@@ -22,7 +22,7 @@ WITH deco_logs_base AS (
     FROM
         {{ source(
             'polygon_silver',
-            'decoded_logs_full'
+            'decoded_logs'
         ) }}
     WHERE
         block_timestamp :: DATE >= '2022-11-01'
