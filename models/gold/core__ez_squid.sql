@@ -1,5 +1,6 @@
 {{ config(
-    materialized = 'view',
+    materialized = 'table',
+    cluster_by = ['block_timestamp::DATE'],
     meta ={ 'database_tags':{ 'table':{ 'PROTOCOL': 'SQUID',
     'PURPOSE': 'DEFI' }} }
 ) }}
@@ -66,9 +67,9 @@ WITH base AS (
         A.token_address,
         A.token_symbol,
         CASE
-            WHEN token_symbol = 'axlUSDC' THEN raw_amount / pow(
+            WHEN token_decimals IS NOT NULL THEN raw_amount / pow(
                 10,
-                6
+                token_decimals
             )
             ELSE NULL
         END AS amount,
@@ -77,6 +78,12 @@ WITH base AS (
         receiver
     FROM
         {{ ref('silver__squid_bsc') }} A
+        LEFT JOIN {{ source(
+            'bsc_silver',
+            'contracts'
+        ) }}
+        b
+        ON A.token_address = b.contract_address
     UNION ALL
     SELECT
         block_number,

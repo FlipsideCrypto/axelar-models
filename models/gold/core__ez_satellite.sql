@@ -1,5 +1,6 @@
 {{ config(
-    materialized = 'view'
+    materialized = 'table',
+    cluster_by = ['block_timestamp::DATE']
 ) }}
 
 WITH axel_dec AS (
