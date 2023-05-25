@@ -26,7 +26,10 @@ WITH base_atts AS (
         LATERAL FLATTEN(TRY_PARSE_JSON(attribute_value), outer => TRUE) b
     WHERE
         (
-            msg_type = 'depositConfirmation'
+            msg_type IN (
+                'depositConfirmation',
+                'axelar.axelarnet.v1beta1.TokenSent'
+            )
             OR (
                 msg_type = 'axelar.nexus.v1beta1.FeeDeducted'
                 AND attribute_key IN (
@@ -54,13 +57,31 @@ AND _inserted_timestamp :: DATE >= (
 )
 {% endif %}
 ),
+excludes_InsufficientFee AS (
+    SELECT
+        DISTINCT tx_id,
+        msg_group
+    FROM
+        {{ ref('silver__msg_attributes') }}
+    WHERE
+        msg_type = 'axelar.nexus.v1beta1.InsufficientFee'
+
+{% if is_incremental() %}
+AND _inserted_timestamp :: DATE >= (
+    SELECT
+        MAX(_inserted_timestamp) :: DATE - 2
+    FROM
+        {{ this }}
+)
+{% endif %}
+),
 fin AS (
     SELECT
         block_id,
         block_timestamp,
         tx_succeeded,
-        tx_id,
-        msg_group,
+        A.tx_id,
+        A.msg_group,
         msg_sub_group,
         _inserted_timestamp,
         OBJECT_AGG(
@@ -73,28 +94,51 @@ fin AS (
                 attribute_value
             ) :: variant
         ) AS j,
-        j :amount :: STRING AS raw_total_sent,
+        COALESCE(
+            j :amount,
+            j :"asset-amount"
+        ) :: STRING AS raw_total_sent,
         j :"amount-amount" :: INT AS raw_amount_received,
-        j :"amount-denom" :: STRING AS raw_amount_denom,
+        COALESCE(
+            j :"amount-denom",
+            j :"asset-denom"
+        ) :: STRING AS raw_amount_denom,
         j :"fee-amount" :: INT AS raw_fee_paid,
         j :"fee-denom" :: STRING AS raw_fee_denom,
         j :depositAddress :: STRING AS depositAddress,
-        j :destinationAddress :: STRING AS destinationAddress,
-        j :destinationChain :: STRING AS destinationChain,
-        j :sourceChain :: STRING AS sourceChain,
-        j :transferID :: STRING AS transferID,
+        COALESCE(
+            j :destinationAddress,
+            j :destination_address
+        ) :: STRING AS destinationAddress,
+        COALESCE(
+            j :destinationChain,
+            j :destination_chain
+        ) :: STRING AS destinationChain,
+        COALESCE(
+            j :sourceChain,
+            j :source_chain
+        ) :: STRING AS sourceChain,
+        COALESCE(
+            j :transferID,
+            j :transfer_id
+        ) :: STRING AS transferID,
         j :chain :: STRING AS chain,
         j :tokenAddress :: STRING AS tokenAddress,
         j :txID :: STRING AS txID,
         j :confHeight :: STRING AS confHeight
     FROM
-        base_atts
+        base_atts A
+        LEFT JOIN excludes_InsufficientFee e
+        ON A.tx_id = e.tx_id
+        AND A.msg_group = e.msg_group
+    WHERE
+        e.msg_group IS NULL
     GROUP BY
         block_id,
         block_timestamp,
         tx_succeeded,
-        tx_id,
-        msg_group,
+        A.tx_id,
+        A.msg_group,
         msg_sub_group,
         _inserted_timestamp
 )
@@ -120,16 +164,37 @@ SELECT
         ),
         raw_total_sent
     ) :: INT AS raw_amount,
-    RIGHT(raw_total_sent, LENGTH(raw_total_sent) - LENGTH(SPLIT_PART(TRIM(REGEXP_REPLACE(raw_total_sent, '[^[:digit:]]', ' ')), ' ', 0))) AS raw_denom,
+    COALESCE(
+        NULLIF(
+            RIGHT(raw_total_sent, LENGTH(raw_total_sent) - LENGTH(SPLIT_PART(TRIM(REGEXP_REPLACE(raw_total_sent, '[^[:digit:]]', ' ')), ' ', 0))),
+            ''
+        ),
+        raw_amount_denom
+    ) AS raw_denom,
     raw_amount_received,
     raw_amount_denom,
     raw_fee_paid,
     raw_fee_denom,
-    depositAddress AS deposit_address,
-    destinationAddress AS destination_address,
-    destinationChain AS destination_chain,
-    sourceChain AS source_chain,
-    transferID AS transfer_id,
+    REPLACE(
+        depositAddress,
+        '"'
+    ) AS deposit_address,
+    REPLACE(
+        destinationAddress,
+        '"'
+    ) AS destination_address,
+    REPLACE(
+        destinationChain,
+        '"'
+    ) AS destination_chain,
+    REPLACE(
+        sourceChain,
+        '"'
+    ) AS source_chain,
+    REPLACE(
+        transferID,
+        '"'
+    ) AS transfer_id,
     chain,
     tokenAddress AS token_address,
     txID AS txid,
