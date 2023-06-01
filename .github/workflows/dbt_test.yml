@@ -28,4 +28,6 @@ jobs:
     with:
       dbt_command: |
           dbt test -m ./models
-name: dbt_test_scheduled
+      environment: workflow_prod
+      warehouse: ${{ vars.WAREHOUSE }}
+    secrets: inherit 
