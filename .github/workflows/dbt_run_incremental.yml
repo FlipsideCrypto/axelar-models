@@ -29,6 +29,6 @@ jobs:
     with:
       dbt_command: |
           dbt run -s ./models --exclude ./models/streamline/*
-        environment: workflow_prod
+      environment: workflow_prod
       warehouse: ${{ vars.WAREHOUSE }}
     secrets: inherit 
