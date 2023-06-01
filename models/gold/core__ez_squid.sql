@@ -150,6 +150,9 @@ SELECT
         WHEN destination_chain = 'avalanch' THEN 'avalanche'
         ELSE destination_chain
     END AS destination_chain,
-    receiver
+    REGEXP_REPLACE(
+        receiver,
+        '[^a-zA-Z0-9]+'
+    ) AS receiver
 FROM
     base
