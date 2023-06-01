@@ -1,4 +1,4 @@
-name: dbt_docs_update
+name: docs_update
 
 on:
   push:
@@ -6,16 +6,20 @@ on:
       - "main"
 
 env:
-  DBT_PROFILES_DIR: "${{ secrets.DBT_PROFILES_DIR }}"
-
-  ACCOUNT: "${{ secrets.ACCOUNT }}"
-  ROLE: "${{ secrets.ROLE }}"
-  USER: "${{ secrets.USER }}"
+  USE_VARS: "${{ vars.USE_VARS }}"
+  DBT_PROFILES_DIR: "${{ vars.DBT_PROFILES_DIR }}"
+  DBT_VERSION: "${{ vars.DBT_VERSION }}"
+  ACCOUNT: "${{ vars.ACCOUNT }}"
+  ROLE: "${{ vars.ROLE }}"
+  USER: "${{ vars.USER }}"
   PASSWORD: "${{ secrets.PASSWORD }}"
-  REGION: "${{ secrets.REGION }}"
-  DATABASE: "${{ secrets.DATABASE }}"
-  WAREHOUSE: "${{ secrets.WAREHOUSE }}"
-  SCHEMA: "${{ secrets.SCHEMA }}"
+  REGION: "${{ vars.REGION }}"
+  DATABASE: "${{ vars.DATABASE }}"
+  WAREHOUSE: "${{ vars.WAREHOUSE }}"
+  SCHEMA: "${{ vars.SCHEMA }}"
+
+concurrency:
+  group: ${{ github.workflow }}
 
 jobs:
   scheduled_run:
@@ -33,11 +37,11 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip install dbt-snowflake==${{ secrets.DBT_VERSION }}
+          pip install dbt-snowflake==${{ vars.DBT_VERSION }}
           dbt deps
       - name: checkout docs branch
         run: |
-          git checkout -B docs origin/main
+          git checkout -b docs origin/main
           
       - name: generate dbt docs
         run: dbt docs generate -t prod
