@@ -32,7 +32,7 @@ jobs:
     uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template.yml@main
     with:
       dbt_command: |
-          dbt run -m ./models/streamline/*
+          dbt run -m ./models/streamline/* --exclude models/streamline/streamline__validators*
       environment: workflow_prod
       warehouse: ${{ vars.WAREHOUSE }}
     secrets: inherit
