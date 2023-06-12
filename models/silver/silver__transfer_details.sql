@@ -42,10 +42,14 @@ WITH base_atts AS (
             'module',
             'action',
             'value'
-        ) --weird transaction that does not have a deposit address in axelar.nexus.v1beta1.FeeDeducted msg
+        ) --weird transactions that do not have a deposit address
         AND NOT (
             tx_id = '2F0FB4723A6BBBDEA5D2A982879F9C6FF6559D959FC026851AA47F9734689CFA'
             AND block_timestamp :: DATE = '2023-04-19'
+        )
+        AND NOT (
+            tx_id = 'A93FD4B436ADB4EC984038163F07DDD54F4638B4DDBB30BF4095756F328C393E'
+            AND block_timestamp :: DATE = '2023-06-08'
         )
 
 {% if is_incremental() %}
