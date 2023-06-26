@@ -37,19 +37,15 @@ WITH base_atts AS (
                     'amount'
                 )
             )
+            OR (
+                msg_type = 'write_acknowledgement'
+                AND b.key = 'receiver'
+            )
         )
         AND attribute_key NOT IN (
             'module',
             'action',
             'value'
-        ) --weird transactions that do not have a deposit address
-        AND NOT (
-            tx_id = '2F0FB4723A6BBBDEA5D2A982879F9C6FF6559D959FC026851AA47F9734689CFA'
-            AND block_timestamp :: DATE = '2023-04-19'
-        )
-        AND NOT (
-            tx_id = 'A93FD4B436ADB4EC984038163F07DDD54F4638B4DDBB30BF4095756F328C393E'
-            AND block_timestamp :: DATE = '2023-06-08'
         )
 
 {% if is_incremental() %}
@@ -109,7 +105,10 @@ fin AS (
         ) :: STRING AS raw_amount_denom,
         j :"fee-amount" :: INT AS raw_fee_paid,
         j :"fee-denom" :: STRING AS raw_fee_denom,
-        j :depositAddress :: STRING AS depositAddress,
+        COALESCE(
+            j :depositAddress,
+            j :"packet_data-receiver"
+        ) :: STRING AS depositAddress,
         COALESCE(
             j :destinationAddress,
             j :destination_address
