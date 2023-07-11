@@ -11,17 +11,18 @@ WITH logs_base AS (
         block_number,
         block_timestamp,
         tx_hash,
-        event_name,
         origin_from_address,
         contract_address,
-        event_inputs,
         topics,
         DATA,
+        event_index,
+        event_name,
+        decoded_flat,
         _inserted_timestamp
     FROM
         {{ source(
             'arbitrum_silver',
-            'logs'
+            'decoded_logs'
         ) }}
     WHERE
         block_timestamp :: DATE >= '2022-12-01'
@@ -40,16 +41,17 @@ squid_to_burn AS (
         block_number,
         block_timestamp,
         tx_hash,
+        event_index,
         origin_from_address AS eoa,
         contract_address AS token_address,
-        event_inputs :value AS raw_amount,
+        decoded_flat :value AS raw_amount,
         _inserted_timestamp
     FROM
         logs_base
     WHERE
         event_name = 'Transfer'
-        AND event_inputs :from = '0xce16f69375520ab01377ce7b88f5ba8c48f8d666'
-        AND event_inputs :to = '0x0000000000000000000000000000000000000000'
+        AND decoded_flat :from = '0xce16f69375520ab01377ce7b88f5ba8c48f8d666'
+        AND decoded_flat :to = '0x0000000000000000000000000000000000000000'
 ),
 all_transfers AS (
     SELECT
