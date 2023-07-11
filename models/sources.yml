@@ -39,6 +39,7 @@ sources:
     schema: silver
     tables: 
       - name: contracts
+      - name: decoded_logs
       - name: logs
       - name: transfers
   - name: avalanche_silver
