@@ -1,7 +1,7 @@
 {{ config(
     materialized = 'incremental',
     unique_key = "tx_hash",
-    incremental_strategy = 'delete+insert',
+    incremental_strategy = 'merge',
     cluster_by = 'block_timestamp::DATE',
 ) }}
 
@@ -51,7 +51,9 @@ squid_to_burn AS (
     WHERE
         event_name = 'Transfer'
         AND decoded_flat :from = '0xce16f69375520ab01377ce7b88f5ba8c48f8d666'
-        AND decoded_flat :to = '0x0000000000000000000000000000000000000000'
+        AND decoded_flat :to = '0x0000000000000000000000000000000000000000' qualify(ROW_NUMBER() over(PARTITION BY tx_hash
+    ORDER BY
+        event_index DESC) = 1)
 ),
 all_transfers AS (
     SELECT
@@ -79,7 +81,9 @@ all_transfers AS (
         ON A.tx_hash = b.tx_hash
         AND A.block_number = b.block_number
     WHERE
-        raw_amount IS NOT NULL
+        raw_amount IS NOT NULL qualify(ROW_NUMBER() over(PARTITION BY A.tx_hash
+    ORDER BY
+        A.event_index DESC) = 1)
 ),
 evm_transfers AS (
     SELECT
