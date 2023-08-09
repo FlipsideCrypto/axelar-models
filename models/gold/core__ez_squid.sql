@@ -2,7 +2,7 @@
     materialized = 'table',
     cluster_by = ['block_timestamp::DATE'],
     meta ={ 'database_tags':{ 'table':{ 'PROTOCOL': 'SQUID',
-    'PURPOSE': 'DEFI' }} }
+    'PURPOSE': 'DEFI' } } }
 ) }}
 
 WITH base AS (
@@ -132,6 +132,58 @@ WITH base AS (
         {{ ref('silver__squid_polygon') }} A
         LEFT JOIN {{ source(
             'polygon_silver',
+            'contracts'
+        ) }}
+        b
+        ON A.token_address = b.contract_address
+    UNION ALL
+    SELECT
+        block_number,
+        block_timestamp,
+        tx_hash,
+        sender,
+        A.token_address,
+        A.token_symbol,
+        CASE
+            WHEN token_decimals IS NOT NULL THEN raw_amount / pow(
+                10,
+                token_decimals
+            )
+            ELSE NULL
+        END AS amount,
+        'optimism' AS source_chain,
+        destination_chain,
+        receiver
+    FROM
+        {{ ref('silver__squid_optimism') }} A
+        LEFT JOIN {{ source(
+            'optimism_silver',
+            'contracts'
+        ) }}
+        b
+        ON A.token_address = b.contract_address
+    UNION ALL
+    SELECT
+        block_number,
+        block_timestamp,
+        tx_hash,
+        sender,
+        A.token_address,
+        A.token_symbol,
+        CASE
+            WHEN token_decimals IS NOT NULL THEN raw_amount / pow(
+                10,
+                token_decimals
+            )
+            ELSE NULL
+        END AS amount,
+        'base' AS source_chain,
+        destination_chain,
+        receiver
+    FROM
+        {{ ref('silver__squid_base') }} A
+        LEFT JOIN {{ source(
+            'base_silver',
             'contracts'
         ) }}
         b
