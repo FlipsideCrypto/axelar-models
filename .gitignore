@@ -5,3 +5,4 @@ logs/
 .user.yml
 .DS_Store
 .vscode
+dbt-env/

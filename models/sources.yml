@@ -74,6 +74,20 @@ sources:
       - name: decoded_logs
       # - name: logs
       - name: transfers
+  - name: optimism_silver
+    database: optimism
+    schema: silver
+    tables: 
+      - name: decoded_logs
+      - name: logs
+      - name: contracts
+  - name: base_silver
+    database: base
+    schema: silver
+    tables: 
+      - name: decoded_logs
+      - name: logs
+      - name: contracts
   - name: arbitrum
     database: arbitrum
     schema: core
