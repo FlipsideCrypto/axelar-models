@@ -1,7 +1,7 @@
 version: 2
 models:
   - name: core__fact_governance_votes
-    description: Records of all votes on proposals. 
+    description: "{{ doc('deprecation') }}"
     columns:
       - name: BLOCK_ID
         description: "{{ doc('block_id') }}"

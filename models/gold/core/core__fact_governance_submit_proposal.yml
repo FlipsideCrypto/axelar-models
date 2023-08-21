@@ -1,7 +1,7 @@
 version: 2
 models:
-  - name: core__fact_governance_proposal_deposits
-    description: Records of all proposal deposits that have occurred on Axelar, dating back to the genesis block. 
+  - name: core__fact_governance_submit_proposal
+    description: "{{ doc('deprecation') }}"
     columns:
       - name: BLOCK_ID
         description: "{{ doc('block_id') }}"
@@ -19,23 +19,15 @@ models:
         description: "{{ doc('tx_succeeded') }}"
         tests: 
           - dbt_expectations.expect_column_to_exist
-      - name: DEPOSITOR 
-        description: "{{ doc('depositor') }}"
+      - name: PROPOSER
+        description: "{{ doc('proposer') }}"
         tests: 
           - dbt_expectations.expect_column_to_exist
       - name: PROPOSAL_ID
         description: "{{ doc('proposal_id') }}"
         tests: 
-          - dbt_expectations.expect_column_to_exist 
-      - name: AMOUNT
-        description: "{{ doc('amount') }}"
-        tests: 
           - dbt_expectations.expect_column_to_exist
-      - name: CURRENCY
-        description: "{{ doc('currency') }}"
-        tests: 
-          - dbt_expectations.expect_column_to_exist
-      - name: DECIMAL 
-        description: "{{ doc('decimal') }}"
+      - name: PROPOSAL_TYPE
+        description: "{{ doc('proposal_type') }}"
         tests: 
           - dbt_expectations.expect_column_to_exist

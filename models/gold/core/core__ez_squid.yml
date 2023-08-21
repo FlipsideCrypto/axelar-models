@@ -1,7 +1,7 @@
 version: 2
 models:
   - name: core__ez_squid
-    description: This table contains transactions from Arbitrum, Avalanche, Binance Smart Chain (BSC), Ethereum, and Polygon that have interacted with the Squid router contract
+    description: "{{ doc('deprecation') }}"
     columns:
       - name: BLOCK_NUMBER
         description: "{{ doc('evm_block_number') }}"
