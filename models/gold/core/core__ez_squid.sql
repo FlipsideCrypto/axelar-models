@@ -7,4 +7,4 @@
 SELECT
     *
 FROM
-    {{ ref('defi__ez_squid') }}
+    {{ ref('defi__ez_bridge_squid') }}

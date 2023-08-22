@@ -5,4 +5,4 @@
 SELECT
     *
 FROM
-    {{ ref('defi__ez_satellite') }}
+    {{ ref('defi__ez_bridge_satellite') }}

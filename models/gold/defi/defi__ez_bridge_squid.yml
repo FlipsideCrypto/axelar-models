@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: defi__ez_squid
+  - name: defi__ez_bridge_squid
     description: This table contains transactions from Arbitrum, Avalanche, Binance Smart Chain (BSC), Ethereum, and Polygon that have interacted with the Squid router contract
     columns:
       - name: BLOCK_NUMBER
