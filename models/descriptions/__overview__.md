@@ -23,8 +23,8 @@ There is more information on how to use dbt docs in the last section of this doc
 
 
 **Core Dimension Tables:**
-- [dim_labels](#!/model/model.axelar_models.core__dim_labels)
-- [dim_tokens](#!/model/model.axelar_models.core__dim_tokens)
+- [dim_labels](#!/model/model.axelars.core__dim_labels)
+- [dim_tokens](#!/model/model.axelar.core__dim_tokens)
 
 **Core Fact Tables:**
 - [fact_blocks](#!/model/model.axelar.core__fact_blocks)
