@@ -29,16 +29,10 @@ There is more information on how to use dbt docs in the last section of this doc
 **Core Fact Tables:**
 - [fact_blocks](#!/model/model.axelar.core__fact_blocks)
 - [fact_daily_balances](#!/model/model.axelar.core__fact_daily_balances)
-- [fact_governance_proposal_deposits](#!/model/model.axelar.gov__fact_governance_proposal_deposits)
-- [fact_governance_submit_proposal](#!/model/model.axelar.core__fact_governance_submit_proposal)
-- [fact_governance_votes](#!/model/model.axelar.core__fact_governance_votes)
 - [fact_msg_attributes](#!/model/model.axelar.core__fact_msg_attributes)
 - [fact_msgs](#!/model/model.axelar.core__fact_msgs)
-- [fact_staking](#!/model/model.axelar.core__fact_staking)
-- [fact_staking_rewards](#!/model/model.axelar.core__fact_staking_rewards)
 - [fact_transactions](#!/model/model.axelar.core__fact_transactions)
 - [fact_transfers](#!/model/model.axelar.core__fact_transfers)
-- [fact_validators](#!/model/model.axelar.core__fact_validators)
 
 **Governance Fact Tables:**
 - [fact_governance_proposal_deposits](#!/model/model.axelar.gov__fact_governance_proposal_deposits)
