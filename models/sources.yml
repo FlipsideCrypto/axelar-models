@@ -108,3 +108,18 @@ sources:
     schema: core
     tables: 
       - name: dim_contracts
+  - name: bsc
+    database: bsc
+    schema: core
+    tables: 
+      - name: dim_contracts
+  - name: optimism
+    database: optimism
+    schema: core
+    tables: 
+      - name: dim_contracts
+  - name: base
+    database: base
+    schema: core
+    tables: 
+      - name: dim_contracts

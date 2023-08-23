@@ -2,7 +2,7 @@
     materialized = 'table',
     cluster_by = ['block_timestamp::DATE'],
     meta ={ 'database_tags':{ 'table':{ 'PROTOCOL': 'SQUID',
-    'PURPOSE': 'DEFI' } } }
+    'PURPOSE': 'DEFI' }} }
 ) }}
 
 WITH base AS (
@@ -15,9 +15,9 @@ WITH base AS (
         A.token_address,
         A.token_symbol,
         CASE
-            WHEN token_decimals IS NOT NULL THEN raw_amount / pow(
+            WHEN decimals IS NOT NULL THEN raw_amount / pow(
                 10,
-                token_decimals
+                decimals
             )
             ELSE NULL
         END AS amount,
@@ -26,12 +26,12 @@ WITH base AS (
         receiver
     FROM
         {{ ref('silver__squid_arbitrum') }} A
-        LEFT JOIN {{ source(
-            'arbitrum_silver',
-            'contracts'
+        LEFT JOIN {{ ref(
+            'silver__evm_contracts'
         ) }}
         b
-        ON A.token_address = b.contract_address
+        ON b.blockchain = 'arbitrum'
+        AND A.token_address = b.address
     UNION ALL
     SELECT
         block_number,
@@ -41,9 +41,9 @@ WITH base AS (
         A.token_address,
         A.token_symbol,
         CASE
-            WHEN token_decimals IS NOT NULL THEN raw_amount / pow(
+            WHEN decimals IS NOT NULL THEN raw_amount / pow(
                 10,
-                token_decimals
+                decimals
             )
             ELSE NULL
         END AS amount,
@@ -52,12 +52,12 @@ WITH base AS (
         receiver
     FROM
         {{ ref('silver__squid_avalanche') }} A
-        LEFT JOIN {{ source(
-            'avalanche_silver',
-            'contracts'
+        LEFT JOIN {{ ref(
+            'silver__evm_contracts'
         ) }}
         b
-        ON A.token_address = b.contract_address
+        ON b.blockchain = 'avalanche'
+        AND A.token_address = b.address
     UNION ALL
     SELECT
         block_number,
@@ -67,9 +67,9 @@ WITH base AS (
         A.token_address,
         A.token_symbol,
         CASE
-            WHEN token_decimals IS NOT NULL THEN raw_amount / pow(
+            WHEN decimals IS NOT NULL THEN raw_amount / pow(
                 10,
-                token_decimals
+                decimals
             )
             ELSE NULL
         END AS amount,
@@ -78,12 +78,12 @@ WITH base AS (
         receiver
     FROM
         {{ ref('silver__squid_bsc') }} A
-        LEFT JOIN {{ source(
-            'bsc_silver',
-            'contracts'
+        LEFT JOIN {{ ref(
+            'silver__evm_contracts'
         ) }}
         b
-        ON A.token_address = b.contract_address
+        ON b.blockchain = 'bsc'
+        AND A.token_address = b.address
     UNION ALL
     SELECT
         block_number,
@@ -104,12 +104,12 @@ WITH base AS (
         receiver
     FROM
         {{ ref('silver__squid_ethereum') }} A
-        LEFT JOIN {{ source(
-            'ethereum_silver',
-            'contracts'
+        LEFT JOIN {{ ref(
+            'silver__evm_contracts'
         ) }}
         b
-        ON A.token_address = b.address
+        ON b.blockchain = 'ethereum'
+        AND A.token_address = b.address
     UNION ALL
     SELECT
         block_number,
@@ -119,9 +119,9 @@ WITH base AS (
         A.token_address,
         A.token_symbol,
         CASE
-            WHEN token_decimals IS NOT NULL THEN raw_amount / pow(
+            WHEN decimals IS NOT NULL THEN raw_amount / pow(
                 10,
-                token_decimals
+                decimals
             )
             ELSE NULL
         END AS amount,
@@ -130,12 +130,12 @@ WITH base AS (
         receiver
     FROM
         {{ ref('silver__squid_polygon') }} A
-        LEFT JOIN {{ source(
-            'polygon_silver',
-            'contracts'
+        LEFT JOIN {{ ref(
+            'silver__evm_contracts'
         ) }}
         b
-        ON A.token_address = b.contract_address
+        ON b.blockchain = 'polygon'
+        AND A.token_address = b.address
     UNION ALL
     SELECT
         block_number,
@@ -145,9 +145,9 @@ WITH base AS (
         A.token_address,
         A.token_symbol,
         CASE
-            WHEN token_decimals IS NOT NULL THEN raw_amount / pow(
+            WHEN decimals IS NOT NULL THEN raw_amount / pow(
                 10,
-                token_decimals
+                decimals
             )
             ELSE NULL
         END AS amount,
@@ -156,12 +156,12 @@ WITH base AS (
         receiver
     FROM
         {{ ref('silver__squid_optimism') }} A
-        LEFT JOIN {{ source(
-            'optimism_silver',
-            'contracts'
+        LEFT JOIN {{ ref(
+            'silver__evm_contracts'
         ) }}
         b
-        ON A.token_address = b.contract_address
+        ON b.blockchain = 'optimism'
+        AND A.token_address = b.address
     UNION ALL
     SELECT
         block_number,
@@ -171,9 +171,9 @@ WITH base AS (
         A.token_address,
         A.token_symbol,
         CASE
-            WHEN token_decimals IS NOT NULL THEN raw_amount / pow(
+            WHEN decimals IS NOT NULL THEN raw_amount / pow(
                 10,
-                token_decimals
+                decimals
             )
             ELSE NULL
         END AS amount,
@@ -182,12 +182,12 @@ WITH base AS (
         receiver
     FROM
         {{ ref('silver__squid_base') }} A
-        LEFT JOIN {{ source(
-            'base_silver',
-            'contracts'
+        LEFT JOIN {{ ref(
+            'silver__evm_contracts'
         ) }}
         b
-        ON A.token_address = b.contract_address
+        ON b.blockchain = 'base'
+        AND A.token_address = b.address
 )
 SELECT
     block_number,
