@@ -46,6 +46,7 @@ There is more information on how to use dbt docs in the last section of this doc
 - [fact_governance_votes](#!/model/model.axelar.gov__fact_governance_votes)
 - [fact_staking](#!/model/model.axelar.gov__fact_staking)
 - [fact_staking_rewards](#!/model/model.axelar.gov__fact_staking_rewards)
+- [fact_validator_commission](#!/model/model.axelar.gov__fact_validator_commission)
 - [fact_validators](#!/model/model.axelar.gov__fact_validators)
 
 **DeFi EZ Tables:**
