@@ -18,15 +18,18 @@ There is more information on how to use dbt docs in the last section of this doc
 **Click on the links below to jump to the documentation for each schema.**
 
 ### Core Tables (`Axelar`.`CORE`.`<table_name>`)
+### Governance Tables (`Axelar`.`GOV`.`<table_name>`)
+### DeFi Tables (`Axelar`.`DEFI`.`<table_name>`)
 
-**Dimension Tables:**
+
+**Core Dimension Tables:**
 - [dim_labels](#!/model/model.axelar_models.core__dim_labels)
 - [dim_tokens](#!/model/model.axelar_models.core__dim_tokens)
 
-**Fact Tables:**
+**Core Fact Tables:**
 - [fact_blocks](#!/model/model.axelar.core__fact_blocks)
 - [fact_daily_balances](#!/model/model.axelar.core__fact_daily_balances)
-- [fact_governance_proposal_deposits](#!/model/model.axelar.core__fact_governance_proposal_deposits)
+- [fact_governance_proposal_deposits](#!/model/model.axelar.gov__fact_governance_proposal_deposits)
 - [fact_governance_submit_proposal](#!/model/model.axelar.core__fact_governance_submit_proposal)
 - [fact_governance_votes](#!/model/model.axelar.core__fact_governance_votes)
 - [fact_msg_attributes](#!/model/model.axelar.core__fact_msg_attributes)
@@ -37,9 +40,17 @@ There is more information on how to use dbt docs in the last section of this doc
 - [fact_transfers](#!/model/model.axelar.core__fact_transfers)
 - [fact_validators](#!/model/model.axelar.core__fact_validators)
 
-**EZ Tables:**
-- [ez_satellite](#!/model/model.axelar.core__ez_satellite)
-- [ez_squid](#!/model/model.axelar.core__ez_squid)
+**Governance Fact Tables:**
+- [fact_governance_proposal_deposits](#!/model/model.axelar.gov__fact_governance_proposal_deposits)
+- [fact_governance_submit_proposal](#!/model/model.axelar.gov__fact_governance_submit_proposal)
+- [fact_governance_votes](#!/model/model.axelar.gov__fact_governance_votes)
+- [fact_staking](#!/model/model.axelar.gov__fact_staking)
+- [fact_staking_rewards](#!/model/model.axelar.gov__fact_staking_rewards)
+- [fact_validators](#!/model/model.axelar.gov__fact_validators)
+
+**DeFi EZ Tables:**
+- [ez_satellite](#!/model/model.axelar.defi__ez_satellite)
+- [ez_squid](#!/model/model.axelar.defi__ez_squid)
 
 ## **Data Model Overview**
 
@@ -47,7 +58,7 @@ The Axelar models are built a few different ways, but the core fact tables are b
 
 - Bronze: Data is loaded in from the source as a view
 - Silver: All necessary parsing, filtering, de-duping, and other transformations are done here
-- Gold (or core): Final views and tables that are available publicly
+- Gold (core/gov/defi): Final views and tables that are available publicly
 
 The dimension tables are sourced from a variety of on-chain and off-chain sources.
 
@@ -75,7 +86,7 @@ Note that you can also right-click on models to interactively filter and explore
 
 ### **More information**
 - [Flipside](https://flipsidecrypto.xyz/)
-- [Velocity](https://app.flipsidecrypto.com/velocity?nav=Discover)
+- [Data Studio](https://flipsidecrypto.xyz/edit)
 - [Tutorials](https://docs.flipsidecrypto.com/our-data/tutorials)
 - [Github](https://github.com/FlipsideCrypto/axelar-models)
 - [What is dbt?](https://docs.getdbt.com/docs/introduction)
