@@ -1,6 +1,6 @@
 {{ config(
     materialized = 'incremental',
-    unique_key = 'tx_id',
+    unique_key = ['block_id','tx_id'],
     cluster_by = ['_inserted_timestamp::date'],
     merge_update_columns = ["block_id"],
 ) }}
@@ -27,12 +27,12 @@ WHERE
     LEAST(
         registered_on,
         last_modified
-    ) >= (
+    ) >= dateadd(day,-2,(
         SELECT
-            COALESCE(MAX(_INSERTED_TIMESTAMP), '1970-01-01' :: DATE) max_INSERTED_TIMESTAMP
+            COALESCE(MAX(_INSERTED_TIMESTAMP), '1970-01-01' :: DATE)  max_INSERTED_TIMESTAMP
         FROM
             {{ this }})
-    )
+    ))
 {% else %}
 )
 {% endif %}
@@ -55,6 +55,6 @@ FROM
     JOIN meta m
     ON m.file_name = metadata$filename
 WHERE
-    DATA: error IS NULL qualify(ROW_NUMBER() over (PARTITION BY tx_hash :: STRING
+    DATA: error IS NULL qualify(ROW_NUMBER() over (PARTITION BY block_number, tx_hash :: STRING
 ORDER BY
     _inserted_timestamp DESC)) = 1
