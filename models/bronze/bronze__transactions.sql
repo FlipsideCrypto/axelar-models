@@ -10,7 +10,7 @@ WITH meta AS (
     SELECT
         registered_on,
         last_modified,
-        LEAST(
+        GREATEST(
             last_modified,
             registered_on
         ) AS _inserted_timestamp,
@@ -24,15 +24,18 @@ WITH meta AS (
 
 {% if is_incremental() %}
 WHERE
-    LEAST(
+    GREATEST(
         registered_on,
         last_modified
-    ) >= dateadd(day,-2,(
-        SELECT
-            COALESCE(MAX(_INSERTED_TIMESTAMP), '1970-01-01' :: DATE)  max_INSERTED_TIMESTAMP
-        FROM
-            {{ this }})
-    ))
+    ) >= DATEADD(
+        DAY,
+        -2,(
+            SELECT
+                COALESCE(MAX(_INSERTED_TIMESTAMP), '1970-01-01' :: DATE) max_INSERTED_TIMESTAMP
+            FROM
+                {{ this }})
+        )
+    )
 {% else %}
 )
 {% endif %}

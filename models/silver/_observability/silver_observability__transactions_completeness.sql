@@ -1,7 +1,6 @@
 {{ config(
     materialized = 'incremental',
-    full_refresh = false,
-    enabled = false
+    full_refresh = false
 ) }}
 
 WITH rel_blocks AS (
