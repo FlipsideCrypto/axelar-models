@@ -1,6 +1,7 @@
 {{ config(
     materialized = 'incremental',
-    unique_key = ['block_id','block_id_requested','tx_id'],
+    incremental_strategy = 'delete+insert',
+    unique_key = 'file_name',
     cluster_by = ['_inserted_timestamp::date']
 ) }}
 
@@ -50,6 +51,7 @@ SELECT
     DATA,
     tx_hash :: STRING AS tx_id,
     tx_result,
+    file_name,
     TO_TIMESTAMP(
         m._inserted_timestamp
     ) AS _inserted_timestamp

@@ -19,7 +19,7 @@ sources:
     database: "{{ 'crosschain' if target.database == 'AXELAR' else 'crosschain_dev' }}"
     schema: core
     tables:
-      - name: dim_address_labels
+      - name: dim_labels
       - name: dim_dates
   - name: crosschain_silver
     database: "{{ 'crosschain' if target.database == 'AXELAR' else 'crosschain_dev' }}"
