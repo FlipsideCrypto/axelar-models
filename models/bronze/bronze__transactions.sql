@@ -43,6 +43,10 @@ SELECT
     VALUE,
     _partition_by_block_id,
     block_number AS block_id,
+    REPLACE(
+        metadata :request :params [0],
+        'tx.height='
+    ) :: INT AS block_id_requested,
     metadata,
     DATA,
     tx_hash :: STRING AS tx_id,
@@ -56,7 +60,7 @@ FROM
         'txs_details'
     ) }}
     JOIN meta m
-    ON m.file_name = metadata$filename
+    ON m.file_name = metadata $ filename
 WHERE
     DATA: error IS NULL qualify(ROW_NUMBER() over (PARTITION BY block_number, tx_hash :: STRING
 ORDER BY
