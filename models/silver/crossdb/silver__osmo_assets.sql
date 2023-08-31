@@ -1,5 +1,5 @@
 {{ config(
-    materialized = 'view'
+    materialized = 'table'
 ) }}
 
 SELECT
@@ -13,8 +13,14 @@ SELECT
     alias,
     DECIMAL,
     raw_metadata,
-    unique_key
+    concat_ws(
+        '-',
+        address,
+        creator,
+        blockchain
+    ) AS unique_key
 FROM
-    {{ ref(
-        'silver__osmo_assets'
+    {{ source(
+        'osmo',
+        'asset_metadata'
     ) }}

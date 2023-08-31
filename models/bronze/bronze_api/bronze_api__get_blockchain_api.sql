@@ -30,8 +30,12 @@ WITH base AS (
           FROM
             (
               SELECT
-                MIN(block_id) min_block,
-                MAX(block_id) max_block,
+                MIN(
+                  block_id :: INT
+                ) min_block,
+                MAX(
+                  block_id :: INT
+                ) max_block,
                 ARRAY_AGG(block_id) blocks
               FROM
                 (
@@ -43,7 +47,7 @@ WITH base AS (
                       END
                     ) over (
                       ORDER BY
-                        block_ID
+                        block_ID :: INT
                     ) groupID,
                     block_id
                   FROM
@@ -52,15 +56,17 @@ WITH base AS (
                         block_Id :: STRING block_Id,
                         MOD(ROW_NUMBER() over(
                       ORDER BY
-                        block_id), 20) rn_mod
+                        block_id :: INT), 20) rn_mod
                       FROM
                         (
                           SELECT
                             DISTINCT block_id
                           FROM
                             {{ ref('silver__blocks') }}
+                            {# WHERE
+                            block_timestamp :: DATE >= '2023-01-01' #}
                           WHERE
-                            block_timestamp :: DATE >= '2023-01-01'
+                            block_id >= 10568
 
 {% if is_incremental() %}
 EXCEPT

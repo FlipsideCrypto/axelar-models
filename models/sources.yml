@@ -21,6 +21,11 @@ sources:
     tables:
       - name: dim_address_labels
       - name: dim_dates
+  - name: crosschain_silver
+    database: "{{ 'crosschain' if target.database == 'AXELAR' else 'crosschain_dev' }}"
+    schema: silver
+    tables:
+      - name: number_sequence
   - name: bronze_streamline
     database: streamline
     schema: |
@@ -105,6 +110,21 @@ sources:
       - name: dim_contracts
   - name: polygon
     database: polygon
+    schema: core
+    tables: 
+      - name: dim_contracts
+  - name: bsc
+    database: bsc
+    schema: core
+    tables: 
+      - name: dim_contracts
+  - name: optimism
+    database: optimism
+    schema: core
+    tables: 
+      - name: dim_contracts
+  - name: base
+    database: base
     schema: core
     tables: 
       - name: dim_contracts

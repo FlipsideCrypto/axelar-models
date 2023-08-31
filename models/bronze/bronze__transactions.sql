@@ -1,8 +1,7 @@
 {{ config(
     materialized = 'incremental',
-    unique_key = 'tx_id',
-    cluster_by = ['_inserted_timestamp::date'],
-    merge_update_columns = ["block_id"],
+    unique_key = ['block_id','block_id_requested','tx_id'],
+    cluster_by = ['_inserted_timestamp::date']
 ) }}
 
 WITH meta AS (
@@ -10,7 +9,7 @@ WITH meta AS (
     SELECT
         registered_on,
         last_modified,
-        LEAST(
+        GREATEST(
             last_modified,
             registered_on
         ) AS _inserted_timestamp,
@@ -24,14 +23,17 @@ WITH meta AS (
 
 {% if is_incremental() %}
 WHERE
-    LEAST(
+    GREATEST(
         registered_on,
         last_modified
-    ) >= (
-        SELECT
-            COALESCE(MAX(_INSERTED_TIMESTAMP), '1970-01-01' :: DATE) max_INSERTED_TIMESTAMP
-        FROM
-            {{ this }})
+    ) >= DATEADD(
+        DAY,
+        -2,(
+            SELECT
+                COALESCE(MAX(_INSERTED_TIMESTAMP), '1970-01-01' :: DATE) max_INSERTED_TIMESTAMP
+            FROM
+                {{ this }})
+        )
     )
 {% else %}
 )
@@ -40,6 +42,10 @@ SELECT
     VALUE,
     _partition_by_block_id,
     block_number AS block_id,
+    REPLACE(
+        metadata :request :params [0],
+        'tx.height='
+    ) :: INT AS block_id_requested,
     metadata,
     DATA,
     tx_hash :: STRING AS tx_id,
@@ -55,6 +61,4 @@ FROM
     JOIN meta m
     ON m.file_name = metadata$filename
 WHERE
-    DATA: error IS NULL qualify(ROW_NUMBER() over (PARTITION BY tx_hash :: STRING
-ORDER BY
-    _inserted_timestamp DESC)) = 1
+    DATA: error IS NULL

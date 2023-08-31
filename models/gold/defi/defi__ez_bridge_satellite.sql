@@ -19,9 +19,8 @@ WITH axel_dec AS (
         END AS decimals,
         project_name AS token_symbol
     FROM
-        {{ source(
-            'osmo',
-            'asset_metadata'
+        {{ ref(
+            'silver__osmo_assets'
         ) }}
         b
     UNION
@@ -99,12 +98,12 @@ SELECT
     NULL AS fee_denom
 FROM
     {{ ref('silver__satellite_arbitrum') }} A
-    LEFT JOIN {{ source(
-        'arbitrum',
-        'dim_contracts'
+    LEFT JOIN {{ ref(
+        'silver__evm_contracts'
     ) }}
     b
-    ON A.token_address = b.address
+    ON b.blockchain = 'arbitrum'
+    AND A.token_address = b.address
 UNION ALL
 SELECT
     block_number,
@@ -131,12 +130,12 @@ SELECT
     NULL AS fee_denom
 FROM
     {{ ref('silver__satellite_avalanche') }} A
-    LEFT JOIN {{ source(
-        'avalanche',
-        'dim_contracts'
+    LEFT JOIN {{ ref(
+        'silver__evm_contracts'
     ) }}
     b
-    ON A.token_address = b.address
+    ON b.blockchain = 'avalanche'
+    AND A.token_address = b.address
 UNION ALL
 SELECT
     block_number,
@@ -213,12 +212,12 @@ SELECT
     NULL AS fee_denom
 FROM
     {{ ref('silver__satellite_ethereum') }} A
-    LEFT JOIN {{ source(
-        'ethereum',
-        'dim_contracts'
+    LEFT JOIN {{ ref(
+        'silver__evm_contracts'
     ) }}
     b
-    ON A.token_address = b.address
+    ON b.blockchain = 'ethereum'
+    AND A.token_address = b.address
 UNION ALL
 SELECT
     block_number,
@@ -245,9 +244,9 @@ SELECT
     NULL AS fee_denom
 FROM
     {{ ref('silver__satellite_polygon') }} A
-    LEFT JOIN {{ source(
-        'polygon',
-        'dim_contracts'
+    LEFT JOIN {{ ref(
+        'silver__evm_contracts'
     ) }}
     b
-    ON A.token_address = b.address
+    ON b.blockchain = 'polygon'
+    AND A.token_address = b.address
