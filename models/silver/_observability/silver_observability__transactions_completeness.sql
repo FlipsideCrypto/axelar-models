@@ -52,53 +52,102 @@ AND (
 bronze AS (
     SELECT
         A.block_id,
+        A.block_id_requested,
         b.block_timestamp,
-        A.tx_id
+        A.tx_id,
+        A._inserted_timestamp
     FROM
         {{ ref('bronze__transactions') }} A
-        JOIN rel_blocks b
+        LEFT JOIN rel_blocks b
         ON A.block_id = b.block_id
+        LEFT JOIN rel_blocks C
+        ON A.block_id_requested = C.block_id
+    WHERE
+        (
+            b.block_id IS NOT NULL
+            OR C.block_id IS NOT NULL
+        )
 
 {% if is_incremental() %}
-WHERE
-    A._inserted_timestamp >= CURRENT_DATE - 14
-    OR {% if var('OBSERV_FULL_TEST') %}
-        1 = 1
-    {% else %}
-        (
-            SELECT
-                MIN(VALUE) - 1
-            FROM
-                (
-                    SELECT
-                        blocks_impacted_array
-                    FROM
-                        {{ this }}
-                        qualify ROW_NUMBER() over (
-                            ORDER BY
-                                test_timestamp DESC
-                        ) = 1
-                ),
-                LATERAL FLATTEN(
-                    input => blocks_impacted_array
-                )
-        ) IS NOT NULL
-    {% endif %}
+AND A._inserted_timestamp >= CURRENT_DATE - 14
+OR {% if var('OBSERV_FULL_TEST') %}
+    1 = 1
+{% else %}
+    (
+        SELECT
+            MIN(VALUE) - 1
+        FROM
+            (
+                SELECT
+                    blocks_impacted_array
+                FROM
+                    {{ this }}
+                    qualify ROW_NUMBER() over (
+                        ORDER BY
+                            test_timestamp DESC
+                    ) = 1
+            ),
+            LATERAL FLATTEN(
+                input => blocks_impacted_array
+            )
+    ) IS NOT NULL
 {% endif %}
-
-qualify(ROW_NUMBER() over(PARTITION BY A.block_id, tx_id
-ORDER BY
-    A._inserted_timestamp DESC) = 1)
+{% endif %}
+),
+b_block AS (
+    SELECT
+        A.block_id,
+        A.block_id_requested,
+        A.block_timestamp,
+        A.tx_id,
+        A._inserted_timestamp
+    FROM
+        bronze A qualify(ROW_NUMBER() over(PARTITION BY A.block_id, tx_id
+    ORDER BY
+        A._inserted_timestamp DESC) = 1)
+),
+b_block_req AS (
+    SELECT
+        A.block_id,
+        A.block_id_requested,
+        A.block_timestamp,
+        A.tx_id,
+        A._inserted_timestamp
+    FROM
+        bronze A qualify(ROW_NUMBER() over(PARTITION BY A.block_id_requested, tx_id
+    ORDER BY
+        A._inserted_timestamp DESC) = 1)
 ),
 bronze_count AS (
     SELECT
         block_id,
         block_timestamp,
-        COUNT(
-            DISTINCT tx_id
-        ) AS num_txs
+        MAX(num_txs) num_txs
     FROM
-        bronze
+        (
+            SELECT
+                block_id,
+                block_timestamp,
+                COUNT(
+                    DISTINCT tx_id
+                ) AS num_txs
+            FROM
+                b_block A
+            GROUP BY
+                block_id,
+                block_timestamp
+            UNION ALL
+            SELECT
+                block_id_requested AS block_id,
+                MIN(block_timestamp) AS block_timestamp,
+                COUNT(
+                    DISTINCT tx_id
+                ) AS num_txs
+            FROM
+                b_block_req A
+            GROUP BY
+                block_id_requested
+        )
     GROUP BY
         block_id,
         block_timestamp
