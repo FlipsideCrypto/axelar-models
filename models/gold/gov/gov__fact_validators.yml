@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: core__fact_validators
+  - name: gov__fact_validators
     description: Information about all active and inactive set validators on Axelar. 
     tests:
       - dbt_utils.unique_combination_of_columns:

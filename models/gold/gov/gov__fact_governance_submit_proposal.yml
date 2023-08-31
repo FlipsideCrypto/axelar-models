@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: core__fact_governance_submit_proposal
+  - name: gov__fact_governance_submit_proposal
     description: Records of all proposal submissions on Axelar, dating back to the genesis block.
     columns:
       - name: BLOCK_ID

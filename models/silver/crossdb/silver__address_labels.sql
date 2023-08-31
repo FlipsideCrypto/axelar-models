@@ -18,7 +18,7 @@ SELECT
 FROM
     {{ source(
         'crosschain',
-        'address_labels'
+        'dim_labels'
     ) }}
 WHERE
     blockchain = 'axelar'
