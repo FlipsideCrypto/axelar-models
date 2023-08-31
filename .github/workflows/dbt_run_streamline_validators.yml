@@ -4,7 +4,7 @@ run-name: dbt_run_streamline_validators
 on:
   push:
     branches:
-      - main
+      # - main
       - turn-off-dev-turn-on-prod
   schedule:
     # Runs "every 6 hours" (see https://crontab.guru)

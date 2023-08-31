@@ -59,6 +59,6 @@ FROM
         'txs_details'
     ) }}
     JOIN meta m
-    ON m.file_name = metadata $ filename
+    ON m.file_name = metadata$filename
 WHERE
     DATA: error IS NULL

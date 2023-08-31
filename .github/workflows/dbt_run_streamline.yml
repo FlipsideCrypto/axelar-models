@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      # - main
       - turn-off-dev-turn-on-prod
   schedule:
     # Runs "every hour at the 0 minute" (see https://crontab.guru)
