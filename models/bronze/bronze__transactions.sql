@@ -62,6 +62,4 @@ FROM
     JOIN meta m
     ON m.file_name = metadata $ filename
 WHERE
-    DATA: error IS NULL qualify(ROW_NUMBER() over (PARTITION BY block_number, tx_hash :: STRING
-ORDER BY
-    _inserted_timestamp DESC)) = 1
+    DATA: error IS NULL
