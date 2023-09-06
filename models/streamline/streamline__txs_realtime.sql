@@ -12,10 +12,12 @@ SELECT
         DATA :result :block :data :txs
     ) AS tx_count
 FROM
-    {{ source(
-        'bronze',
-        'blocks'
-    ) }}
+
+{% if is_incremental() %}
+{{ ref('bronze__streamline_blocks') }}
+{% else %}
+    {{ ref('bronze__streamline_FR_blocks') }}
+{% endif %}
 WHERE
     tx_count IS NOT NULL
     AND tx_count > 0

@@ -30,7 +30,6 @@ models:
   +persist_docs:
     relation: true
     columns: true
-  +on_schema_change: sync_all_columns
 
 tests:
   +store_failures: true # all tests
@@ -43,7 +42,7 @@ on-run-end:
 
 vars:
   "dbt_date:time_zone": GMT
-  STREAMLINE_INVOKE_STREAMS: True
+  STREAMLINE_INVOKE_STREAMS: False
   STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES: False
   "UPDATE_SNOWFLAKE_TAGS": True
   OBSERV_FULL_TEST: False
