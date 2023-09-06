@@ -1,11 +1,10 @@
-name: dbt_run_scheduled
-run-name: dbt_run_scheduled
+name: dbt_run_observability
+run-name: dbt_run_observability
 
 on:
   workflow_dispatch:
   schedule:
-    # Runs "every hour at the 45 minute" (see https://crontab.guru)
-    - cron: '20,50 */1 * * *'
+    - cron: '35 3,7,11,15,19,23 * * *'
 
 env:
   USE_VARS: "${{ vars.USE_VARS }}"
@@ -28,9 +27,8 @@ jobs:
     uses: FlipsideCrypto/analytics-workflow-templates/.github/workflows/dbt_run_template.yml@main
     with:
       dbt_command: |
-          dbt run -s ./models --exclude ./models/streamline/* --exclude models/silver/_observability;
-          dbt run -m models/bronze/bronze_api/bronze_api__get_blockchain_api.sql;
-          dbt run -m models/silver/core/silver__blockchain.sql;
+          dbt run -m models/silver/_observability;
       environment: workflow_prod
       warehouse: ${{ vars.WAREHOUSE }}
     secrets: inherit 
+
