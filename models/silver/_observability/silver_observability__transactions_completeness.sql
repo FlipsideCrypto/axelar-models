@@ -69,29 +69,31 @@ bronze AS (
         )
 
 {% if is_incremental() %}
-AND A._inserted_timestamp >= CURRENT_DATE - 14
-OR {% if var('OBSERV_FULL_TEST') %}
-    1 = 1
-{% else %}
-    (
-        SELECT
-            MIN(VALUE) - 1
-        FROM
-            (
-                SELECT
-                    blocks_impacted_array
-                FROM
-                    {{ this }}
-                    qualify ROW_NUMBER() over (
-                        ORDER BY
-                            test_timestamp DESC
-                    ) = 1
-            ),
-            LATERAL FLATTEN(
-                input => blocks_impacted_array
-            )
-    ) IS NOT NULL
-{% endif %}
+AND (
+    A._inserted_timestamp >= CURRENT_DATE - 14
+    OR {% if var('OBSERV_FULL_TEST') %}
+        1 = 1
+    {% else %}
+        (
+            SELECT
+                MIN(VALUE) - 1
+            FROM
+                (
+                    SELECT
+                        blocks_impacted_array
+                    FROM
+                        {{ this }}
+                        qualify ROW_NUMBER() over (
+                            ORDER BY
+                                test_timestamp DESC
+                        ) = 1
+                ),
+                LATERAL FLATTEN(
+                    input => blocks_impacted_array
+                )
+        ) IS NOT NULL
+    {% endif %}
+)
 {% endif %}
 ),
 b_block AS (
@@ -160,7 +162,11 @@ bronze_api AS (
     FROM
         {{ ref('silver__blockchain') }}
     WHERE
-        block_timestamp BETWEEN (
+        block_id NOT IN (
+            679380,
+            794839
+        )
+        AND block_timestamp BETWEEN (
             SELECT
                 MIN(block_timestamp)
             FROM
