@@ -100,6 +100,12 @@ SELECT
                 '[^a-zA-Z0-9]+'
             )
         ),
+        LOWER(
+            REGEXP_REPLACE(
+                A.decoded_flat :destinationContractAddress :: STRING,
+                '[^a-zA-Z0-9]+'
+            )
+        ),
         sender
     ) AS receiver,
     _inserted_timestamp
