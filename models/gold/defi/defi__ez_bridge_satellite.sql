@@ -46,6 +46,7 @@ SELECT
         )
         ELSE NULL
     END AS amount,
+    raw_amount,
     deposit_address,
     A.transfer_id,
     CASE
@@ -90,6 +91,7 @@ SELECT
         )
         ELSE NULL
     END AS amount,
+    raw_amount,
     deposit_address,
     NULL AS transfer_id,
     NULL AS amount_received,
@@ -122,6 +124,7 @@ SELECT
         )
         ELSE NULL
     END AS amount,
+    raw_amount,
     deposit_address,
     NULL AS transfer_id,
     NULL AS amount_received,
@@ -146,20 +149,30 @@ SELECT
     destination_chain,
     receiver,
     A.token_address,
+    COALESCE(
+        b.symbol,
+        CASE
+            A.token_address
+            WHEN '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c' THEN 'WBNB'
+            WHEN '0x651fca96c77f5f988e2ca449b6e3a445399e2492' THEN 'axlAPE'
+            WHEN '0x4268b8f0b87b6eae5d897996e6b845ddbd99adf3' THEN 'axlUSDC'
+            WHEN '0x8b1f4432f943c465a973fedc6d7aa50fc96f1f65' THEN 'AXL'
+        END
+    ) AS token_symbol,
     CASE
-        A.token_address
-        WHEN '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c' THEN 'WBNB'
-        WHEN '0x651fca96c77f5f988e2ca449b6e3a445399e2492' THEN 'axlAPE'
-        WHEN '0x4268b8f0b87b6eae5d897996e6b845ddbd99adf3' THEN 'axlUSDC'
-        WHEN '0x8b1f4432f943c465a973fedc6d7aa50fc96f1f65' THEN 'AXL'
-    END AS token_symbol,
-    CASE
-        WHEN decimals IS NOT NULL THEN raw_amount / pow(
+        WHEN COALESCE(
+            b.decimals,
+            b2.decimals
+        ) IS NOT NULL THEN raw_amount / pow(
             10,
-            decimals
+            COALESCE(
+                b.decimals,
+                b2.decimals
+            )
         )
         ELSE NULL
     END AS amount,
+    raw_amount,
     deposit_address,
     NULL AS transfer_id,
     NULL AS amount_received,
@@ -168,6 +181,12 @@ SELECT
     NULL AS fee_denom
 FROM
     {{ ref('silver__satellite_bsc') }} A
+    LEFT JOIN {{ ref(
+        'silver__evm_contracts'
+    ) }}
+    b
+    ON b.blockchain = 'bsc'
+    AND A.token_address = b.address
     LEFT JOIN (
         SELECT
             '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c' AS token_address,
@@ -184,8 +203,8 @@ FROM
         SELECT
             '0x8b1f4432f943c465a973fedc6d7aa50fc96f1f65' AS token_address,
             6 decimals
-    ) b
-    ON A.token_address = b.token_address
+    ) b2
+    ON A.token_address = b2.token_address
 UNION ALL
 SELECT
     block_number,
@@ -204,6 +223,7 @@ SELECT
         )
         ELSE NULL
     END AS amount,
+    raw_amount,
     deposit_address,
     NULL AS transfer_id,
     NULL AS amount_received,
@@ -236,6 +256,7 @@ SELECT
         )
         ELSE NULL
     END AS amount,
+    raw_amount,
     deposit_address,
     NULL AS transfer_id,
     NULL AS amount_received,

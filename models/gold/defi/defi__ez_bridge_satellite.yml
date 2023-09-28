@@ -27,6 +27,10 @@ models:
         description: "{{ doc('amount') }}"
         tests: 
           - dbt_expectations.expect_column_to_exist
+      - name: RAW_AMOUNT
+        description: "The unadjusted transfer amount"
+        tests: 
+          - dbt_expectations.expect_column_to_exist
       - name: TOKEN_SYMBOL
         description: "{{ doc('symbol') }}"
         tests: 
