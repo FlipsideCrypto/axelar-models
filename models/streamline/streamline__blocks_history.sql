@@ -2,7 +2,8 @@
     materialized = "incremental",
     unique_key = "id",
     cluster_by = "ROUND(block_number, -3)",
-    merge_update_columns = ["id"]
+    merge_update_columns = ["id"],
+    post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION on equality(id)"
 ) }}
 
 WITH meta AS (
@@ -37,7 +38,7 @@ max_date AS (
             "blocks"
         ) }}
         JOIN meta b
-        ON b.file_name = metadata$filename
+        ON b.file_name = metadata $ filename
 
 {% if is_incremental() %}
 WHERE
@@ -52,4 +53,3 @@ WHERE
 qualify(ROW_NUMBER() over (PARTITION BY id
 ORDER BY
     _inserted_timestamp DESC)) = 1
-

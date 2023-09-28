@@ -28,8 +28,6 @@ WHERE
             {{ ref(
                 "streamline__txs_history"
             ) }}
-        GROUP BY
-            1
     )
 ORDER BY
     1 ASC
