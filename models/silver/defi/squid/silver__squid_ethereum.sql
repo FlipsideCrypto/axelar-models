@@ -11,6 +11,7 @@ WITH dec_logs_base AS (
         block_number,
         tx_hash,
         _log_id,
+        event_index,
         event_name,
         contract_address,
         decoded_flat,
@@ -73,7 +74,9 @@ squid_to_gateway AS (
     WHERE
         event_name = 'Transfer'
         AND decoded_flat :from = '0xce16f69375520ab01377ce7b88f5ba8c48f8d666'
-        AND decoded_flat :to = '0x4f4495243837681061c4743b74b3eedf548d56a5'
+        AND decoded_flat :to = '0x4f4495243837681061c4743b74b3eedf548d56a5' qualify(ROW_NUMBER() over(PARTITION BY tx_hash
+    ORDER BY
+        event_index DESC) = 1)
 )
 SELECT
     A.block_number,
@@ -119,3 +122,6 @@ FROM
     AND A.block_number = C.block_number
 WHERE
     A.contract_address = '0x4f4495243837681061c4743b74b3eedf548d56a5' {# AND destinationChain <> 'osmosis' #}
+    qualify(ROW_NUMBER() over(PARTITION BY A.tx_hash
+ORDER BY
+    A.event_index DESC) = 1)
