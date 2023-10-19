@@ -1,12 +1,13 @@
 version: 2
 models:
-  - name: silver__transfers
-    description: Records of all transfers on Axelar, including IBC transfers as on- and off-ramps to Axelar and wallet to wallet transfers
+  - name: silver__transfers_ibc
+    description: Records of all transfers on Sei, including IBC transfers as on- and off-ramps to Sei and wallet to wallet transfers
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - TX_ID
             - MSG_INDEX
+            - CURRENCY
     columns:
       - name: BLOCK_ID
         description: "{{ doc('block_id') }}"
@@ -35,8 +36,7 @@ models:
                 - STRING
                 - VARCHAR
       - name: TX_SUCCEEDED
-        description: "{{ doc('tx_succeeded') }}"
-        tests: 
+        tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list:
@@ -48,7 +48,7 @@ models:
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list:
                 - STRING
-                - VARCHAR 
+                - VARCHAR
       - name: SENDER
         description: "{{ doc('sender') }}"
         tests: 
@@ -63,8 +63,8 @@ models:
           - not_null
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list:
-                - NUMBER
-                - FLOAT
+                - NUMBER    
+                - FLOAT 
       - name: CURRENCY
         description: "{{ doc('currency') }}"
         tests: 
@@ -73,26 +73,10 @@ models:
               column_type_list:
                 - STRING
                 - VARCHAR
-      - name: DECIMAL 
-        description: Divide the raw amount of currency as provided in the amount column by the decimal to get the actual amount in AXL or other currency.
       - name: RECEIVER
         description: "{{ doc('receiver') }}"
         tests: 
           - not_null
-          - dbt_expectations.expect_column_values_to_be_in_type_list:
-              column_type_list:
-                - STRING
-                - VARCHAR
-      - name: FOREIGN_ADDRESS
-        description: "{{ doc('foreign_address') }}"
-        tests: 
-          - dbt_expectations.expect_column_values_to_be_in_type_list:
-              column_type_list:
-                - STRING
-                - VARCHAR
-      - name: FOREIGN_CHAIN
-        description: "{{ doc('foreign_chain') }}"
-        tests: 
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list:
                 - STRING
@@ -104,3 +88,4 @@ models:
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list:
                 - TIMESTAMP_NTZ
+                - TIMESTAMP_LTZ
