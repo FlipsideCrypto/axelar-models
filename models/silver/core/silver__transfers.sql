@@ -144,10 +144,16 @@ SELECT
     d.decimal,
     A.receiver,
     A.msg_index,
+    b.destination_address AS foreign_address,
+    b.destination_chain AS foreign_chain,
     A._inserted_timestamp
 FROM
     fin A
     LEFT JOIN decimals d
     ON A.currency = d.denom_name
+    LEFT JOIN {{ ref('silver__link_events') }}
+    b
+    ON A.receiver = b.deposit_address
+    AND len(receiver) = 65
 WHERE
     A.amount IS NOT NULL

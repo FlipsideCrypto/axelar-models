@@ -13,8 +13,8 @@ SELECT
     currency,
     DECIMAL,
     receiver,
-    NULL :: STRING AS foreign_address,
-    NULL :: STRING AS foreign_chain,
+    foreign_address,
+    foreign_chain,
     msg_index
 FROM
     {{ ref('silver__transfers') }}
