@@ -36,6 +36,7 @@ WITH base_atts AS (
                 AND attribute_key = 'sender'
             )
         )
+        AND tx_id <> '6FC4E1A49A885B9DD006C702413BD2F48209461982A62239F6C75925AA54D80D'
 
 {% if is_incremental() %}
 AND _inserted_timestamp >= (
