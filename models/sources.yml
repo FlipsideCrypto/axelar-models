@@ -128,3 +128,8 @@ sources:
     schema: core
     tables: 
       - name: dim_contracts
+  - name: github_actions
+    database: axelar
+    schema: github_actions
+    tables:
+      - name: workflows

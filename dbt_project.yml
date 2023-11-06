@@ -46,6 +46,7 @@ vars:
   STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES: False
   "UPDATE_SNOWFLAKE_TAGS": True
   OBSERV_FULL_TEST: False
+  START_GHA_TASKS: False
 
 dispatch:
   - macro_namespace: dbt
