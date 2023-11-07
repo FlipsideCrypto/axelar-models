@@ -38,4 +38,4 @@ SELECT
     project_name,
     raw_metadata
 FROM
-    {{ ref('core__fact_validators') }}
+    {{ ref('gov__fact_validators') }}
