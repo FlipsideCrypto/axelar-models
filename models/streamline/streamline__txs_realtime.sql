@@ -7,27 +7,16 @@
 ) }}
 
 SELECT
-    block_number,
-    ARRAY_SIZE(
-        DATA :result :block :data :txs
-    ) AS tx_count
+    A.block_number,
+    A.tx_count
 FROM
-
-{% if is_incremental() %}
-{{ ref('bronze__streamline_blocks') }}
-{% else %}
-    {{ ref('bronze__streamline_FR_blocks') }}
-{% endif %}
+    {{ ref("streamline__blocks_history") }} A
+    LEFT JOIN {{ ref("streamline__txs_history") }}
+    b
+    ON A.block_number = b.block_number
 WHERE
-    tx_count IS NOT NULL
-    AND tx_count > 0
-    AND block_number NOT IN (
-        SELECT
-            block_number
-        FROM
-            {{ ref(
-                "streamline__txs_history"
-            ) }}
-    )
+    A.tx_count IS NOT NULL
+    AND A.tx_count > 0
+    AND b.block_number IS NULL
 ORDER BY
     1 ASC

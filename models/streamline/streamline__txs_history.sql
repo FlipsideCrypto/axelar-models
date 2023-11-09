@@ -9,28 +9,24 @@
 -- depends_on: {{ ref('bronze__streamline_FR_transactions') }}
 
 SELECT
-    DISTINCT {{ dbt_utils.generate_surrogate_key(
-        ['block_number']
-    ) }} AS id,
+    id,
     block_number,
     _inserted_timestamp
 FROM
 
 {% if is_incremental() %}
 {{ ref('bronze__streamline_transactions') }}
+WHERE
+    _inserted_timestamp >= (
+        SELECT
+            MAX(_inserted_timestamp) _inserted_timestamp
+        FROM
+            {{ this }}
+    )
 {% else %}
     {{ ref('bronze__streamline_FR_transactions') }}
 {% endif %}
 
-{% if is_incremental() %}
-WHERE
-    _inserted_timestamp > (
-        SELECT
-            COALESCE(MAX(_INSERTED_TIMESTAMP), '1970-01-01' :: DATE) max_INSERTED_TIMESTAMP
-        FROM
-            {{ this }})
-        {% endif %}
-
-        qualify(ROW_NUMBER() over (PARTITION BY id
-        ORDER BY
-            _inserted_timestamp DESC)) = 1
+qualify(ROW_NUMBER() over (PARTITION BY id
+ORDER BY
+    _inserted_timestamp DESC)) = 1
