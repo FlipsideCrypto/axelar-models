@@ -2,4 +2,4 @@ workflow_name,workflow_schedule
 dbt_run_incremental,"25,55 * * * *"
 dbt_run_streamline_blocks,"0,30 * * * *"
 dbt_run_streamline_transactions,"5,35 * * * *"
-dbt_test_tasks,"0,30 * * * *"∂
+dbt_test_tasks,"0,30 * * * *"
