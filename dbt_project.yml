@@ -30,6 +30,7 @@ models:
   +persist_docs:
     relation: true
     columns: true
+  +on_schema_change: "append_new_columns"
 
 tests:
   +store_failures: true # all tests

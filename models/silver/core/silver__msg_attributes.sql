@@ -27,7 +27,13 @@ SELECT
     msg_index,
     attribute_index
   ) AS _unique_key,
-  _inserted_timestamp
+  {{ dbt_utils.generate_surrogate_key(
+    ['tx_id','msg_index','attribute_index']
+  ) }} AS msg_attributes_id,
+  SYSDATE() AS inserted_timestamp,
+  SYSDATE() AS modified_timestamp,
+  _inserted_timestamp,
+  '{{ invocation_id }}' AS _invocation_id
 FROM
   {{ ref('silver__msgs') }} A,
   LATERAL FLATTEN(
@@ -39,7 +45,7 @@ FROM
 WHERE
   _inserted_timestamp :: DATE >= (
     SELECT
-      MAX(_inserted_timestamp) :: DATE - 2 
+      MAX(_inserted_timestamp) :: DATE - 2
     FROM
       {{ this }}
   )

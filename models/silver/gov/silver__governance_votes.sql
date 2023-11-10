@@ -2,6 +2,7 @@
     materialized = 'incremental',
     unique_key = ['tx_id','proposal_id','voter'],
     incremental_strategy = 'merge',
+    merge_exclude_columns = ["inserted_timestamp"],
     cluster_by = ['block_timestamp::DATE']
 ) }}
 
@@ -93,7 +94,13 @@ SELECT
         ELSE A.vote_option :: INT
     END AS vote_option,
     A.vote_weight,
-    A._inserted_timestamp
+    {{ dbt_utils.generate_surrogate_key(
+        ['a.tx_id','a.proposal_id','b.voter']
+    ) }} AS governance_votes_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    A._inserted_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     fin A
     LEFT JOIN (

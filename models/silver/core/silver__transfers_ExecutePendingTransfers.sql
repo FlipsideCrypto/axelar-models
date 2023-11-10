@@ -189,8 +189,14 @@ SELECT
     transfer_id,
     snd.deposit_address AS foreign_address,
     snd.source_chain AS foreign_chain,
+    _unique_key,
+    {{ dbt_utils.generate_surrogate_key(
+        ['tx_id','msg_index']
+    ) }} AS transfer_executependingtransfers_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
     _inserted_timestamp,
-    _unique_key
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     txs_final i
     LEFT JOIN decimals d

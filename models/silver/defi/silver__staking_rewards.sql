@@ -2,6 +2,7 @@
     materialized = 'incremental',
     unique_key = "_unique_key",
     incremental_strategy = 'merge',
+    merge_exclude_columns = ["inserted_timestamp"],
     cluster_by = ['block_timestamp::DATE']
 ) }}
 
@@ -406,7 +407,6 @@ SELECT
         ELSE 'uaxl'
     END AS currency,
     A.validator_address,
-    b._inserted_timestamp,
     concat_ws(
         '-',
         A.tx_id,
@@ -415,7 +415,14 @@ SELECT
         currency,
         A.delegator_address,
         A.validator_address
-    ) AS _unique_key
+    ) AS _unique_key,
+    {{ dbt_utils.generate_surrogate_key(
+        ['A.tx_id','A.msg_group','A.action','currency','A.delegator_address','A.validator_address']
+    ) }} AS staking_rewards_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    b._inserted_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     combo_all A
     JOIN LATERAL SPLIT_TO_TABLE(
@@ -437,4 +444,5 @@ GROUP BY
     A.delegator_address,
     currency,
     A.validator_address,
-    b._inserted_timestamp
+    b._inserted_timestamp,
+    staking_rewards_id

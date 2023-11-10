@@ -2,6 +2,7 @@
     materialized = 'incremental',
     unique_key = ['tx_id','msg_index'],
     incremental_strategy = 'merge',
+    merge_exclude_columns = ["inserted_timestamp"],
     cluster_by = ['block_timestamp::DATE']
 ) }}
 
@@ -146,7 +147,13 @@ SELECT
     A.msg_index,
     b.destination_address AS foreign_address,
     b.destination_chain AS foreign_chain,
-    A._inserted_timestamp
+    {{ dbt_utils.generate_surrogate_key(
+        ['a.tx_id','a.msg_index']
+    ) }} AS transfers_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    A._inserted_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     fin A
     LEFT JOIN decimals d

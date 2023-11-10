@@ -51,7 +51,13 @@ SELECT
     tx_code,
     msgs,
     tx_log :: STRING AS tx_log,
-    b._inserted_timestamp
+    {{ dbt_utils.generate_surrogate_key(
+        ['tx_id']
+    ) }} AS transactions_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    b._inserted_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     base_table b
     LEFT OUTER JOIN {{ ref('silver__blocks') }}

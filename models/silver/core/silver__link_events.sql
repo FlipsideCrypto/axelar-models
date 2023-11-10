@@ -72,7 +72,13 @@ SELECT
     destination_chain,
     destination_address,
     asset,
+    j,
+    {{ dbt_utils.generate_surrogate_key(
+        ['tx_id']
+    ) }} AS link_events_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
     _inserted_timestamp,
-    j
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     fin

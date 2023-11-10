@@ -116,7 +116,13 @@ SELECT
             )
         END
     ) AS test_failure_details,
-    SYSDATE() AS test_timestamp
+    SYSDATE() AS test_timestamp,
+    {{ dbt_utils.generate_surrogate_key(
+        ['SYSDATE()']
+    ) }} AS blocks_completeness_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     block_gen A
     LEFT JOIN source b
