@@ -3,6 +3,7 @@
     unique_key = "tx_hash",
     incremental_strategy = 'merge',
     cluster_by = 'block_timestamp::DATE',
+    tags = ['noncore']
 ) }}
 
 WITH logs_base AS (

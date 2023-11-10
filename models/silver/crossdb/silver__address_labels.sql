@@ -2,7 +2,8 @@
     materialized = 'incremental',
     unique_key = "address",
     incremental_strategy = 'merge',
-    cluster_by = 'system_created_at::DATE'
+    cluster_by = 'system_created_at::DATE',
+    tags = ['daily']
 ) }}
 
 SELECT

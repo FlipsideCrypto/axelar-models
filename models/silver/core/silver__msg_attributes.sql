@@ -3,6 +3,7 @@
   unique_key = "_unique_key",
   incremental_strategy = 'delete+insert',
   cluster_by = ['block_timestamp::DATE'],
+  tags = ['core']
 ) }}
 
 SELECT
@@ -39,7 +40,7 @@ FROM
 WHERE
   _inserted_timestamp :: DATE >= (
     SELECT
-      MAX(_inserted_timestamp) :: DATE - 2 
+      MAX(_inserted_timestamp) :: DATE - 2
     FROM
       {{ this }}
   )

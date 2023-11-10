@@ -2,7 +2,8 @@
     materialized = 'incremental',
     unique_key = ['tx_id','proposal_id','voter'],
     incremental_strategy = 'merge',
-    cluster_by = ['block_timestamp::DATE']
+    cluster_by = ['block_timestamp::DATE'],
+    tags = ['noncore']
 ) }}
 
 WITH base_atts AS (
