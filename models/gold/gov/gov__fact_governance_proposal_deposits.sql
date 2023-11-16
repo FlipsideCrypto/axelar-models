@@ -13,7 +13,21 @@ SELECT
     proposal_id,
     amount / pow(10, COALESCE(t.decimal, 0)) :: NUMBER AS amount,
     currency,
-    t.decimal
+    t.decimal,
+    COALESCE(
+        governance_proposal_deposits_id,
+        {{ dbt_utils.generate_surrogate_key(
+            ['tx_id']
+        ) }}
+    ) AS fact_governance_proposal_deposits_id,
+    GREATEST(
+        g.inserted_timestamp,
+        t.inserted_timestamp
+    ) AS inserted_timestamp,
+    GREATEST(
+        g.modified_timestamp,
+        t.modified_timestamp
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__governance_proposal_deposits') }}
     g

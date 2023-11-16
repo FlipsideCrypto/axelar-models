@@ -297,7 +297,7 @@ SELECT
     ) }} AS transfers_ibc_id,
     SYSDATE() AS inserted_timestamp,
     SYSDATE() AS modified_timestamp,
-    _inserted_timestamp,
+    i._inserted_timestamp,
     '{{ invocation_id }}' AS _invocation_id
 FROM
     new_fin i

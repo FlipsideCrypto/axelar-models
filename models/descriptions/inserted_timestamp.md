@@ -1,5 +1,5 @@
 {% docs inserted_timestamp %}
 
-The date and time at which the block or transaction was inserted in the bronze tables.
+The utc timestamp at which the row was inserted into the table.
 
 {% enddocs %}

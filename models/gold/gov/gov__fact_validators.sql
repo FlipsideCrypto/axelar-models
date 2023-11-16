@@ -19,6 +19,14 @@ SELECT
     min_self_delegation,
     RANK,
     raw_metadata,
-    unique_key
+    unique_key,
+    COALESCE(
+        validators_id,
+        {{ dbt_utils.generate_surrogate_key(
+            ['address','creator','blockchain']
+        ) }}
+    ) AS fact_validators_id,
+    inserted_timestamp,
+    modified_timestamp
 FROM
     {{ ref('silver__validators') }}

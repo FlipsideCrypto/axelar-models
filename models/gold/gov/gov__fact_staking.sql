@@ -1,6 +1,6 @@
 {{ config(
     materialized = 'view',
-    meta ={ 'database_tags':{ 'table':{ 'PURPOSE': 'STAKING' }}},
+    meta ={ 'database_tags':{ 'table':{ 'PURPOSE': 'STAKING' }} },
     tags = ['noncore']
 ) }}
 
@@ -17,6 +17,14 @@ SELECT
     currency,
     redelegate_source_validator_address,
     completion_time,
-    msg_group AS _msg_group
+    msg_group AS _msg_group,
+    COALESCE(
+        staking_id,
+        {{ dbt_utils.generate_surrogate_key(
+            ['tx_id','msg_group','action','currency','delegator_address','validator_address']
+        ) }}
+    ) AS fact_staking_id,
+    inserted_timestamp,
+    modified_timestamp
 FROM
     {{ ref('silver__staking') }}

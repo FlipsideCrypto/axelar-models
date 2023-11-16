@@ -119,13 +119,7 @@ FINAL AS (
       A.tx_id,
       A.msg_index
     ) AS _unique_key,
-    {{ dbt_utils.generate_surrogate_key(
-      ['a.tx_id','a.msg_index']
-    ) }} AS msgs_id,
-    SYSDATE() AS inserted_timestamp,
-    SYSDATE() AS modified_timestamp,
-    _inserted_timestamp,
-    '{{ invocation_id }}' AS _invocation_id
+    _inserted_timestamp
   FROM
     base A
     LEFT JOIN GROUPING b
@@ -143,6 +137,12 @@ SELECT
   msg_type,
   msg,
   _unique_key,
-  _inserted_timestamp
+  {{ dbt_utils.generate_surrogate_key(
+    ['tx_id','msg_index']
+  ) }} AS msgs_id,
+  SYSDATE() AS inserted_timestamp,
+  SYSDATE() AS modified_timestamp,
+  _inserted_timestamp,
+  '{{ invocation_id }}' AS _invocation_id
 FROM
   FINAL

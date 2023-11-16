@@ -121,7 +121,7 @@ SELECT
     A.validator_address_reward,
     {{ dbt_utils.generate_surrogate_key(
         ['a.tx_id']
-    ) }} AS staking_id,
+    ) }} AS validator_commission_id,
     SYSDATE() AS inserted_timestamp,
     SYSDATE() AS modified_timestamp,
     b._inserted_timestamp,
