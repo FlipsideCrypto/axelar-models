@@ -1,5 +1,6 @@
 {{ config(
-    materialized = 'view'
+    materialized = 'view',
+    tags = ['noncore']
 ) }}
 
 SELECT
@@ -13,7 +14,10 @@ SELECT
     alias,
     DECIMAL,
     raw_metadata,
-    unique_key
+    unique_key,
+    unique_key AS dim_tokens_id,
+    inserted_timestamp,
+    modified_timestamp
 FROM
     {{ ref(
         'silver__osmo_assets'

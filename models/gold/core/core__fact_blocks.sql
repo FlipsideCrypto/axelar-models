@@ -1,5 +1,6 @@
 {{ config(
-    materialized = 'view'
+    materialized = 'view',
+    tags = ['noncore']
 ) }}
 
 SELECT
@@ -14,6 +15,8 @@ SELECT
         {{ dbt_utils.generate_surrogate_key(
             ['chain_id','block_id']
         ) }}
-    ) AS fact_blocks_id
+    ) AS fact_blocks_id,
+    inserted_timestamp,
+    modified_timestamp
 FROM
     {{ ref('silver__blocks') }}

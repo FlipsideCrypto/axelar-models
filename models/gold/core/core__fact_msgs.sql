@@ -1,5 +1,6 @@
 {{ config(
-    materialized = 'view'
+    materialized = 'view',
+    tags = ['noncore']
 ) }}
 
 SELECT
@@ -14,6 +15,14 @@ SELECT
     ) AS msg_group,
     msg_index,
     msg_type,
-    msg
+    msg,
+    COALESCE(
+        msgs_id,
+        {{ dbt_utils.generate_surrogate_key(
+            ['tx_id','msg_index']
+        ) }}
+    ) AS fact_msgs_id,
+    inserted_timestamp,
+    modified_timestamp
 FROM
     {{ ref('silver__msgs') }}
