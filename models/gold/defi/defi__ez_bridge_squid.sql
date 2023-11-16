@@ -2,7 +2,8 @@
     materialized = 'table',
     cluster_by = ['block_timestamp::DATE'],
     meta ={ 'database_tags':{ 'table':{ 'PROTOCOL': 'SQUID',
-    'PURPOSE': 'DEFI' }} }
+    'PURPOSE': 'DEFI' }} },
+    tags = ['noncore']
 ) }}
 
 WITH base AS (

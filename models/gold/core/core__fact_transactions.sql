@@ -3,6 +3,7 @@
   unique_key = "tx_id",
   incremental_strategy = 'delete+insert',
   cluster_by = ['block_timestamp::DATE'],
+  tags = ['core']
 ) }}
 
 WITH
@@ -27,7 +28,7 @@ fee AS (
     {{ ref('silver__msg_attributes') }}
   WHERE
     attribute_key = 'fee'
-    AND fee like '%uaxl'
+    AND fee LIKE '%uaxl'
 
 {% if is_incremental() %}
 AND _inserted_timestamp :: DATE >= (
@@ -38,7 +39,6 @@ AND _inserted_timestamp :: DATE >= (
 )
 {% endif %}
 ),
-
 spender AS (
   SELECT
     tx_id,
@@ -65,34 +65,39 @@ qualify(ROW_NUMBER() over(PARTITION BY tx_id
 ORDER BY
   msg_index)) = 1
 ),
-
 final_transactions AS (
-SELECT
-  t.block_id,
-  t.block_timestamp,
-  t.tx_id,
-  s.tx_from,
-  tx_succeeded,
-  codespace,
-  COALESCE(
-    fee,
-    '0uaxl'
-  ) AS fee_raw,
-  regexp_substr(fee_raw, '[0-9]+') as fee, 
-  regexp_substr(fee_raw, '[a-z]+') as fee_denom, 
-  gas_used,
-  gas_wanted,
-  tx_code,
-  tx_log,
-  msgs,
-  _inserted_timestamp
-FROM
-  {{ ref('silver__transactions') }}
-  t
-  LEFT OUTER JOIN fee f
-  ON t.tx_id = f.tx_id
-  INNER JOIN spender s
-  ON t.tx_id = s.tx_id
+  SELECT
+    t.block_id,
+    t.block_timestamp,
+    t.tx_id,
+    s.tx_from,
+    tx_succeeded,
+    codespace,
+    COALESCE(
+      fee,
+      '0uaxl'
+    ) AS fee_raw,
+    REGEXP_SUBSTR(
+      fee_raw,
+      '[0-9]+'
+    ) AS fee,
+    REGEXP_SUBSTR(
+      fee_raw,
+      '[a-z]+'
+    ) AS fee_denom,
+    gas_used,
+    gas_wanted,
+    tx_code,
+    tx_log,
+    msgs,
+    _inserted_timestamp
+  FROM
+    {{ ref('silver__transactions') }}
+    t
+    LEFT OUTER JOIN fee f
+    ON t.tx_id = f.tx_id
+    INNER JOIN spender s
+    ON t.tx_id = s.tx_id
 
 {% if is_incremental() %}
 WHERE
@@ -104,23 +109,20 @@ WHERE
   )
 {% endif %}
 )
-
-SELECT 
+SELECT
   block_id,
   block_timestamp,
   tx_id,
   tx_from,
   tx_succeeded,
   codespace,
-  fee, 
-  fee_denom, 
+  fee,
+  fee_denom,
   gas_used,
   gas_wanted,
   tx_code,
   tx_log,
   msgs,
   _inserted_timestamp
-
-FROM final_transactions
-
-
+FROM
+  final_transactions

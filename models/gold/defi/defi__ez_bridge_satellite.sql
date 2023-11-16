@@ -1,6 +1,7 @@
 {{ config(
     materialized = 'table',
-    cluster_by = ['block_timestamp::DATE']
+    cluster_by = ['block_timestamp::DATE'],
+    tags = ['noncore']
 ) }}
 
 WITH axel_dec AS (
