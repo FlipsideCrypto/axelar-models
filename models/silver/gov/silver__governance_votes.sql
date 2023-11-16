@@ -3,7 +3,8 @@
     unique_key = ['tx_id','proposal_id','voter'],
     incremental_strategy = 'merge',
     merge_exclude_columns = ["inserted_timestamp"],
-    cluster_by = ['block_timestamp::DATE']
+    cluster_by = ['block_timestamp::DATE'],
+    tags = ['noncore']
 ) }}
 
 WITH base_atts AS (

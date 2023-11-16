@@ -3,6 +3,7 @@
   unique_key = "_unique_key",
   incremental_strategy = 'delete+insert',
   cluster_by = ['block_timestamp::DATE'],
+  tags = ['core']
 ) }}
 
 WITH base AS (
