@@ -65,7 +65,11 @@ SELECT
         )
         ELSE NULL
     END AS fee_paid,
-    raw_fee_denom AS fee_denom
+    raw_fee_denom AS fee_denom,
+    satellite_axelar_id AS satellite_combined_id,
+    inserted_timestamp,
+    modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     {{ ref('silver__satellite_axelar') }} A
     LEFT JOIN axel_dec b
@@ -98,7 +102,11 @@ SELECT
     NULL AS amount_received,
     NULL AS amount_received_denom,
     NULL AS fee_paid,
-    NULL AS fee_denom
+    NULL AS fee_denom,
+    satellite_arbitrum_id AS satellite_combined_id,
+    inserted_timestamp,
+    modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     {{ ref('silver__satellite_arbitrum') }} A
     LEFT JOIN {{ ref(
@@ -131,7 +139,11 @@ SELECT
     NULL AS amount_received,
     NULL AS amount_received_denom,
     NULL AS fee_paid,
-    NULL AS fee_denom
+    NULL AS fee_denom,
+    satellite_avalanche_id AS satellite_combined_id,
+    inserted_timestamp,
+    modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     {{ ref('silver__satellite_avalanche') }} A
     LEFT JOIN {{ ref(
@@ -179,7 +191,11 @@ SELECT
     NULL AS amount_received,
     NULL AS amount_received_denom,
     NULL AS fee_paid,
-    NULL AS fee_denom
+    NULL AS fee_denom,
+    satellite_bsc_id AS satellite_combined_id,
+    inserted_timestamp,
+    modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     {{ ref('silver__satellite_bsc') }} A
     LEFT JOIN {{ ref(
@@ -230,7 +246,11 @@ SELECT
     NULL AS amount_received,
     NULL AS amount_received_denom,
     NULL AS fee_paid,
-    NULL AS fee_denom
+    NULL AS fee_denom,
+    satellite_ethereum_id AS satellite_combined_id,
+    inserted_timestamp,
+    modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     {{ ref('silver__satellite_ethereum') }} A
     LEFT JOIN {{ ref(
@@ -263,7 +283,11 @@ SELECT
     NULL AS amount_received,
     NULL AS amount_received_denom,
     NULL AS fee_paid,
-    NULL AS fee_denom
+    NULL AS fee_denom,
+    satellite_polygon_id AS satellite_combined_id,
+    inserted_timestamp,
+    modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     {{ ref('silver__satellite_polygon') }} A
     LEFT JOIN {{ ref(

@@ -16,7 +16,13 @@ SELECT
             ['chain_id','block_id']
         ) }}
     ) AS fact_blocks_id,
-    inserted_timestamp,
-    modified_timestamp
+    COALESCE(
+        inserted_timestamp,
+        '2000-01-01'
+    ) AS inserted_timestamp,
+    COALESCE(
+        modified_timestamp,
+        '2000-01-01'
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__blocks') }}

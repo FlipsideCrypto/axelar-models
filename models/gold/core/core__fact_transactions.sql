@@ -19,7 +19,13 @@ SELECT
   msgs,
   _inserted_timestamp,
   transactions__final_id AS fact_transactions_id,
-  inserted_timestamp,
-  modified_timestamp
+  COALESCE(
+    inserted_timestamp,
+    '2000-01-01'
+  ) AS inserted_timestamp,
+  COALESCE(
+    modified_timestamp,
+    '2000-01-01'
+  ) AS modified_timestamp
 FROM
   {{ ref('silver__transactions_final') }}

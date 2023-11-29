@@ -24,7 +24,11 @@ WITH base AS (
         END AS amount,
         'arbitrum' AS source_chain,
         destination_chain,
-        receiver
+        receiver,
+        squid_arbitrum_id AS squid_combined_id,
+        inserted_timestamp,
+        modified_timestamp,
+        '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_arbitrum') }} A
         LEFT JOIN {{ ref(
@@ -50,7 +54,11 @@ WITH base AS (
         END AS amount,
         'avalanche' AS source_chain,
         destination_chain,
-        receiver
+        receiver,
+        squid_avalanche_id AS squid_combined_id,
+        inserted_timestamp,
+        modified_timestamp,
+        '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_avalanche') }} A
         LEFT JOIN {{ ref(
@@ -76,7 +84,11 @@ WITH base AS (
         END AS amount,
         'binance' AS source_chain,
         destination_chain,
-        receiver
+        receiver,
+        squid_bsc_id AS squid_combined_id,
+        inserted_timestamp,
+        modified_timestamp,
+        '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_bsc') }} A
         LEFT JOIN {{ ref(
@@ -102,7 +114,11 @@ WITH base AS (
         END AS amount,
         'ethereum' AS source_chain,
         destination_chain,
-        receiver
+        receiver,
+        squid_ethereum_id AS squid_combined_id,
+        inserted_timestamp,
+        modified_timestamp,
+        '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_ethereum') }} A
         LEFT JOIN {{ ref(
@@ -128,7 +144,11 @@ WITH base AS (
         END AS amount,
         'polygon' AS source_chain,
         destination_chain,
-        receiver
+        receiver,
+        squid_polygon_id AS squid_combined_id,
+        inserted_timestamp,
+        modified_timestamp,
+        '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_polygon') }} A
         LEFT JOIN {{ ref(
@@ -154,7 +174,11 @@ WITH base AS (
         END AS amount,
         'optimism' AS source_chain,
         destination_chain,
-        receiver
+        receiver,
+        squid_optimism_id AS squid_combined_id,
+        inserted_timestamp,
+        modified_timestamp,
+        '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_optimism') }} A
         LEFT JOIN {{ ref(
@@ -180,7 +204,11 @@ WITH base AS (
         END AS amount,
         'base' AS source_chain,
         destination_chain,
-        receiver
+        receiver,
+        squid_base_id AS squid_combined_id,
+        inserted_timestamp,
+        modified_timestamp,
+        '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_base') }} A
         LEFT JOIN {{ ref(
@@ -210,6 +238,10 @@ SELECT
             '',
             1
         )
-    ) AS receiver
+    ) AS receiver,
+    squid_combined_id,
+    inserted_timestamp,
+    modified_timestamp,
+    _invocation_id
 FROM
     base

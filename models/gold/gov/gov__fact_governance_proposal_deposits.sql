@@ -20,13 +20,19 @@ SELECT
             ['tx_id']
         ) }}
     ) AS fact_governance_proposal_deposits_id,
-    GREATEST(
-        g.inserted_timestamp,
-        t.inserted_timestamp
+    COALESCE(
+        GREATEST(
+            g.inserted_timestamp,
+            t.inserted_timestamp
+        ),
+        '2000-01-01'
     ) AS inserted_timestamp,
-    GREATEST(
-        g.modified_timestamp,
-        t.modified_timestamp
+    COALESCE(
+        GREATEST(
+            g.modified_timestamp,
+            t.modified_timestamp
+        ),
+        '2000-01-01'
     ) AS modified_timestamp
 FROM
     {{ ref('silver__governance_proposal_deposits') }}

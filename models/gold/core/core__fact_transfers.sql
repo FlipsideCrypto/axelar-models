@@ -23,8 +23,14 @@ SELECT
             ['tx_id','msg_index']
         ) }}
     ) AS fact_transfers_id,
-    inserted_timestamp,
-    modified_timestamp
+    COALESCE(
+        inserted_timestamp,
+        '2000-01-01'
+    ) AS inserted_timestamp,
+    COALESCE(
+        modified_timestamp,
+        '2000-01-01'
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__transfers') }}
 UNION ALL
@@ -48,8 +54,14 @@ SELECT
             ['tx_id','msg_index']
         ) }}
     ) AS fact_transfers_id,
-    inserted_timestamp,
-    modified_timestamp
+    COALESCE(
+        inserted_timestamp,
+        '2000-01-01'
+    ) AS inserted_timestamp,
+    COALESCE(
+        modified_timestamp,
+        '2000-01-01'
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__transfers_ibc') }}
 UNION ALL
@@ -73,7 +85,13 @@ SELECT
             ['tx_id','msg_index']
         ) }}
     ) AS fact_transfers_id,
-    inserted_timestamp,
-    modified_timestamp
+    COALESCE(
+        inserted_timestamp,
+        '2000-01-01'
+    ) AS inserted_timestamp,
+    COALESCE(
+        modified_timestamp,
+        '2000-01-01'
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__transfers_ExecutePendingTransfers') }}
