@@ -18,7 +18,7 @@ SELECT
   tx_log,
   msgs,
   _inserted_timestamp,
-  transactions__final_id AS fact_transactions_id,
+  transactions_final_id AS fact_transactions_id,
   COALESCE(
     inserted_timestamp,
     '2000-01-01'

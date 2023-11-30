@@ -123,6 +123,12 @@ SELECT
   tx_code,
   tx_log,
   msgs,
-  _inserted_timestamp
+  _inserted_timestamp,
+  {{ dbt_utils.generate_surrogate_key(
+    ['tx_id']
+  ) }} AS transactions_final_id,
+  SYSDATE() AS inserted_timestamp,
+  SYSDATE() AS modified_timestamp,
+  '{{ invocation_id }}' AS _invocation_id
 FROM
   final_transactions

@@ -26,8 +26,8 @@ WITH base AS (
         destination_chain,
         receiver,
         squid_arbitrum_id AS squid_combined_id,
-        inserted_timestamp,
-        modified_timestamp,
+        A.inserted_timestamp,
+        A.modified_timestamp,
         '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_arbitrum') }} A
@@ -56,8 +56,8 @@ WITH base AS (
         destination_chain,
         receiver,
         squid_avalanche_id AS squid_combined_id,
-        inserted_timestamp,
-        modified_timestamp,
+        A.inserted_timestamp,
+        A.modified_timestamp,
         '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_avalanche') }} A
@@ -86,8 +86,8 @@ WITH base AS (
         destination_chain,
         receiver,
         squid_bsc_id AS squid_combined_id,
-        inserted_timestamp,
-        modified_timestamp,
+        A.inserted_timestamp,
+        A.modified_timestamp,
         '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_bsc') }} A
@@ -116,8 +116,8 @@ WITH base AS (
         destination_chain,
         receiver,
         squid_ethereum_id AS squid_combined_id,
-        inserted_timestamp,
-        modified_timestamp,
+        A.inserted_timestamp,
+        A.modified_timestamp,
         '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_ethereum') }} A
@@ -146,8 +146,8 @@ WITH base AS (
         destination_chain,
         receiver,
         squid_polygon_id AS squid_combined_id,
-        inserted_timestamp,
-        modified_timestamp,
+        A.inserted_timestamp,
+        A.modified_timestamp,
         '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_polygon') }} A
@@ -176,8 +176,8 @@ WITH base AS (
         destination_chain,
         receiver,
         squid_optimism_id AS squid_combined_id,
-        inserted_timestamp,
-        modified_timestamp,
+        A.inserted_timestamp,
+        A.modified_timestamp,
         '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_optimism') }} A
@@ -206,8 +206,8 @@ WITH base AS (
         destination_chain,
         receiver,
         squid_base_id AS squid_combined_id,
-        inserted_timestamp,
-        modified_timestamp,
+        A.inserted_timestamp,
+        A.modified_timestamp,
         '{{ invocation_id }}' AS _invocation_id
     FROM
         {{ ref('silver__squid_base') }} A
