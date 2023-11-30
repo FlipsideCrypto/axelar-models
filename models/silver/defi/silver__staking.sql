@@ -2,6 +2,7 @@
     materialized = 'incremental',
     unique_key = "_unique_key",
     incremental_strategy = 'merge',
+    merge_exclude_columns = ["inserted_timestamp"],
     cluster_by = ['block_timestamp::DATE'],
     tags = ['noncore']
 ) }}
@@ -285,7 +286,6 @@ SELECT
     A.redelegate_source_validator_address,
     A.completion_time :: datetime completion_time,
     A.msg_group,
-    A._inserted_timestamp,
     concat_ws(
         '-',
         A.tx_id,
@@ -294,7 +294,14 @@ SELECT
         currency,
         delegator_address,
         validator_address
-    ) AS _unique_key
+    ) AS _unique_key,
+    {{ dbt_utils.generate_surrogate_key(
+        ['A.tx_id','A.msg_group','A.action','currency','A.delegator_address','A.validator_address']
+    ) }} AS staking_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    A._inserted_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     prefinal A
     JOIN LATERAL SPLIT_TO_TABLE(

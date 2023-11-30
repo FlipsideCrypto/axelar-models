@@ -173,6 +173,12 @@ SELECT
         balance_type
         ORDER BY
             DATE ASC rows unbounded preceding
-    ) AS balance
+    ) AS balance,
+    {{ dbt_utils.generate_surrogate_key(
+        ['date','address','balance_type', 'currency']
+    ) }} AS daily_balances_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     balance_temp

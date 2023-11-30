@@ -2,6 +2,7 @@
     materialized = 'incremental',
     unique_key = "tx_hash",
     incremental_strategy = 'merge',
+    merge_exclude_columns = ["inserted_timestamp"],
     cluster_by = 'block_timestamp::DATE',
     tags = ['noncore']
 ) }}
@@ -112,7 +113,12 @@ SELECT
         ),
         sender
     ) AS receiver,
-    _inserted_timestamp
+    {{ dbt_utils.generate_surrogate_key(
+        ['a.tx_hash']
+    ) }} AS squid_ethereum_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     dec_logs_base A
     JOIN squid_to_gateway b

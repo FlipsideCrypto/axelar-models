@@ -250,7 +250,13 @@ SELECT
         ORDER BY
             A.block_id
     ) AS test_failure_details,
-    SYSDATE() AS test_timestamp
+    SYSDATE() AS test_timestamp,
+    {{ dbt_utils.generate_surrogate_key(
+        ['SYSDATE()']
+    ) }} AS transactions_completeness_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
     bronze_api A
     LEFT JOIN bronze_count b

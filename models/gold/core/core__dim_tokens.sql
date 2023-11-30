@@ -14,7 +14,10 @@ SELECT
     alias,
     DECIMAL,
     raw_metadata,
-    unique_key
+    unique_key,
+    unique_key AS dim_tokens_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp
 FROM
     {{ ref(
         'silver__osmo_assets'

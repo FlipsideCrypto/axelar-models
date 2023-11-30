@@ -16,7 +16,21 @@ SELECT
     receiver,
     foreign_address,
     foreign_chain,
-    msg_index
+    msg_index,
+    COALESCE(
+        transfers_id,
+        {{ dbt_utils.generate_surrogate_key(
+            ['tx_id','msg_index']
+        ) }}
+    ) AS fact_transfers_id,
+    COALESCE(
+        inserted_timestamp,
+        '2000-01-01'
+    ) AS inserted_timestamp,
+    COALESCE(
+        modified_timestamp,
+        '2000-01-01'
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__transfers') }}
 UNION ALL
@@ -33,7 +47,21 @@ SELECT
     receiver,
     foreign_address,
     foreign_chain,
-    msg_index
+    msg_index,
+    COALESCE(
+        transfers_ibc_id,
+        {{ dbt_utils.generate_surrogate_key(
+            ['tx_id','msg_index']
+        ) }}
+    ) AS fact_transfers_id,
+    COALESCE(
+        inserted_timestamp,
+        '2000-01-01'
+    ) AS inserted_timestamp,
+    COALESCE(
+        modified_timestamp,
+        '2000-01-01'
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__transfers_ibc') }}
 UNION ALL
@@ -50,6 +78,20 @@ SELECT
     receiver,
     foreign_address,
     foreign_chain,
-    msg_index
+    msg_index,
+    COALESCE(
+        transfer_executependingtransfers_id,
+        {{ dbt_utils.generate_surrogate_key(
+            ['tx_id','msg_index']
+        ) }}
+    ) AS fact_transfers_id,
+    COALESCE(
+        inserted_timestamp,
+        '2000-01-01'
+    ) AS inserted_timestamp,
+    COALESCE(
+        modified_timestamp,
+        '2000-01-01'
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__transfers_ExecutePendingTransfers') }}

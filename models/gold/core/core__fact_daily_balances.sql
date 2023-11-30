@@ -1,10 +1,7 @@
 {{ config(
-    materialized = 'incremental',
-    unique_key = "CONCAT_WS('-', date, address, balance_type, currency)",
-    incremental_strategy = 'delete+insert',
-    cluster_by = ['date'],
+    materialized = 'view',
     meta ={ 'database_tags':{ 'table':{ 'PURPOSE': 'BALANCES' }} },
-    tags = ['daily']
+    tags = ['noncore']
 ) }}
 
 SELECT
@@ -12,19 +9,22 @@ SELECT
     balance_type,
     address,
     currency,
-    balance
+    balance,
+    COALESCE(
+        daily_balances_id,
+        {{ dbt_utils.generate_surrogate_key(
+            ['date','address','balance_type', 'currency']
+        ) }}
+    ) AS fact_daily_balances_id,
+    COALESCE(
+        inserted_timestamp,
+        '2000-01-01'
+    ) AS inserted_timestamp,
+    COALESCE(
+        modified_timestamp,
+        '2000-01-01'
+    ) AS modified_timestamp
 FROM
     {{ ref('silver__daily_balances') }}
 WHERE
     balance > 0
-
-{% if is_incremental() %}
-AND DATE >= (
-    SELECT
-        MAX(
-            DATE
-        )
-    FROM
-        {{ this }}
-) - INTERVAL '48 HOURS'
-{% endif %}
