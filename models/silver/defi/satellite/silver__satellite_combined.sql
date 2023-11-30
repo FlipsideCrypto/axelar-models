@@ -104,8 +104,8 @@ SELECT
     NULL AS fee_paid,
     NULL AS fee_denom,
     satellite_arbitrum_id AS satellite_combined_id,
-    inserted_timestamp,
-    modified_timestamp,
+    A.inserted_timestamp,
+    A.modified_timestamp,
     '{{ invocation_id }}' AS _invocation_id
 FROM
     {{ ref('silver__satellite_arbitrum') }} A
@@ -141,8 +141,8 @@ SELECT
     NULL AS fee_paid,
     NULL AS fee_denom,
     satellite_avalanche_id AS satellite_combined_id,
-    inserted_timestamp,
-    modified_timestamp,
+    A.inserted_timestamp,
+    A.modified_timestamp,
     '{{ invocation_id }}' AS _invocation_id
 FROM
     {{ ref('silver__satellite_avalanche') }} A
@@ -193,8 +193,8 @@ SELECT
     NULL AS fee_paid,
     NULL AS fee_denom,
     satellite_bsc_id AS satellite_combined_id,
-    inserted_timestamp,
-    modified_timestamp,
+    A.inserted_timestamp,
+    A.modified_timestamp,
     '{{ invocation_id }}' AS _invocation_id
 FROM
     {{ ref('silver__satellite_bsc') }} A
@@ -248,8 +248,8 @@ SELECT
     NULL AS fee_paid,
     NULL AS fee_denom,
     satellite_ethereum_id AS satellite_combined_id,
-    inserted_timestamp,
-    modified_timestamp,
+    A.inserted_timestamp,
+    A.modified_timestamp,
     '{{ invocation_id }}' AS _invocation_id
 FROM
     {{ ref('silver__satellite_ethereum') }} A
@@ -285,8 +285,8 @@ SELECT
     NULL AS fee_paid,
     NULL AS fee_denom,
     satellite_polygon_id AS satellite_combined_id,
-    inserted_timestamp,
-    modified_timestamp,
+    A.inserted_timestamp,
+    A.modified_timestamp,
     '{{ invocation_id }}' AS _invocation_id
 FROM
     {{ ref('silver__satellite_polygon') }} A
