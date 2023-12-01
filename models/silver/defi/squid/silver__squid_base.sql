@@ -196,6 +196,7 @@ nonevm_fix_data AS (
         {{ dbt_utils.generate_surrogate_key(
             ['tx_hash']
         ) }} AS squid_base_id,
+        _inserted_timestamp,
         SYSDATE() AS inserted_timestamp,
         SYSDATE() AS modified_timestamp,
         '{{ invocation_id }}' AS _invocation_id
