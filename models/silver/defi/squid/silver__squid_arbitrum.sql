@@ -198,6 +198,7 @@ nonevm_fix_data AS (
         ) }} AS squid_arbitrum_id,
         SYSDATE() AS inserted_timestamp,
         SYSDATE() AS modified_timestamp,
+        _inserted_timestamp,
         '{{ invocation_id }}' AS _invocation_id
     FROM
         arb_result

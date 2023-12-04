@@ -118,6 +118,7 @@ SELECT
     ) }} AS squid_ethereum_id,
     SYSDATE() AS inserted_timestamp,
     SYSDATE() AS modified_timestamp,
+    _inserted_timestamp,
     '{{ invocation_id }}' AS _invocation_id
 FROM
     dec_logs_base A
