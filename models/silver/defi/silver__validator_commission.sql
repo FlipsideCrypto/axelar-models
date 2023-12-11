@@ -130,3 +130,5 @@ FROM
     combo A
     JOIN block_tx_inserted b
     ON A.tx_id = b.tx_id
+WHERE
+    A.amount IS NOT NULL
