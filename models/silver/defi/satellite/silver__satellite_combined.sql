@@ -23,7 +23,9 @@ WITH axel_dec AS (
         {{ ref(
             'silver__osmo_assets'
         ) }}
-        b
+        b qualify(ROW_NUMBER() over(PARTITION BY token_address
+    ORDER BY
+        DECIMAL DESC) = 1)
     UNION
     SELECT
         'uusd',

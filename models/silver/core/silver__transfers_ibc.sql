@@ -262,6 +262,9 @@ decimals AS (
         END AS DECIMAL
     FROM
         {{ ref('silver__osmo_assets') }}
+        qualify(ROW_NUMBER() over(PARTITION BY denom_name
+    ORDER BY
+        DECIMAL DESC) = 1)
 )
 SELECT
     i.block_id,
