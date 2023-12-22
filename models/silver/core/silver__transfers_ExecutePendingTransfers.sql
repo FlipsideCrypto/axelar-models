@@ -139,7 +139,6 @@ txs_final AS (
 ),
 decimals AS (
     SELECT
-        *,
         COALESCE (
             raw_metadata [0] :aliases [0] :: STRING,
             raw_metadata [1] :denom
@@ -152,7 +151,10 @@ decimals AS (
             )
         END AS DECIMAL
     FROM
-        {{ ref('core__dim_labels') }}
+        {{ ref('silver__osmo_assets') }}
+        qualify(ROW_NUMBER() over(PARTITION BY denom_name
+    ORDER BY
+        DECIMAL DESC) = 1)
 ),
 links AS (
     SELECT
