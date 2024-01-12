@@ -286,10 +286,6 @@ SELECT
     A.validator_address,
     A.redelegate_source_validator_address,
     A.completion_time :: datetime AS completion_time,
-    CASE
-        WHEN A.currency LIKE 'gamm/pool/%' THEN 18
-        ELSE amd.decimal
-    END AS DECIMAL,
     b._inserted_timestamp,
     {{ dbt_utils.generate_surrogate_key(
         ['a.tx_id', 'a.msg_index']
@@ -360,6 +356,3 @@ FROM
     AND A.amount = d_amount.amount
     AND d_auth.tx_id IS NULL
     AND d.tx_id IS NULL
-    LEFT OUTER JOIN {{ ref('silver__validators') }}
-    amd
-    ON A.currency = amd.address
