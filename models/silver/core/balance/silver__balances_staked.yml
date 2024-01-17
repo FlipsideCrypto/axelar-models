@@ -27,7 +27,7 @@ models:
                 - STRING
                 - VARCHAR
           - dbt_expectations.expect_column_values_to_match_regex:
-              regex: sei1[0-9a-z]{38,38}
+              regex: axelar[0-9a-z]{38,38}
       - name: BALANCE 
         description: The amount of the currency the wallet held at the given time
         tests: 
