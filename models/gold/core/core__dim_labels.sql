@@ -14,9 +14,7 @@ WITH base AS (
         project_name AS label,
         address_name AS address_name,
         NULL AS raw_metadata,
-        {{ dbt_utils.generate_surrogate_key(
-            [' address ']
-        ) }} AS dim_labels_id,
+        labels_combined_id AS dim_labels_id,
         inserted_timestamp,
         modified_timestamp
     FROM
