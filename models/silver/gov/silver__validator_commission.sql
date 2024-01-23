@@ -1,6 +1,6 @@
 {{ config(
     materialized = 'incremental',
-    unique_key = "tx_id",
+    unique_key = ["tx_id","msg_group","msg_sub_group"],
     incremental_strategy = 'merge',
     merge_exclude_columns = ["inserted_timestamp"],
     cluster_by = ['block_timestamp::DATE'],
@@ -11,7 +11,8 @@ WITH txs AS (
 
     SELECT
         DISTINCT A.tx_id,
-        A.msg_group
+        A.msg_group,
+        msg_sub_group
     FROM
         {{ ref('silver__msg_attributes') }} A
     WHERE
@@ -48,6 +49,7 @@ msg_attributes_base AS (
     WHERE
         (
             A.msg_group = b.msg_group
+            AND A.msg_sub_group = b.msg_sub_group
             OR (
                 A.msg_group IS NULL
                 AND msg_type || attribute_key = 'txacc_seq'
@@ -56,6 +58,7 @@ msg_attributes_base AS (
         AND msg_type || attribute_key IN (
             'withdraw_commissionamount',
             'transferrecipient',
+            'transferamount',
             'messagesender',
             'txacc_seq'
         )
@@ -78,24 +81,25 @@ AND _inserted_timestamp >= (
 combo AS (
     SELECT
         tx_id,
-        MAX(msg_group) AS msg_group,
-        MAX(msg_sub_group) AS msg_sub_group,
+        msg_group,
+        msg_sub_group,
         OBJECT_AGG(
             attribute_key :: STRING,
             attribute_value :: variant
         ) AS j,
-        SPLIT_PART(
-            j :acc_seq :: STRING,
-            '/',
-            0
-        ) AS tx_caller_address,
-        j :recipient :: STRING AS validator_address_reward,
         j :sender :: STRING AS validator_address_operator,
         j :amount :: STRING AS amount
     FROM
         msg_attributes_base
+    WHERE
+        msg_type IN (
+            'withdraw_commission',
+            'message'
+        )
     GROUP BY
-        tx_id
+        tx_id,
+        msg_group,
+        msg_sub_group
 ),
 recipient_msg_index AS (
     SELECT
