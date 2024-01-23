@@ -29,25 +29,25 @@ jobs:
     with:
       dbt_command: |
           dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
-          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_max_ids.sql models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
+          dbt run -m models/bronze/bronze_api/bronze_api__axelscan_searchgmp.sql  models/bronze/bronze_api/bronze_api__axelscan_searchtransfers.sql
       environment: workflow_prod
       warehouse: ${{ vars.WAREHOUSE }}
     secrets: inherit 

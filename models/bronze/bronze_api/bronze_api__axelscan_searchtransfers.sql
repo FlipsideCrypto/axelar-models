@@ -33,7 +33,7 @@ AND _id >(
 ORDER BY
   _id
 LIMIT
-  50
+  25
 ), max_id AS (
   SELECT
     MIN(_id) AS min_id,
