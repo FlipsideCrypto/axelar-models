@@ -1,6 +1,7 @@
 {{ config(
   materialized = 'incremental',
-  full_refresh = false
+  full_refresh = false,
+  enabled = false
 ) }}
 
 WITH ids_to_pull AS (
@@ -33,14 +34,26 @@ AND _id >(
 ORDER BY
   _id
 LIMIT
-  8
-), max_id AS (
+  100
+), groupings AS (
+  SELECT
+    _id,
+    NTILE(20) over (
+      ORDER BY
+        _id
+    ) AS group_id
+  FROM
+    ids_to_pull
+),
+max_id AS (
   SELECT
     MIN(_id) AS min_id,
     MAX(_id) AS max_id,
     min_id || '-' || max_id AS id_range
   FROM
-    ids_to_pull
+    groupings
+  GROUP BY
+    group_id
 ),
 calls AS (
   SELECT
