@@ -100,7 +100,7 @@ agg AS (
         ) AS j,
         j :proposal_id :: INT AS proposal_id,
         j :sender :: STRING AS voter,
-        j :option :: STRING AS vote_option,
+        j :option :: INT AS vote_option,
         j :weight :: FLOAT AS vote_weight
     FROM
         vote_msgs
