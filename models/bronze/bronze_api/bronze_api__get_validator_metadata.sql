@@ -4,7 +4,7 @@
 
 WITH call AS (
     SELECT
-        ethereum.streamline.udf_api(
+        live.udf_api(
             'POST',
             'https://api.axelarscan.io',{},{'path':'/cosmos/staking/v1beta1/validators','module':'lcd'}
         ) AS resp,
@@ -12,7 +12,7 @@ WITH call AS (
 ),
 call_2 AS (
     SELECT
-        ethereum.streamline.udf_api(
+        live.udf_api(
             'POST',
             'https://api.axelarscan.io',{},{'path':'/cosmos/staking/v1beta1/validators?pagination.key=FMrVj6JowYsKRr2zLFCWofPkvPYV','module':'lcd'}
         ) AS resp,

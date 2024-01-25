@@ -24,9 +24,13 @@ WITH base_ma AS (
         _inserted_timestamp
     FROM
         {{ ref('silver__msg_attributes') }}
-
+    WHERE
+        msg_type IN (
+            'message',
+            'proposal_vote'
+        )
 {% if is_incremental() %}
-WHERE
+    AND 
     _inserted_timestamp >= (
         SELECT
             MAX(
@@ -124,7 +128,6 @@ SELECT
     voter,
     vote_option,
     vote_weight,
-    NULL AS memo,
     concat_ws(
         '-',
         tx_id,
