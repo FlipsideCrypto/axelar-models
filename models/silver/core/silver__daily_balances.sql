@@ -1,19 +1,29 @@
 {{ config(
     materialized = 'incremental',
-    unique_key = "CONCAT_WS('-', date, address, balance_type, currency)",
-    incremental_strategy = 'delete+insert',
-    cluster_by = ['date'],
+    unique_key = ['date', 'address', 'currency'],
+    incremental_strategy = 'merge',
+    merge_exclude_columns = ["inserted_timestamp"],
+    cluster_by = ['DATE'],
+    post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION ON EQUALITY(address);",
     tags = ['daily']
 ) }}
 
-WITH
-
-{% if is_incremental() %}
-recent AS (
+WITH all_staked AS (
 
     SELECT
+        block_id,
+        block_timestamp,
+        address,
+        balance,
+        currency
+    FROM
+        {{ ref('silver__balances_staked') }}
+)
+
+{% if is_incremental() %},
+recent AS (
+    SELECT
         DATE,
-        balance_type,
         address,
         balance,
         currency
@@ -29,26 +39,24 @@ recent AS (
         NEW AS (
             SELECT
                 block_timestamp :: DATE AS DATE,
-                balance_type,
                 address,
                 balance,
                 currency,
                 1 AS RANK
             FROM
-                {{ ref('silver__staked_balances') }}
+                all_staked
             WHERE
                 block_timestamp :: DATE >= (
                     SELECT
                         DATEADD('day', -1, MAX(DATE))
                     FROM
-                        {{ this }}) qualify(ROW_NUMBER() over (PARTITION BY block_timestamp :: DATE, address, balance_type, currency
+                        {{ this }}) qualify(ROW_NUMBER() over (PARTITION BY block_timestamp :: DATE, address, currency
                     ORDER BY
                         block_timestamp DESC)) = 1
                 ),
                 incremental AS (
                     SELECT
                         DATE,
-                        balance_type,
                         address,
                         balance,
                         currency
@@ -56,7 +64,6 @@ recent AS (
                         (
                             SELECT
                                 DATE,
-                                balance_type,
                                 address,
                                 balance,
                                 currency,
@@ -66,36 +73,33 @@ recent AS (
                             UNION
                             SELECT
                                 DATE,
-                                balance_type,
                                 address,
                                 balance,
                                 currency,
                                 1 AS RANK
                             FROM
                                 NEW
-                        ) qualify(ROW_NUMBER() over (PARTITION BY DATE, address, balance_type, currency
+                        ) qualify(ROW_NUMBER() over (PARTITION BY DATE, address, currency
                     ORDER BY
                         RANK ASC)) = 1
-                ),
-            {% endif %}
-
+                )
+            {% endif %},
             base AS (
 
 {% if is_incremental() %}
 SELECT
-    DATE AS block_timestamp, balance_type, address, balance, currency
+    DATE AS block_timestamp, address, balance, currency
 FROM
     incremental
 {% else %}
 SELECT
-    block_timestamp, balance_type, address, balance, currency
+    block_timestamp, address, balance, currency
 FROM
-    {{ ref('silver__staked_balances') }}
+    all_staked
 {% endif %}),
 address_ranges AS (
     SELECT
         address,
-        balance_type,
         currency,
         MIN(
             block_timestamp :: DATE
@@ -107,22 +111,22 @@ address_ranges AS (
         base
     GROUP BY
         address,
-        balance_type,
         currency
 ),
 ddate AS (
     SELECT
-        date_day AS DATE
+        date_day :: DATE AS DATE
     FROM
         {{ source(
             'crosschain',
             'dim_dates'
         ) }}
+    GROUP BY
+        DATE
 ),
 all_dates AS (
     SELECT
         d.date,
-        A.balance_type,
         A.address,
         A.currency
     FROM
@@ -133,36 +137,33 @@ all_dates AS (
     WHERE
         A.address IS NOT NULL
 ),
-ax_balances AS (
+sei_balances AS (
     SELECT
         block_timestamp,
-        balance_type,
         address,
         balance,
         currency
     FROM
-        base qualify(ROW_NUMBER() over (PARTITION BY block_timestamp :: DATE, address, balance_type, currency
+        base qualify(ROW_NUMBER() over (PARTITION BY block_timestamp :: DATE, address, currency
     ORDER BY
         block_timestamp DESC)) = 1
 ),
 balance_temp AS (
     SELECT
         d.date,
-        d.balance_type,
         d.address,
         b.balance,
         d.currency
     FROM
         all_dates d
-        LEFT JOIN ax_balances b
+        LEFT JOIN sei_balances b
         ON d.date = b.block_timestamp :: DATE
         AND d.address = b.address
         AND d.currency = b.currency
-        AND d.balance_type = b.balance_type
 )
 SELECT
     DATE,
-    balance_type,
+    'staked' AS balance_type,
     address,
     currency,
     LAST_VALUE(
@@ -175,7 +176,7 @@ SELECT
             DATE ASC rows unbounded preceding
     ) AS balance,
     {{ dbt_utils.generate_surrogate_key(
-        ['date','address','balance_type', 'currency']
+        ['address','currency','date']
     ) }} AS daily_balances_id,
     SYSDATE() AS inserted_timestamp,
     SYSDATE() AS modified_timestamp,
