@@ -31,8 +31,7 @@ base AS (
         msg_index,
         attribute_key,
         attribute_value,
-        _inserted_timestamp,
-        attribute_value AS proposal_id
+        _inserted_timestamp
     FROM
         {{ ref('silver__msg_attributes') }}
     WHERE
