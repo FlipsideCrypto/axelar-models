@@ -7,60 +7,40 @@
     tags = ['noncore']
 ) }}
 
-WITH base AS (
-
-    SELECT
-        tx_id,
-        block_id,
-        block_timestamp,
-        tx_succeeded,
-        attribute_value,
-        msg_type,
-        attribute_key,
-        _inserted_timestamp
-    FROM
-        {{ ref('silver__msg_attributes') }}
-    WHERE
-        (
-            (
-                msg_type = 'proposal_deposit'
-                AND (
-                    attribute_key = 'proposal_id'
-                    OR (
-                        attribute_key = 'amount'
-                        AND attribute_value IS NOT NULL
-                    )
-                )
-            )
-            OR (
-                attribute_key = 'acc_seq'
-            )
-        )
+WITH
 
 {% if is_incremental() %}
-AND _inserted_timestamp >= (
+max_date AS (
+
     SELECT
         MAX(
             _inserted_timestamp
         ) _inserted_timestamp
     FROM
         {{ this }}
-)
-{% endif %}
 ),
+{% endif %}
+
 proposal_ids AS (
     SELECT
         tx_id,
-        block_id,
-        block_timestamp,
-        tx_succeeded,
-        attribute_value AS proposal_id,
-        _inserted_timestamp
+        attribute_value AS proposal_id
     FROM
-        base
+        {{ ref('silver__msg_attributes') }}
     WHERE
         msg_type = 'proposal_deposit'
         AND attribute_key = 'proposal_id'
+
+{% if is_incremental() %}
+AND _inserted_timestamp >= (
+    SELECT
+        MAX(
+            _inserted_timestamp
+        )
+    FROM
+        max_date
+)
+{% endif %}
 ),
 deposit_value AS (
     SELECT
@@ -78,11 +58,23 @@ deposit_value AS (
         ) AS amount,
         RIGHT(attribute_value, LENGTH(attribute_value) - LENGTH(SPLIT_PART(TRIM(REGEXP_REPLACE(attribute_value, '[^[:digit:]]', ' ')), ' ', 0))) AS currency
     FROM
-        base m
+        {{ ref('silver__msg_attributes') }}
+        m
     WHERE
         msg_type = 'proposal_deposit'
         AND attribute_key = 'amount'
         AND attribute_value IS NOT NULL
+
+{% if is_incremental() %}
+AND _inserted_timestamp >= (
+    SELECT
+        MAX(
+            _inserted_timestamp
+        )
+    FROM
+        max_date
+)
+{% endif %}
 ),
 depositors AS (
     SELECT
@@ -93,9 +85,24 @@ depositors AS (
             0
         ) AS depositor
     FROM
-        base
+        {{ ref('silver__msg_attributes') }}
     WHERE
         attribute_key = 'acc_seq'
+
+{% if is_incremental() %}
+AND _inserted_timestamp >= (
+    SELECT
+        MAX(
+            _inserted_timestamp
+        )
+    FROM
+        {{ this }}
+)
+{% endif %}
+
+qualify(ROW_NUMBER() over(PARTITION BY tx_id
+ORDER BY
+    msg_index)) = 1
 )
 SELECT
     block_id,
@@ -104,10 +111,10 @@ SELECT
     tx_succeeded,
     d.depositor,
     p.proposal_id :: NUMBER AS proposal_id,
-    v.amount :: NUMBER AS amount,
+    v.amount :: FLOAT AS amount,
     v.currency,
     {{ dbt_utils.generate_surrogate_key(
-        ['p.tx_id']
+        ['v.tx_id']
     ) }} AS governance_proposal_deposits_id,
     SYSDATE() AS inserted_timestamp,
     SYSDATE() AS modified_timestamp,
@@ -119,3 +126,18 @@ FROM
     ON p.tx_id = v.tx_id
     INNER JOIN depositors d
     ON v.tx_id = d.tx_id
+    LEFT OUTER JOIN {{ ref('silver__transactions') }}
+    t
+    ON v.tx_id = t.tx_id
+
+{% if is_incremental() %}
+WHERE
+    _inserted_timestamp >= (
+        SELECT
+            MAX(
+                _inserted_timestamp
+            )
+        FROM
+            {{ this }}
+    )
+{% endif %}
