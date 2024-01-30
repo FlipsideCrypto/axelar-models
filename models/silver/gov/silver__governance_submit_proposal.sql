@@ -7,14 +7,28 @@
     tags = ['noncore']
 ) }}
 
-WITH base AS (
+WITH
 
+{% if is_incremental() %}
+max_date AS (
+
+    SELECT
+        MAX(
+            _inserted_timestamp
+        ) _inserted_timestamp
+    FROM
+        {{ this }}
+),
+{% endif %}
+
+base AS (
     SELECT
         tx_id,
         block_id,
         block_timestamp,
         tx_succeeded,
         msg_type,
+        msg_index,
         attribute_key,
         attribute_value,
         _inserted_timestamp
@@ -22,14 +36,15 @@ WITH base AS (
         {{ ref('silver__msg_attributes') }}
     WHERE
         (
-            (
-                msg_type = 'submit_proposal'
-                AND attribute_key IN (
-                    'proposal_id',
-                    'proposal_type'
-                )
-            )
-            OR attribute_key = 'acc_seq'
+            msg_type = 'submit_proposal'
+            AND attribute_key = 'proposal_id'
+        )
+        OR (
+            msg_type = 'submit_proposal'
+            AND attribute_key = 'proposal_type'
+        )
+        OR (
+            attribute_key = 'acc_seq'
         )
 
 {% if is_incremental() %}
@@ -37,20 +52,24 @@ AND _inserted_timestamp >= (
     SELECT
         MAX(
             _inserted_timestamp
-        ) _inserted_timestamp
+        )
     FROM
-        {{ this }}
+        max_date
 )
 {% endif %}
 ),
-proposal_ids AS (
+proposal_id AS (
     SELECT
-        tx_id,
-        block_id,
-        block_timestamp,
-        tx_succeeded,
-        attribute_value AS proposal_id,
-        _inserted_timestamp
+    tx_id,
+    block_id,
+    block_timestamp,
+    tx_succeeded,
+    msg_type,
+    msg_index,
+    attribute_key,
+    attribute_value,
+    _inserted_timestamp,
+    attribute_value AS proposal_id
     FROM
         base
     WHERE
@@ -79,6 +98,10 @@ proposer AS (
         base
     WHERE
         attribute_key = 'acc_seq'
+
+qualify(ROW_NUMBER() over(PARTITION BY tx_id
+ORDER BY
+    msg_index)) = 1
 )
 SELECT
     block_id,
@@ -88,15 +111,15 @@ SELECT
     proposer,
     p.proposal_id :: NUMBER AS proposal_id,
     y.proposal_type,
-    {{ dbt_utils.generate_surrogate_key(
-        ['p.tx_id']
-    ) }} AS governance_submit_proposal_id,
-    SYSDATE() AS inserted_timestamp,
-    SYSDATE() AS modified_timestamp,
-    _inserted_timestamp,
-    '{{ invocation_id }}' AS _invocation_id
+{{ dbt_utils.generate_surrogate_key(
+    ['p.tx_id']
+) }} AS governance_submit_proposal_id,
+SYSDATE() AS inserted_timestamp,
+SYSDATE() AS modified_timestamp,
+_inserted_timestamp,
+'{{ invocation_id }}' AS _invocation_id
 FROM
-    proposal_ids p
+    proposal_id p
     INNER JOIN proposal_type y
     ON p.tx_id = y.tx_id
     INNER JOIN proposer pp

@@ -18,10 +18,10 @@ SELECT
     redelegate_source_validator_address,
     completion_time,
     msg_group AS _msg_group,
-    COALESCE(
+    COALESCE (
         staking_id,
         {{ dbt_utils.generate_surrogate_key(
-            ['tx_id','msg_group','action','currency','delegator_address','validator_address']
+            ['tx_id','msg_index']
         ) }}
     ) AS fact_staking_id,
     COALESCE(
