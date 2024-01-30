@@ -26,6 +26,7 @@ sources:
     schema: silver
     tables:
       - name: number_sequence
+      - name: labels_combined
   - name: bronze_streamline
     database: streamline
     schema: |
