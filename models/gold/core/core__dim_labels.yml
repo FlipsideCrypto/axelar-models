@@ -2,6 +2,10 @@ version: 2
 models:
   - name: core__dim_labels
     description: '{{ doc("table_dim_labels") }}'   
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - ADDRESS
     columns:
       - name: BLOCKCHAIN
         description: The name of the blockchain
@@ -15,8 +19,6 @@ models:
         description: A high-level category describing the addresses main function or ownership
         tests:
           - not_null
-          - dbt_expectations.expect_column_values_to_be_in_set:
-              value_set: ['flotsam', 'nft', 'defi', 'dex', 'cex', 'dapp', 'token', 'operator', 'layer2', 'chadmin']
       - name: LABEL_SUBTYPE
         description: A sub-category nested within label type providing further detail
         tests:

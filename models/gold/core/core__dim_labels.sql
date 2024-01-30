@@ -21,6 +21,8 @@ WITH base AS (
         {{ ref(
             'silver__address_labels'
         ) }}
+    WHERE
+        label_subtype <> 'validator'
     UNION ALL
     SELECT
         'axelar' AS blockchain,
