@@ -1,7 +1,8 @@
 {{ config(
   materialized = 'incremental',
   unique_key = 'date_day',
-  full_refresh = false
+  full_refresh = false,
+  tags = ['axelscan']
 ) }}
 
 WITH dates_hist AS (
