@@ -16,7 +16,7 @@ WITH max_id AS (
     max_id,
     id_range
   FROM
-    {{ ref('bronze_api__axelscan_id_groups_transfers') }}
+    {{ ref('bronze_api__axelscan_id_groups_gmp') }}
 ),
 work_to_do AS (
   SELECT
