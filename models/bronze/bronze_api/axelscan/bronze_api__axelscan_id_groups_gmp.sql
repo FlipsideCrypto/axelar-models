@@ -53,7 +53,7 @@ groupings AS (
       CASE
         WHEN MOD(
           _id,
-          50
+          10
         ) = 0 THEN 1
         ELSE 0
       END

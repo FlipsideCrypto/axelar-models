@@ -17,6 +17,8 @@ WITH max_id AS (
     id_range
   FROM
     {{ ref('bronze_api__axelscan_id_groups_gmp') }}
+  WHERE
+    date_day > '2023-02-24'
 ),
 work_to_do AS (
   SELECT
@@ -45,7 +47,7 @@ ORDER BY
   date_day,
   group_id
 LIMIT
-  2
+  5
 ), calls AS (
   SELECT
     date_day,
