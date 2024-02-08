@@ -47,7 +47,7 @@ ORDER BY
   date_day,
   group_id
 LIMIT
-  10
+  5
 ), calls AS (
   SELECT
     date_day,
