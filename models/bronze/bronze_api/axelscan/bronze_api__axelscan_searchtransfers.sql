@@ -71,7 +71,7 @@ LIMIT
     date_day,
     min_id
   LIMIT
-    2 offset 0
+    1 offset 0
 ), calls_2 AS (
   SELECT
     date_day,
@@ -95,7 +95,7 @@ LIMIT
     date_day,
     min_id
   LIMIT
-    2 offset 2
+    1 offset 1
 ), calls_3 AS (
   SELECT
     date_day,
@@ -119,7 +119,7 @@ LIMIT
     date_day,
     min_id
   LIMIT
-    2 offset 4
+    1 offset 2
 ), calls_4 AS (
   SELECT
     date_day,
@@ -143,7 +143,7 @@ LIMIT
     date_day,
     min_id
   LIMIT
-    2 offset 6
+    1 offset 3
 ), calls_5 AS (
   SELECT
     date_day,
@@ -167,7 +167,127 @@ LIMIT
     date_day,
     min_id
   LIMIT
-    2 offset 8
+    1 offset 4
+), calls_6 AS (
+  SELECT
+    date_day,
+    fromTime,
+    toTime,
+    group_id,
+    min_id,
+    max_id,
+    max_id - min_id + 1 AS num_ids,
+    {{ target.database }}.live.udf_api(
+      'GET',
+      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'from': min_id,
+      'size': num_ids }
+    ) :data :data AS DATA
+  FROM
+    work_to_do
+  ORDER BY
+    date_day,
+    min_id
+  LIMIT
+    1 offset 5
+), calls_7 AS (
+  SELECT
+    date_day,
+    fromTime,
+    toTime,
+    group_id,
+    min_id,
+    max_id,
+    max_id - min_id + 1 AS num_ids,
+    {{ target.database }}.live.udf_api(
+      'GET',
+      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'from': min_id,
+      'size': num_ids }
+    ) :data :data AS DATA
+  FROM
+    work_to_do
+  ORDER BY
+    date_day,
+    min_id
+  LIMIT
+    1 offset 6
+), calls_8 AS (
+  SELECT
+    date_day,
+    fromTime,
+    toTime,
+    group_id,
+    min_id,
+    max_id,
+    max_id - min_id + 1 AS num_ids,
+    {{ target.database }}.live.udf_api(
+      'GET',
+      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'from': min_id,
+      'size': num_ids }
+    ) :data :data AS DATA
+  FROM
+    work_to_do
+  ORDER BY
+    date_day,
+    min_id
+  LIMIT
+    1 offset 7
+), calls_9 AS (
+  SELECT
+    date_day,
+    fromTime,
+    toTime,
+    group_id,
+    min_id,
+    max_id,
+    max_id - min_id + 1 AS num_ids,
+    {{ target.database }}.live.udf_api(
+      'GET',
+      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'from': min_id,
+      'size': num_ids }
+    ) :data :data AS DATA
+  FROM
+    work_to_do
+  ORDER BY
+    date_day,
+    min_id
+  LIMIT
+    1 offset 8
+), calls_10 AS (
+  SELECT
+    date_day,
+    fromTime,
+    toTime,
+    group_id,
+    min_id,
+    max_id,
+    max_id - min_id + 1 AS num_ids,
+    {{ target.database }}.live.udf_api(
+      'GET',
+      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'from': min_id,
+      'size': num_ids }
+    ) :data :data AS DATA
+  FROM
+    work_to_do
+  ORDER BY
+    date_day,
+    min_id
+  LIMIT
+    1 offset 9
 ), all_calls AS (
   SELECT
     *
@@ -193,6 +313,31 @@ LIMIT
     *
   FROM
     calls_5
+  UNION ALL
+  SELECT
+    *
+  FROM
+    calls_6
+  UNION ALL
+  SELECT
+    *
+  FROM
+    calls_7
+  UNION ALL
+  SELECT
+    *
+  FROM
+    calls_8
+  UNION ALL
+  SELECT
+    *
+  FROM
+    calls_9
+  UNION ALL
+  SELECT
+    *
+  FROM
+    calls_10
 )
 SELECT
   date_day,
