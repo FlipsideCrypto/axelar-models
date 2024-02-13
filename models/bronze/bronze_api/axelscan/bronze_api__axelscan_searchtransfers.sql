@@ -48,7 +48,7 @@ ORDER BY
   group_id
 LIMIT
   25
-), calls AS (
+), calls_1 AS (
   SELECT
     date_day,
     fromTime,
@@ -67,6 +67,132 @@ LIMIT
     ) :data :data AS DATA
   FROM
     work_to_do
+  ORDER BY
+    date_day,
+    min_id
+  LIMIT
+    5 offset 0
+), calls_2 AS (
+  SELECT
+    date_day,
+    fromTime,
+    toTime,
+    group_id,
+    min_id,
+    max_id,
+    max_id - min_id + 1 AS num_ids,
+    {{ target.database }}.live.udf_api(
+      'GET',
+      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'from': min_id,
+      'size': num_ids }
+    ) :data :data AS DATA
+  FROM
+    work_to_do
+  ORDER BY
+    date_day,
+    min_id
+  LIMIT
+    5 offset 5
+), calls_3 AS (
+  SELECT
+    date_day,
+    fromTime,
+    toTime,
+    group_id,
+    min_id,
+    max_id,
+    max_id - min_id + 1 AS num_ids,
+    {{ target.database }}.live.udf_api(
+      'GET',
+      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'from': min_id,
+      'size': num_ids }
+    ) :data :data AS DATA
+  FROM
+    work_to_do
+  ORDER BY
+    date_day,
+    min_id
+  LIMIT
+    5 offset 10
+), calls_4 AS (
+  SELECT
+    date_day,
+    fromTime,
+    toTime,
+    group_id,
+    min_id,
+    max_id,
+    max_id - min_id + 1 AS num_ids,
+    {{ target.database }}.live.udf_api(
+      'GET',
+      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'from': min_id,
+      'size': num_ids }
+    ) :data :data AS DATA
+  FROM
+    work_to_do
+  ORDER BY
+    date_day,
+    min_id
+  LIMIT
+    5 offset 15
+), calls_5 AS (
+  SELECT
+    date_day,
+    fromTime,
+    toTime,
+    group_id,
+    min_id,
+    max_id,
+    max_id - min_id + 1 AS num_ids,
+    {{ target.database }}.live.udf_api(
+      'GET',
+      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
+      'fromTime': fromTime,
+      'toTime': toTime,
+      'from': min_id,
+      'size': num_ids }
+    ) :data :data AS DATA
+  FROM
+    work_to_do
+  ORDER BY
+    date_day,
+    min_id
+  LIMIT
+    5 offset 20
+), all_calls AS (
+  SELECT
+    *
+  FROM
+    calls_1
+  UNION ALL
+  SELECT
+    *
+  FROM
+    calls_2
+  UNION ALL
+  SELECT
+    *
+  FROM
+    calls_3
+  UNION ALL
+  SELECT
+    *
+  FROM
+    calls_4
+  UNION ALL
+  SELECT
+    *
+  FROM
+    calls_5
 )
 SELECT
   date_day,
@@ -81,5 +207,5 @@ SELECT
   SYSDATE() _inserted_timestamp,
   '{{ invocation_id }}' AS _invocation_id
 FROM
-  calls,
+  all_calls,
   LATERAL FLATTEN(DATA)
