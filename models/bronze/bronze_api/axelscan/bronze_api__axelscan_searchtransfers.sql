@@ -47,7 +47,7 @@ ORDER BY
   date_day,
   group_id
 LIMIT
-  25
+  10
 ), calls_1 AS (
   SELECT
     date_day,
@@ -71,7 +71,7 @@ LIMIT
     date_day,
     min_id
   LIMIT
-    5 offset 0
+    2 offset 0
 ), calls_2 AS (
   SELECT
     date_day,
@@ -95,7 +95,7 @@ LIMIT
     date_day,
     min_id
   LIMIT
-    5 offset 5
+    2 offset 2
 ), calls_3 AS (
   SELECT
     date_day,
@@ -119,7 +119,7 @@ LIMIT
     date_day,
     min_id
   LIMIT
-    5 offset 10
+    2 offset 4
 ), calls_4 AS (
   SELECT
     date_day,
@@ -143,7 +143,7 @@ LIMIT
     date_day,
     min_id
   LIMIT
-    5 offset 15
+    2 offset 6
 ), calls_5 AS (
   SELECT
     date_day,
@@ -167,7 +167,7 @@ LIMIT
     date_day,
     min_id
   LIMIT
-    5 offset 20
+    2 offset 8
 ), all_calls AS (
   SELECT
     *
