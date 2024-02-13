@@ -43,5 +43,5 @@ jobs:
           dbt deps
       - name: Run DBT Jobs
         run: |
-          dbt run -m models/bronze "axelar_models,tag:core"
+          dbt run -m models/bronze "axelar_models,tag:core" --exclude "axelar_models,tag:axelscan"
 
