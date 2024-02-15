@@ -69,5 +69,15 @@ jobs:
           dbt run -m "axelar_models,tag:axelscan_search"
           dbt run -m "axelar_models,tag:axelscan_search"
           dbt run -m "axelar_models,tag:axelscan_search"
+          dbt run -m "axelar_models,tag:axelscan_search"
+          dbt run -m "axelar_models,tag:axelscan_search"
+          dbt run -m "axelar_models,tag:axelscan_search"
+          dbt run -m "axelar_models,tag:axelscan_search"
+          dbt run -m "axelar_models,tag:axelscan_search"
+          dbt run -m "axelar_models,tag:axelscan_search"
+          dbt run -m "axelar_models,tag:axelscan_search"
+          dbt run -m "axelar_models,tag:axelscan_search"
+          dbt run -m "axelar_models,tag:axelscan_search"
+          dbt run -m "axelar_models,tag:axelscan_search"
 
 
