@@ -47,6 +47,9 @@ There is more information on how to use dbt docs in the last section of this doc
 - [ez_satellite](#!/model/model.axelar.defi__ez_satellite)
 - [ez_squid](#!/model/model.axelar.defi__ez_squid)
 
+**Stats EZ Tables:**
+- [ez_core_metrics_hourly](#!/model/model.axelar.ez_core_metrics_hourly)
+
 ## **Data Model Overview**
 
 The Axelar models are built a few different ways, but the core fact tables are built using three layers of sql models: **bronze, silver, and gold (or core).**
