@@ -56,6 +56,6 @@ SELECT
         b.modified_timestamp
     ) AS modified_timestamp
 FROM
-    {{ ref('silver_stats__core_metrics_hourly') }} A
+    {{ ref('silver_stats__core_metrics_block_hourly') }} A
     JOIN txs b
     ON A.block_timestamp_hour = b.block_timestamp_hour
