@@ -15,8 +15,6 @@ SELECT
     low,
     CLOSE,
     _INSERTED_TIMESTAMP,
-    inserted_timestamp,
-    modified_timestamp,
     hourly_prices_coin_gecko_id,
     SYSDATE() AS inserted_timestamp,
     SYSDATE() AS modified_timestamp,
