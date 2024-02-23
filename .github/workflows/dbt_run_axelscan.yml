@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   schedule:
     # Runs "every 15 minutes" (see https://crontab.guru)
-    - cron: '*/15 * * * *'
+    - cron: '*/30 * * * *'
 
 env:
   USE_VARS: "${{ vars.USE_VARS }}"
@@ -54,30 +54,6 @@ jobs:
           dbt run -m "axelar_models,tag:axelscan_search"
           dbt run -m "axelar_models,tag:axelscan_search"
           dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:axelscan_search"
+         
 
 
