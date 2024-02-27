@@ -20,6 +20,8 @@ There is more information on how to use dbt docs in the last section of this doc
 ### Core Tables (`Axelar`.`CORE`.`<table_name>`)
 ### Governance Tables (`Axelar`.`GOV`.`<table_name>`)
 ### DeFi Tables (`Axelar`.`DEFI`.`<table_name>`)
+### Statistics/Analytics Tables (`Axelar`.`STATS`.`<table_name>`)
+### Axelscan Tables (`Axelar`.`AXELSCAN`.`<table_name>`)
 
 
 **Core Dimension Tables:**
@@ -44,11 +46,16 @@ There is more information on how to use dbt docs in the last section of this doc
 - [fact_validators](#!/model/model.axelar_models.gov__fact_validators)
 
 **DeFi EZ Tables:**
-- [ez_satellite](#!/model/model.axelar_models.defi__ez_satellite)
-- [ez_squid](#!/model/model.axelar_models.defi__ez_squid)
+- [ez_satellite](#!/model/model.axelar_models.defi__ez_bridge_satellite)
+- [ez_squid](#!/model/model.axelar_models.defi__ez_bridge_squid)
 
 **Stats EZ Tables:**
-- [ez_core_metrics_hourly](#!/model/model.axelar_models.ez_core_metrics_hourly)
+- [ez_core_metrics_hourly](#!/model/model.axelar_models.stats__ez_core_metrics_hourly)
+
+**Axelscan Fact Tables:**
+- [fact_gmp](#!/model/model.axelar_models.axelscan__fact_gmp)
+- [fact_transfers](#!/model/model.axelar_models.axelscan__fact_transfers)
+
 
 ## **Data Model Overview**
 

@@ -1,0 +1,41 @@
+version: 2
+models:
+  - name: axelscan__fact_transfers
+    columns:
+      - name: ID
+        description: The unique identifier for the transfer 
+      - name: CREATED_AT
+        description: The timestamp the transfer was created
+      - name: STATUS
+        description: The status of the transfer
+      - name: SEND_AMOUNT
+        description: The amount of the transfer
+      - name: SEND_AMOUNT_RECEIVED
+        description: The amount of the transfer received
+      - name: SEND_FEE
+        description: The fees of the transfer
+      - name: SEND_DENOM
+        description: The denomination of the transfer
+      - name: SOURCE_CHAIN
+        description: The source chain of the transfer
+      - name: DESTINATION_CHAIN
+        description: The destination chain of the transfer
+      - name: SENDER_ADDRESS
+        description: The address of the sender
+      - name: RECIPIENT_ADDRESS
+        description: The address of the recipient
+      - name: SIMPLIFIED_STATUS
+        description: The simplified status of the transfer
+      - name: LINK
+        description: The link object of the transfer
+      - name: SEND
+        description: The send object of the transfer
+      - name: DATA
+        description: The raw API response
+      - name: FACT_TRANSFERS_ID
+        description: '{{ doc("pk") }}'   
+      - name: INSERTED_TIMESTAMP
+        description: '{{ doc("inserted_timestamp") }}'   
+      - name: MODIFIED_TIMESTAMP
+        description: '{{ doc("modified_timestamp") }}'  
+      

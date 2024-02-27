@@ -1,0 +1,39 @@
+version: 2
+models:
+  - name: silver__axelscan_gmp
+    columns:
+      - name: ID
+        tests:
+          - not_null  
+          - unique  
+      - name: CREATED_AT
+        tests:
+          - not_null
+          - dbt_expectations.expect_row_values_to_have_recent_data:
+              datepart: day
+              interval: 2
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - TIMESTAMP_NTZ
+      - name: STATUS
+        tests:
+          - not_null
+      - name: AMOUNT
+      - name: DESTINATION_CHAIN_TYPE
+      - name: EVENT
+        tests:
+          - not_null
+      - name: SIMPLIFIED_STATUS
+        tests:
+          - not_null
+      - name: CALL
+      - name: COMMAND_ID
+      - name: FEES
+      - name: GAS_STATUS
+      - name: IS_CALL_FROM_RELAYER
+      - name: IS_INVALID_CALL
+      - name: IS_INVALID_DESTINATION_CHAIN
+      - name: IS_TWO_WAY
+      - name: TIME_SPENT
+      - name: DATA
+      

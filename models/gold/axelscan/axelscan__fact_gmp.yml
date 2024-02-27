@@ -1,0 +1,45 @@
+version: 2
+models:
+  - name: axelscan__fact_gmp
+    columns:
+      - name: ID
+        description: The unique identifier for the transaction
+      - name: CREATED_AT
+        description: The timestamp the transaction was created
+      - name: STATUS
+        description: The status of the transaction
+      - name: AMOUNT
+        description: The amount of the transaction
+      - name: DESTINATION_CHAIN_TYPE
+        description: The type of destination chain
+      - name: EVENT
+        description: The name of the event
+      - name: SIMPLIFIED_STATUS
+        description: The simplified status of the transaction
+      - name: CALL
+        description: The call object
+      - name: COMMAND_ID
+        description: The ID of the command
+      - name: FEES
+        description: The fees of the transaction
+      - name: GAS_STATUS
+        description: The gas status of the transaction
+      - name: IS_CALL_FROM_RELAYER
+        description: Whether the call is from a relayer
+      - name: IS_INVALID_CALL
+        description: Whether the call is invalid
+      - name: IS_INVALID_DESTINATION_CHAIN
+        description: Whether the destination chain is invalid
+      - name: IS_TWO_WAY
+        description: Whether the transaction is two way
+      - name: TIME_SPENT
+        description: The time spent object
+      - name: DATA
+        description: The raw API response
+      - name: FACT_GMP_ID
+        description: '{{ doc("pk") }}'   
+      - name: INSERTED_TIMESTAMP
+        description: '{{ doc("inserted_timestamp") }}'   
+      - name: MODIFIED_TIMESTAMP
+        description: '{{ doc("modified_timestamp") }}'  
+      
