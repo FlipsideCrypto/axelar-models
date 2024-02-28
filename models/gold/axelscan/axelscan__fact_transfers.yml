@@ -1,6 +1,7 @@
 version: 2
 models:
   - name: axelscan__fact_transfers
+    description: This table contains the records from Axelscan for cross-chain transfers. This table will not contain the current day's data and will always be one day behind. 
     columns:
       - name: ID
         description: The unique identifier for the transfer 
