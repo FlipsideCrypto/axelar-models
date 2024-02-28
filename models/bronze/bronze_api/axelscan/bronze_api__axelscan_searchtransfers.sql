@@ -104,7 +104,10 @@ WITH max_id AS (
       '2023-06-19',
       '2023-06-26'
     )
-    OR date_day >= '2024-02-22'
+    OR (
+      date_day >= '2024-02-22'
+      AND date_day < SYSDATE() :: DATE
+    )
 ),
 work_to_do AS (
   SELECT
