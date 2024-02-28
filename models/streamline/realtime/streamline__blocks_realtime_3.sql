@@ -44,7 +44,7 @@ SELECT
         ARRAY_CONSTRUCT(
             block_number :: STRING
         )
-    ) AS DATA,
+    ) :: STRING AS DATA,
     'vault/dev/axelar/node/mainnet' AS secret_name
 FROM
     blocks
