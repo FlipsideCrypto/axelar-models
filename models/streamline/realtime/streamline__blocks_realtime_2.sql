@@ -42,7 +42,7 @@ SELECT
         'data',
         OBJECT_CONSTRUCT(
             'id',
-            block_number :: STRING,
+            block_number,
             'jsonrpc',
             '2.0',
             'method',
@@ -50,7 +50,7 @@ SELECT
             'params',
             ARRAY_CONSTRUCT(
                 block_number :: STRING
-            ) :: STRING
+            )
         )
     ) AS request
 FROM
