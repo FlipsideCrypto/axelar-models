@@ -102,23 +102,15 @@ calls AS (
 )
 SELECT
   call,
-  ethereum.streamline.udf_json_rpc_call(
-    (
-      SELECT
-        rpc_url
-      FROM
-        axelar._internal.api_keys
-      WHERE
-        provider = 'allthatnode'
-    ),{ 'x-allthatnode-api-key':(
-      SELECT
-        key
-      FROM
-        axelar._internal.api_keys
-      WHERE
-        provider = 'allthatnode'
-    ) },
-    call
+  live.udf_api (
+    'POST',
+    '{service}/{Authentication}',
+    OBJECT_CONSTRUCT(
+      'Content-Type',
+      'application/json'
+    ),
+    call,
+    'Vault/prod/axelar/node/mainnet'
   ) AS DATA,
   SYSDATE() AS _inserted_timestamp
 FROM
