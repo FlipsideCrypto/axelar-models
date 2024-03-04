@@ -1,7 +1,8 @@
 {{ config(
   materialized = 'incremental',
   full_refresh = false,
-  tags = ['axelscan']
+  tags = ['axelscan'],
+  enabled = false
 ) }}
 
 WITH dta AS (
