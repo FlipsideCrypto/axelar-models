@@ -19,6 +19,7 @@ WITH max_id AS (
     {{ ref('bronze_api__axelscan_id_groups_gmp') }}
   WHERE
     date_day > '2023-02-24'
+    AND date_day < SYSDATE() :: DATE
 ),
 work_to_do AS (
   SELECT

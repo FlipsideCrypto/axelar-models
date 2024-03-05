@@ -22,12 +22,14 @@ sources:
     tables:
       - name: dim_labels
       - name: dim_dates
+      - name: dim_date_hours
   - name: crosschain_silver
     database: "{{ 'crosschain' if target.database == 'AXELAR' else 'crosschain_dev' }}"
     schema: silver
     tables:
       - name: number_sequence
       - name: labels_combined
+      - name: hourly_prices_coin_gecko
   - name: bronze_streamline
     database: streamline
     schema: |

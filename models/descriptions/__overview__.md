@@ -20,32 +20,42 @@ There is more information on how to use dbt docs in the last section of this doc
 ### Core Tables (`Axelar`.`CORE`.`<table_name>`)
 ### Governance Tables (`Axelar`.`GOV`.`<table_name>`)
 ### DeFi Tables (`Axelar`.`DEFI`.`<table_name>`)
+### Statistics/Analytics Tables (`Axelar`.`STATS`.`<table_name>`)
+### Axelscan Tables (`Axelar`.`AXELSCAN`.`<table_name>`)
 
 
 **Core Dimension Tables:**
-- [dim_labels](#!/model/model.axelars.core__dim_labels)
-- [dim_tokens](#!/model/model.axelar.core__dim_tokens)
+- [dim_labels](#!/model/model.axelar_models.core__dim_labels)
+- [dim_tokens](#!/model/model.axelar_models.core__dim_tokens)
 
 **Core Fact Tables:**
-- [fact_blocks](#!/model/model.axelar.core__fact_blocks)
-- [fact_daily_balances](#!/model/model.axelar.core__fact_daily_balances)
-- [fact_msg_attributes](#!/model/model.axelar.core__fact_msg_attributes)
-- [fact_msgs](#!/model/model.axelar.core__fact_msgs)
-- [fact_transactions](#!/model/model.axelar.core__fact_transactions)
-- [fact_transfers](#!/model/model.axelar.core__fact_transfers)
+- [fact_blocks](#!/model/model.axelar_models.core__fact_blocks)
+- [fact_daily_balances](#!/model/model.axelar_models.core__fact_daily_balances)
+- [fact_msg_attributes](#!/model/model.axelar_models.core__fact_msg_attributes)
+- [fact_msgs](#!/model/model.axelar_models.core__fact_msgs)
+- [fact_transactions](#!/model/model.axelar_models.core__fact_transactions)
+- [fact_transfers](#!/model/model.axelar_models.core__fact_transfers)
 
 **Governance Fact Tables:**
-- [fact_governance_proposal_deposits](#!/model/model.axelar.gov__fact_governance_proposal_deposits)
-- [fact_governance_submit_proposal](#!/model/model.axelar.gov__fact_governance_submit_proposal)
-- [fact_governance_votes](#!/model/model.axelar.gov__fact_governance_votes)
-- [fact_staking](#!/model/model.axelar.gov__fact_staking)
-- [fact_staking_rewards](#!/model/model.axelar.gov__fact_staking_rewards)
-- [fact_validator_commission](#!/model/model.axelar.gov__fact_validator_commission)
-- [fact_validators](#!/model/model.axelar.gov__fact_validators)
+- [fact_governance_proposal_deposits](#!/model/model.axelar_models.gov__fact_governance_proposal_deposits)
+- [fact_governance_submit_proposal](#!/model/model.axelar_models.gov__fact_governance_submit_proposal)
+- [fact_governance_votes](#!/model/model.axelar_models.gov__fact_governance_votes)
+- [fact_staking](#!/model/model.axelar_models.gov__fact_staking)
+- [fact_staking_rewards](#!/model/model.axelar_models.gov__fact_staking_rewards)
+- [fact_validator_commission](#!/model/model.axelar_models.gov__fact_validator_commission)
+- [fact_validators](#!/model/model.axelar_models.gov__fact_validators)
 
 **DeFi EZ Tables:**
-- [ez_satellite](#!/model/model.axelar.defi__ez_satellite)
-- [ez_squid](#!/model/model.axelar.defi__ez_squid)
+- [ez_satellite](#!/model/model.axelar_models.defi__ez_bridge_satellite)
+- [ez_squid](#!/model/model.axelar_models.defi__ez_bridge_squid)
+
+**Stats EZ Tables:**
+- [ez_core_metrics_hourly](#!/model/model.axelar_models.stats__ez_core_metrics_hourly)
+
+**Axelscan Fact Tables:**
+- [fact_gmp](#!/model/model.axelar_models.axelscan__fact_gmp)
+- [fact_transfers](#!/model/model.axelar_models.axelscan__fact_transfers)
+
 
 ## **Data Model Overview**
 

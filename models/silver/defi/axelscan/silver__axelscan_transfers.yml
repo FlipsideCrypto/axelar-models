@@ -1,0 +1,41 @@
+version: 2
+models:
+  - name: silver__axelscan_transfers
+    columns:
+      - name: ID
+        tests:
+          - not_null  
+          - unique  
+      - name: CREATED_AT
+        tests:
+          - not_null
+          - dbt_expectations.expect_row_values_to_have_recent_data:
+              datepart: day
+              interval: 2
+          - dbt_expectations.expect_column_values_to_be_in_type_list:
+              column_type_list:
+                - TIMESTAMP_NTZ
+      - name: STATUS
+        tests:
+          - not_null
+      - name: SEND_AMOUNT
+      - name: SEND_AMOUNT_RECEIVED
+      - name: SEND_FEE
+      - name: SEND_DENOM
+      - name: SOURCE_CHAIN
+        tests:
+          - not_null
+      - name: DESTINATION_CHAIN
+      - name: SENDER_ADDRESS
+        tests:
+          - not_null
+      - name: RECIPIENT_ADDRESS
+        tests:
+          - not_null
+      - name: SIMPLIFIED_STATUS
+        tests:
+          - not_null
+      - name: LINK
+      - name: SEND
+      - name: DATA
+      
