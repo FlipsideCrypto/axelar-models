@@ -8,7 +8,7 @@
     - [headers, OBJECT]
     - [data, VARIANT]
     - [secret_name, STRING]
-  return_type: VARIANT
+  return_type: ARRAY
   options: |
     NOT NULL
     RETURNS NULL ON NULL INPUT
@@ -30,7 +30,7 @@
     - [url, STRING]
     - [headers, OBJECT]
     - [data, VARIANT]
-  return_type: VARIANT
+  return_type: ARRAY
   options: |
     NOT NULL
     RETURNS NULL ON NULL INPUT
@@ -50,7 +50,7 @@
     - [partition_key, STRING]
     - [url, STRING]
     - [data, VARIANT]
-  return_type: VARIANT
+  return_type: ARRAY
   options: |
     NOT NULL
     RETURNS NULL ON NULL INPUT
@@ -71,7 +71,7 @@
     - [url, STRING]
     - [data, VARIANT]
     - [secret_name, STRING]
-  return_type: VARIANT
+  return_type: ARRAY
   options: |
     NOT NULL
     RETURNS NULL ON NULL INPUT
@@ -90,7 +90,7 @@
   signature:
     - [partition_key, STRING]
     - [url, STRING]
-  return_type: VARIANT
+  return_type: ARRAY
   options: |
     NOT NULL
     RETURNS NULL ON NULL INPUT
@@ -110,7 +110,7 @@
     - [partition_key, STRING]
     - [url, STRING]
     - [secret_name, STRING]
-  return_type: VARIANT
+  return_type: ARRAY
   options: |
     NOT NULL
     RETURNS NULL ON NULL INPUT
