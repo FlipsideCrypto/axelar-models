@@ -1,4 +1,4 @@
--- depends_on: {{ ref('bronze__streamline_blocks') }}
+-- depends_on: {{ ref('bronze__streamline_transactions') }}
 {{ config (
     materialized = "incremental",
     unique_key = "id",
@@ -10,14 +10,23 @@
 SELECT
     id,
     block_number,
+    metadata :request [2] AS page,
     _inserted_timestamp
 FROM
-    {{ ref('bronze__streamline_blocks') }}
+
+{% if is_incremental() %}
+{{ ref('bronze__streamline_transactions') }}
 WHERE
     _inserted_timestamp >= (
         SELECT
             COALESCE(MAX(_INSERTED_TIMESTAMP), '1970-01-01' :: DATE) max_INSERTED_TIMESTAMP
         FROM
-            {{ this }}) qualify(ROW_NUMBER() over (PARTITION BY id
-        ORDER BY
-            _inserted_timestamp DESC)) = 1
+            {{ this }})
+    )
+{% else %}
+    {{ ref('bronze__streamline_FR_transactions') }}
+{% endif %}
+
+qualify(ROW_NUMBER() over (PARTITION BY id
+ORDER BY
+    _inserted_timestamp DESC)) = 1
