@@ -26,7 +26,7 @@ WITH base AS (
             *,
             MOD(ROW_NUMBER() over(
           ORDER BY
-            min_block), 200) rn_mod_out
+            min_block), 100) rn_mod_out
           FROM
             (
               SELECT
