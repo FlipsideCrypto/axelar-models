@@ -6,8 +6,10 @@ sources:
     schema: |
       {{ "AXELAR_DEV" if var("STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES", False) else "AXELAR" }}
     tables:
+      - name: blocks_v2
       - name: blocks
       - name: tx_counts
+      - name: txs_v2
       - name: txs
       - name: txs_details
       - name: validators
