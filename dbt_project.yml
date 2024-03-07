@@ -72,14 +72,13 @@ vars:
   config:
   # The keys correspond to dbt profiles and are case sensitive
     dev:
-      API_INTEGRATION: aws_axelar_api
+      API_INTEGRATION: aws_axelar_api_dev
       EXTERNAL_FUNCTION_URI: 5v36zckfli.execute-api.us-east-1.amazonaws.com/stg/
       ROLES:
         - INTERNAL_DEV
     prod:
       API_INTEGRATION: aws_axelar_api
-      EXTERNAL_FUNCTION_URI: bqco8lkjsb.execute-api.us-east-1.amazonaws.com/prod/
-      EXTERNAL_FUNCTION_URI_2_0: ''
+      EXTERNAL_FUNCTION_URI: ''
       ROLES:
         - INTERNAL_DEV
 
