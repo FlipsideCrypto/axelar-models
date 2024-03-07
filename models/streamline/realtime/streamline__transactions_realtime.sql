@@ -55,7 +55,7 @@ SELECT
                 'asc',
                 FALSE
             )
-        )
+        ) :: STRING
     ) AS request
 FROM
     blocks

@@ -49,7 +49,7 @@ SELECT
             ARRAY_CONSTRUCT(
                 block_number :: STRING
             )
-        )
+        ) :: STRING
     ) AS request
 FROM
     blocks
