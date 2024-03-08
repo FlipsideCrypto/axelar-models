@@ -27,17 +27,13 @@ LIMIT
 )
 SELECT
     block_number AS partition_key,
-    OBJECT_CONSTRUCT(
-        'method',
+    live.udf_api(
         'POST',
-        'url',
         '{service}/{Authentication}',
-        'headers',
         OBJECT_CONSTRUCT(
             'Content-Type',
             'application/json'
         ),
-        'data',
         OBJECT_CONSTRUCT(
             'id',
             block_number,
@@ -49,8 +45,7 @@ SELECT
             ARRAY_CONSTRUCT(
                 block_number :: STRING
             )
-        ) :: STRING,
-        'secret',
+        ),
         'vault/stg/axelar/node/mainnet'
     ) AS request
 FROM
