@@ -27,7 +27,7 @@ LIMIT
 )
 SELECT
     block_number AS partition_key,
-    live.udf_api(
+    {{ target.database }}.live.udf_api(
         'POST',
         '{service}/{Authentication}',
         OBJECT_CONSTRUCT(
