@@ -22,8 +22,6 @@ FROM
 {% endif %}
 ORDER BY
     1 DESC
-LIMIT
-    100
 )
 SELECT
     block_number AS partition_key,
@@ -58,3 +56,5 @@ FROM
     blocks
 ORDER BY
     block_number
+LIMIT
+    1000
