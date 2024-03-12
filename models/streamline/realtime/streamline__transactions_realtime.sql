@@ -1,7 +1,7 @@
 {{ config (
     materialized = "view",
     post_hook = if_data_call_function(
-        func = "{{this.schema}}.udf_rest_api(object_construct('sql_source', '{{this.identifier}}', 'external_table', 'txs_v2', 'exploded_key', '[\"result\", \"txs\"]', 'sql_limit', {{var('sql_limit','100000')}}, 'producer_batch_size', {{var('producer_batch_size','100000')}}, 'worker_batch_size', {{var('worker_batch_size','50000')}}))",
+        func = "{{this.schema}}.udf_rest_api(object_construct('sql_source', '{{this.identifier}}', 'external_table', 'txs_v2', 'exploded_key', '[\"result\", \"txs\"]', 'sql_limit', {{var('sql_limit','100000')}}, 'producer_batch_size', {{var('producer_batch_size','100000')}}, 'worker_batch_size', {{var('worker_batch_size','5000')}}))",
         target = "{{this.schema}}.{{this.identifier}}"
     )
 ) }}
@@ -27,17 +27,13 @@ LIMIT
 )
 SELECT
     block_number AS partition_key,
-    OBJECT_CONSTRUCT(
-        'method',
+    {{ target.database }}.live.udf_api(
         'POST',
-        'url',
         '{service}/{Authentication}',
-        'headers',
         OBJECT_CONSTRUCT(
             'Content-Type',
             'application/json'
         ),
-        'data',
         OBJECT_CONSTRUCT(
             'id',
             block_number,
@@ -55,8 +51,7 @@ SELECT
                 'asc',
                 FALSE
             )
-        ) :: STRING,
-        'secret',
+        ),
         'vault/stg/axelar/node/mainnet'
     ) AS request
 FROM
