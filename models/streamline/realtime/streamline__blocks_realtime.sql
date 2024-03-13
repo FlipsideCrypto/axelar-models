@@ -26,7 +26,10 @@ LIMIT
     10
 )
 SELECT
-    round(block_number, -3) AS partition_key,
+    ROUND(
+        block_number,
+        -3
+    ) AS partition_key,
     {{ target.database }}.live.udf_api(
         'POST',
         '{service}/{Authentication}',

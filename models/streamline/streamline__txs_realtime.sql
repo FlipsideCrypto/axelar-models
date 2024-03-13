@@ -17,19 +17,13 @@ SELECT
     A.block_number,
     A.tx_count
 FROM
-    {{ ref("streamline__blocks_history") }} A
-    LEFT JOIN {{ ref("streamline__txs_history") }}
+    {{ ref("streamline__blocks_history") }} A {# LEFT JOIN {{ ref("streamline__txs_history") }}
     b
-    ON A.block_number = b.block_number
+    ON A.block_number = b.block_number #}
 WHERE
-    A.tx_count IS NOT NULL
-    AND A.tx_count > 0
-    AND b.block_number IS NULL
-    AND A.block_number >= (
-        SELECT
-            block_number
-        FROM
-            last_3_days
+    block_number IN (
+        11449803,
+        11449804
     )
 ORDER BY
     1 ASC

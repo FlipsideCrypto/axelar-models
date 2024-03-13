@@ -24,7 +24,10 @@ ORDER BY
     1 DESC
 )
 SELECT
-    round(block_number, -3) AS partition_key,
+    ROUND(
+        block_number,
+        -3
+    ) AS partition_key,
     live.udf_api(
         'POST',
         '{service}/{Authentication}',
