@@ -23,7 +23,7 @@ FROM
 ORDER BY
     1 DESC
 LIMIT
-    10
+    1000
 )
 SELECT
     ROUND(

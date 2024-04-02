@@ -8,6 +8,7 @@ sources:
     tables:
       - name: blocks_v2
       - name: blocks
+      - name: tx_counts_v2
       - name: tx_counts
       - name: txs_v2
       - name: txs
