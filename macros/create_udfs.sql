@@ -12,7 +12,6 @@
     {{ create_udf_bulk_get_blocks() }}
     {{ create_udf_bulk_get_txs() }}
     {{ create_udf_bulk_get_validators() }}
-    {{ create_udf_rest_api() }}
 
     {% endset %}
     {% do run_query(sql) %}
