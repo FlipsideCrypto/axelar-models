@@ -5,7 +5,7 @@
         target = "{{this.schema}}.{{this.identifier}}"
     )
 ) }}
-
+-- depends_on: {{ ref('streamline__complete_blocks') }}
 WITH blocks AS (
 
     SELECT
@@ -20,10 +20,6 @@ SELECT
 FROM
     {{ ref("streamline__complete_blocks") }}
 {% endif %}
-ORDER BY
-    1 DESC
-LIMIT
-    1000
 )
 SELECT
     ROUND(
@@ -49,7 +45,7 @@ SELECT
                 block_number :: STRING
             )
         ),
-        'vault/stg/axelar/node/mainnet'
+        'vault/prod/axelar/node/mainnet'
     ) AS request
 FROM
     blocks

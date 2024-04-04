@@ -5,7 +5,7 @@
         target = "{{this.schema}}.{{this.identifier}}"
     )
 ) }}
-
+-- depends_on: {{ ref('streamline__complete_tx_counts') }}
 WITH blocks AS (
 
     SELECT
@@ -20,10 +20,6 @@ SELECT
 FROM
     {{ ref("streamline__complete_tx_counts") }}
 {% endif %}
-ORDER BY
-    1 DESC
-LIMIT
-    100
 )
 SELECT
     ROUND(
@@ -54,7 +50,7 @@ SELECT
                 FALSE
             )
         ),
-        'vault/stg/axelar/node/mainnet'
+        'vault/prod/axelar/node/mainnet'
     ) AS request
 FROM
     blocks

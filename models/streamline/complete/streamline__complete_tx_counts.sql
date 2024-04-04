@@ -1,32 +1,35 @@
 -- depends_on: {{ ref('bronze__streamline_transactions') }}
 {{ config (
     materialized = "incremental",
-    unique_key = "id",
+    unique_key = "block_number",
     cluster_by = "ROUND(block_number, -3)",
-    merge_update_columns = ["id"],
-    post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION on equality(id)"
+    post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION on equality(block_number)"
 ) }}
 
 SELECT
-    id,
-    block_number,
-    DATA :: INTEGER AS tx_count,
-    _inserted_timestamp
+    DATA :height :: INT AS block_number,
+    DATA :: INT AS tx_count,
+    {{ dbt_utils.generate_surrogate_key(
+        ['block_number']
+    ) }} AS complete_tx_counts_id,
+    SYSDATE() AS inserted_timestamp,
+    SYSDATE() AS modified_timestamp,
+    _inserted_timestamp,
+    '{{ invocation_id }}' AS _invocation_id
 FROM
+    {{ ref('bronze__streamline_tx_counts') }}
 
 {% if is_incremental() %}
-{{ ref('bronze__streamline_tx_counts') }}
 WHERE
     _inserted_timestamp >= (
         SELECT
             COALESCE(MAX(_INSERTED_TIMESTAMP), '1970-01-01' :: DATE) max_INSERTED_TIMESTAMP
         FROM
             {{ this }})
-    )
-{% else %}
-    {{ ref('bronze__streamline_FR_tx_counts') }}
-{% endif %}
+        {% else %}
+            {{ ref('bronze__streamline_FR_tx_counts') }}
+        {% endif %}
 
-qualify(ROW_NUMBER() over (PARTITION BY id
-ORDER BY
-    _inserted_timestamp DESC)) = 1
+        qualify(ROW_NUMBER() over (PARTITION BY block_number
+        ORDER BY
+            _inserted_timestamp DESC)) = 1
