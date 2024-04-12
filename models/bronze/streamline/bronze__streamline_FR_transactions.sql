@@ -1,9 +1,27 @@
 {{ config (
     materialized = 'view'
 ) }}
-{{ streamline_external_table_FR_query(
-    "txs_v2",
-    partition_function = "CAST(SPLIT_PART(SPLIT_PART(file_name, '/', 3), '_', 1) AS INTEGER )",
-    partition_name = "_partition_by_block_id",
-    unique_key = "partition_key"
-) }}
+
+SELECT
+    partition_key,
+    DATA,
+    _INSERTED_TIMESTAMP,
+    id,
+    metadata,
+    file_name,
+    _PARTITION_BY_BLOCK_ID,
+    VALUE
+FROM
+    {{ ref('bronze__streamline_FR_transactions_v2') }}
+UNION ALL
+SELECT
+    block_number,
+    DATA,
+    _INSERTED_TIMESTAMP,
+    id,
+    metadata,
+    file_name,
+    _PARTITION_BY_BLOCK_ID,
+    VALUE
+FROM
+    {{ ref('bronze__streamline_FR_transactions_v1') }}

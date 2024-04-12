@@ -12,7 +12,7 @@ SELECT
     _PARTITION_BY_BLOCK_ID,
     VALUE
 FROM
-    {{ ref('bronze__streamline_FR_transactions_v2') }}
+    {{ ref('bronze__streamline_FR_blocks_v2') }}
 UNION ALL
 SELECT
     block_number,
@@ -24,4 +24,4 @@ SELECT
     _PARTITION_BY_BLOCK_ID,
     VALUE
 FROM
-    {{ ref('bronze__streamline_FR_transactions_v1') }}
+    {{ ref('bronze__streamline_FR_blocks_v1') }}

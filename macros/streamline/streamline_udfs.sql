@@ -36,3 +36,13 @@
     {%- endif %};
 {% endmacro %}
 
+{% macro create_udf_rest_api() %}
+    CREATE
+    OR REPLACE EXTERNAL FUNCTION streamline.udf_rest_api(
+        json OBJECT
+    ) returns ARRAY api_integration = {% if target.name == "prod" %}
+        aws_axelar_api AS 'https://sfl36j9j2c.execute-api.us-east-1.amazonaws.com/prod/udf_bulk_rest_api'
+    {% else %}
+        aws_axelar_api_dev AS 'https://5v36zckfli.execute-api.us-east-1.amazonaws.com/stg/udf_bulk_rest_api'
+    {%- endif %};
+{% endmacro %}

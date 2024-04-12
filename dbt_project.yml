@@ -57,11 +57,11 @@ query-comment:
 
 vars:
   "dbt_date:time_zone": GMT
-  STREAMLINE_INVOKE_STREAMS: TRUE
-  STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES: true
-  "UPDATE_SNOWFLAKE_TAGS": True
-  OBSERV_FULL_TEST: False
-  START_GHA_TASKS: False
+  STREAMLINE_INVOKE_STREAMS: FALSE
+  STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES: FALSE
+  UPDATE_SNOWFLAKE_TAGS: TRUE
+  OBSERV_FULL_TEST: FALSE
+  START_GHA_TASKS: FALSE
 
 #### STREAMLINE 2.0 BEGIN ####
 
@@ -75,11 +75,14 @@ vars:
       API_INTEGRATION: aws_axelar_api_dev
       EXTERNAL_FUNCTION_URI: 5v36zckfli.execute-api.us-east-1.amazonaws.com/stg/
       ROLES:
+        - AWS_LAMBDA_AXELAR_API
         - INTERNAL_DEV
     prod:
       API_INTEGRATION: aws_axelar_api
-      EXTERNAL_FUNCTION_URI: ''
+      EXTERNAL_FUNCTION_URI: sfl36j9j2c.execute-api.us-east-1.amazonaws.com/prod/
       ROLES:
+        - AWS_LAMBDA_AXELAR_API
+        - DBT_CLOUD_AXELAR
         - INTERNAL_DEV
 
 #### STREAMLINE 2.0 END ####

@@ -22,9 +22,8 @@ ON A.block_number = b.block_number
 WHERE
     b.block_number IS NULL
 {% endif %}
-LIMIT
-    10
-), numbers AS (
+),
+numbers AS (
     -- Recursive CTE to generate numbers. We'll use the maximum txcount value to limit our recursion.
     SELECT
         1 AS n
@@ -53,6 +52,8 @@ LIMIT
                         tt.tx_count / 100
                     ) + 1
                 END
+            WHERE
+                tt.tx_count > 0
         )
     SELECT
         ROUND(

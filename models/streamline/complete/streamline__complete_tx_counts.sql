@@ -1,4 +1,4 @@
--- depends_on: {{ ref('bronze__streamline_transactions') }}
+-- depends_on: {{ ref('bronze__streamline_tx_counts') }}
 {{ config (
     materialized = "incremental",
     unique_key = "block_number",
@@ -7,7 +7,13 @@
 ) }}
 
 SELECT
-    DATA :height :: INT AS block_number,
+    REPLACE(
+        COALESCE(
+            metadata :request :data :params [0],
+            metadata :request :params [0]
+        ),
+        'tx.height='
+    ) :: INT AS block_number,
     DATA :: INT AS tx_count,
     {{ dbt_utils.generate_surrogate_key(
         ['block_number']
@@ -17,9 +23,9 @@ SELECT
     _inserted_timestamp,
     '{{ invocation_id }}' AS _invocation_id
 FROM
-    {{ ref('bronze__streamline_tx_counts') }}
 
 {% if is_incremental() %}
+{{ ref('bronze__streamline_tx_counts') }}
 WHERE
     _inserted_timestamp >= (
         SELECT

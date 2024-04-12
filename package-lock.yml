@@ -6,11 +6,11 @@ packages:
 - package: dbt-labs/dbt_utils
   version: 1.0.0
 - git: https://github.com/FlipsideCrypto/fsc-utils.git
-  revision: e670a0edf1c1bb2316212b368724dc9942b6220f
+  revision: e94e3d6964f10d8fcca239a64ec47bc8a230261e
 - package: get-select/dbt_snowflake_query_tags
   version: 2.3.3
 - package: calogica/dbt_date
   version: 0.7.2
 - git: https://github.com/FlipsideCrypto/livequery-models.git
-  revision: de2ade547b8e87be0902605d42152ed97f53e05d
-sha1_hash: 23a3f5af6aea92b1391c89c7e8a7024fa822e65f
+  revision: 8b105444ef516f94efd6b9a420e62fe9f69277f9
+sha1_hash: c82fc81890babf0760cd6426e803d0bff21d9264

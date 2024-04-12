@@ -5,8 +5,8 @@
 
     {% if target.name == "prod" %}
         {% set sql %}
-        CREATE api integration IF NOT EXISTS aws_axelar_api api_provider = aws_api_gateway api_aws_role_arn = '' api_allowed_prefixes = (
-            ''
+        CREATE api integration IF NOT EXISTS aws_axelar_api api_provider = aws_api_gateway api_aws_role_arn = 'arn:aws:iam::924682671219:role/axelar-api-prod-rolesnowflakeudfsAF733095-T68fPXKYBRAj' api_allowed_prefixes = (
+            'https://sfl36j9j2c.execute-api.us-east-1.amazonaws.com/prod/'
         ) enabled = TRUE;
 {% endset %}
         {% do run_query(sql) %}
