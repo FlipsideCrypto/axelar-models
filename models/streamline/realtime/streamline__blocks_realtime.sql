@@ -12,14 +12,11 @@ WITH blocks AS (
         block_number
     FROM
         {{ ref("streamline__blocks") }}
-
-{% if is_incremental() %}
-EXCEPT
-SELECT
-    block_number
-FROM
-    {{ ref("streamline__complete_blocks") }}
-{% endif %}
+    EXCEPT
+    SELECT
+        block_number
+    FROM
+        {{ ref("streamline__complete_blocks") }}
 )
 SELECT
     ROUND(

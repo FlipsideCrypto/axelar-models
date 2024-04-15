@@ -12,14 +12,13 @@ WITH blocks AS (
         block_number
     FROM
         {{ ref("streamline__blocks") }}
-
-{% if is_incremental() %}
-EXCEPT
-SELECT
-    block_number
-FROM
-    {{ ref("streamline__complete_tx_counts") }}
-{% endif %}
+    WHERE
+        block_number >= 12260000
+    EXCEPT
+    SELECT
+        block_number
+    FROM
+        {{ ref("streamline__complete_tx_counts") }}
 )
 SELECT
     ROUND(

@@ -14,14 +14,11 @@ WITH blocks AS (
         tx_count
     FROM
         {{ ref("streamline__complete_tx_counts") }} A
-
-{% if is_incremental() %}
-LEFT JOIN {{ ref("streamline__complete_transactions") }}
-b
-ON A.block_number = b.block_number
-WHERE
-    b.block_number IS NULL
-{% endif %}
+        LEFT JOIN {{ ref("streamline__complete_transactions") }}
+        b
+        ON A.block_number = b.block_number
+    WHERE
+        b.block_number IS NULL
 ),
 numbers AS (
     -- Recursive CTE to generate numbers. We'll use the maximum txcount value to limit our recursion.
