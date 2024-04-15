@@ -10,9 +10,12 @@
 SELECT
     VALUE,
     _partition_by_block_id,
-    block_number AS block_id,
+    DATA :height :: INT AS block_id,
     REPLACE(
-        metadata :request :params [0],
+        COALESCE(
+            metadata :request :data :params [0],
+            metadata :request :params [0]
+        ),
         'tx.height='
     ) :: INT AS block_id_requested,
     metadata,
@@ -21,7 +24,7 @@ SELECT
     DATA :tx_result AS tx_result,
     file_name,
     TO_TIMESTAMP(
-        m._inserted_timestamp
+        _inserted_timestamp
     ) AS _inserted_timestamp
 FROM
 
@@ -30,8 +33,6 @@ FROM
 {% else %}
     {{ ref('bronze__streamline_FR_transactions') }}
 {% endif %}
-
-m
 
 {% if is_incremental() %}
 WHERE

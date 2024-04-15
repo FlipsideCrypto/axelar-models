@@ -10,7 +10,7 @@
 SELECT
     VALUE,
     _partition_by_block_id,
-    block_number AS block_id,
+    DATA :result :block :header :height :: INT AS block_id,
     metadata,
     DATA,
     TO_TIMESTAMP(
@@ -36,6 +36,6 @@ WHERE
     )
 {% endif %}
 
-qualify(ROW_NUMBER() over (PARTITION BY block_number
+qualify(ROW_NUMBER() over (PARTITION BY block_id
 ORDER BY
     _inserted_timestamp DESC)) = 1
