@@ -14,7 +14,7 @@ SELECT
         ),
         'tx.height='
     ) :: INT AS block_number,
-    DATA :: INT AS tx_count,
+    DATA :result :total_count :: INT AS tx_count,
     {{ dbt_utils.generate_surrogate_key(
         ['block_number']
     ) }} AS complete_tx_counts_id,
