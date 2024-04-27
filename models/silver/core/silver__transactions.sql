@@ -63,9 +63,7 @@ FROM
     base_table b
     LEFT OUTER JOIN {{ ref('silver__blocks') }}
     bb
-    ON b.block_id = bb.block_id
-
-{% if is_incremental() %}
+    ON b.block_id = bb.block_id {# {% if is_incremental() %}
 WHERE
     bb._inserted_timestamp :: DATE >= (
         SELECT
@@ -75,6 +73,9 @@ WHERE
     )
 {% endif %}
 
-qualify(ROW_NUMBER() over (PARTITION BY tx_id
+#}
+{# qualify(ROW_NUMBER() over (PARTITION BY tx_id
 ORDER BY
-    b._inserted_timestamp DESC)) = 1
+    b._inserted_timestamp DESC
+)
+) = 1 #}
