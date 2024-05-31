@@ -27,7 +27,7 @@ SELECT
     ) AS partition_key,
     live.udf_api(
         'POST',
-        '{service}/{Authentication}',
+        '{Service}/{Authentication}',
         OBJECT_CONSTRUCT(
             'Content-Type',
             'application/json'
@@ -49,7 +49,7 @@ SELECT
                 FALSE
             )
         ),
-        'vault/prod/axelar/node/mainnet'
+        'vault/prod/axelar/quicknode/mainnet'
     ) AS request
 FROM
     blocks
