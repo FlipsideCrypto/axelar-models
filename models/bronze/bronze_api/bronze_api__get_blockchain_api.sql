@@ -104,13 +104,13 @@ SELECT
   call,
   live.udf_api (
     'POST',
-    '{service}/{Authentication}',
+    '{Service}/rpc',
     OBJECT_CONSTRUCT(
       'Content-Type',
       'application/json'
     ),
     call,
-    'Vault/prod/axelar/node/mainnet'
+    'Vault/prod/axelar/blockjoy/mainnet'
   ) AS DATA,
   SYSDATE() AS _inserted_timestamp
 FROM
