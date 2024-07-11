@@ -3,6 +3,7 @@
     unique_key = "_unique_key",
     incremental_strategy = 'delete+insert',
     cluster_by = 'block_timestamp::DATE',
+    post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION ON EQUALITY(tx_id,sender,receiver);",
     tags = ['core']
 ) }}
 
