@@ -99,7 +99,9 @@ labeled_transfer_amount AS (
             depositAddress,
             tokenaddress,
             raw_amount
-        )
+        ) qualify(ROW_NUMBER() over(PARTITION BY depositAddress
+    ORDER BY
+        raw_amount DESC) = 1)
 )
 SELECT
     block_number,
@@ -121,7 +123,7 @@ SELECT
     raw_amount,
     depositaddress AS deposit_address,
     {{ dbt_utils.generate_surrogate_key(
-        ['tx_hash']
+        ['og_tx_hash']
     ) }} AS satellite_bsc_id,
     SYSDATE() AS inserted_timestamp,
     SYSDATE() AS modified_timestamp,
