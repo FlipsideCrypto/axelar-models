@@ -48,7 +48,7 @@ ORDER BY
   date_day,
   group_id
 LIMIT
-  2
+  1
 ), calls AS (
   SELECT
     date_day,
