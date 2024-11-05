@@ -15,6 +15,7 @@ sources:
       - name: txs_details
       - name: validators
       - name: blocks_test_queue
+      - name: axelscan_day_counts_gmp
   - name: tokens
     database: osmosis
     schema: core
