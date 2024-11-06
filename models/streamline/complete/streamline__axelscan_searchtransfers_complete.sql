@@ -1,25 +1,24 @@
--- depends_on: {{ ref('bronze__axelscan_day_counts_gmp') }}
+-- depends_on: {{ ref('bronze__axelscan_searchtransfers') }}
 {{ config (
     materialized = "incremental",
-    unique_key = 'date_day',
+    unique_key = 'axelscan_searchtransfers_complete_ID',
+    cluster_by = "date_day",
     tags = ['streamline_axelscan']
 ) }}
 
 SELECT
     (LEFT(partition_key, 4) || '-' || SUBSTRING(partition_key, 5, 2) || '-' || RIGHT(partition_key, 2)) :: DATE date_day,
-    VALUE :FROMTIME :: bigint AS fromTime,
-    VALUE :TOTIME :: bigint AS toTime,
-    DATA :total AS day_count,
+    VALUE :ID :: INT AS id,
     {{ dbt_utils.generate_surrogate_key(
-        ['date_day']
-    ) }} AS axelscan_day_counts_gmp_complete_ID,
+        ['date_day','id']
+    ) }} AS axelscan_searchtransfers_complete_ID,
     inserted_timestamp,
     SYSDATE() AS modified_timestamp,
     '{{ invocation_id }}' AS _invocation_id
 FROM
 
 {% if is_incremental() %}
-{{ ref('bronze__axelscan_day_counts_gmp') }}
+{{ ref('bronze__axelscan_searchtransfers') }}
 WHERE
     inserted_timestamp >= (
         SELECT
@@ -27,9 +26,9 @@ WHERE
         FROM
             {{ this }})
         {% else %}
-            {{ ref('bronze__axelscan_day_counts_gmp_FR') }}
+            {{ ref('bronze__axelscan_searchtransfers_FR') }}
         {% endif %}
 
-        qualify(ROW_NUMBER() over (PARTITION BY date_day
+        qualify(ROW_NUMBER() over (PARTITION BY axelscan_searchtransfers_complete_ID
         ORDER BY
             inserted_timestamp DESC)) = 1

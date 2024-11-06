@@ -16,6 +16,9 @@ sources:
       - name: validators
       - name: blocks_test_queue
       - name: axelscan_day_counts_gmp
+      - name: axelscan_day_counts_transfers
+      - name: axelscan_searchgmp
+      - name: axelscan_searchtransfers
   - name: tokens
     database: osmosis
     schema: core

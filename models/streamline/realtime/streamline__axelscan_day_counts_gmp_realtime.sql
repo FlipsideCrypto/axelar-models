@@ -4,12 +4,13 @@
         func = 'streamline.udf_rest_api',
         target = "{{this.schema}}.{{this.identifier}}",
         params ={ "external_table" :"axelscan_day_counts_gmp",
-        "sql_limit" :"100",
-        "producer_batch_size" :"20",
-        "worker_batch_size" :"20",
+        "sql_limit" :"200",
+        "producer_batch_size" :"100",
+        "worker_batch_size" :"100",
         "sql_source" :"{{this.identifier}}",
         "order_by_column": "date_day" }
-    )
+    ),
+    tags = ['streamline_axelscan']
 ) }}
 
 WITH dates_hist AS (
@@ -25,12 +26,14 @@ WITH dates_hist AS (
         {{ source(
             'crosschain',
             'dim_dates'
-        ) }} A {# LEFT JOIN {{ ref('streamline__axelscan_day_counts_gmp_complete') }}
+        ) }} A
+        LEFT JOIN {{ ref('streamline__axelscan_day_counts_gmp_complete') }}
         b
-        ON A.date_day = b.date_day #}
+        ON A.date_day = b.date_day
     WHERE
         A.date_day BETWEEN '2022-05-09'
-        AND SYSDATE() :: DATE - 2 {# AND b.date_day IS NULL #}
+        AND SYSDATE() :: DATE - 2
+        AND b.date_day IS NULL
 ),
 dates_recent AS (
     SELECT
@@ -69,7 +72,6 @@ SELECT
         date_day :: STRING,
         '-'
     ) AS partition_key,
-    {# date_day, #}
     fromTime,
     toTime,
     {{ target.database }}.live.udf_api(

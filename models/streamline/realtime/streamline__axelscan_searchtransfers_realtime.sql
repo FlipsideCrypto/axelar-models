@@ -3,7 +3,7 @@
     post_hook = fsc_utils.if_data_call_function_v2(
         func = 'streamline.udf_rest_api',
         target = "{{this.schema}}.{{this.identifier}}",
-        params ={ "external_table" :"axelscan_searchgmp",
+        params ={ "external_table" :"axelscan_searchtransfers",
         "sql_limit" :"10000",
         "producer_batch_size" :"5000",
         "worker_batch_size" :"5000",
@@ -32,7 +32,7 @@ dates_hist AS (
         toTime,
         A.date_day
     FROM
-        {{ ref('streamline__axelscan_day_counts_gmp_complete') }} A
+        {{ ref('streamline__axelscan_day_counts_transfers_complete') }} A
         JOIN ids b
         ON b._id <= A.day_count
 ),
@@ -44,7 +44,7 @@ ids_topull AS (
         A.date_day
     FROM
         dates_hist A
-        LEFT JOIN {{ ref('streamline__axelscan_searchgmp_complete') }}
+        LEFT JOIN {{ ref('streamline__axelscan_searchtransfers_complete') }}
         b
         ON A.date_day = b.date_day
         AND A.id = b.id
@@ -60,11 +60,11 @@ SELECT
     partition_key || id :: STRING AS ob,
     {{ target.database }}.live.udf_api(
         'GET',
-        'https://api.gmp.axelarscan.io',
+        'https://api.axelarscan.io',
         OBJECT_CONSTRUCT(),
         OBJECT_CONSTRUCT(
             'method',
-            'searchGMP',
+            'searchTransfers',
             'fromTime',
             fromTime,
             'toTime',

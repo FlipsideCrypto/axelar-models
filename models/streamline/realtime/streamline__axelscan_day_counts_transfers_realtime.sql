@@ -1,15 +1,16 @@
 {{ config (
     materialized = "view",
     post_hook = fsc_utils.if_data_call_function_v2(
-        func = 'streamline.udf_bulk_rest_api_v2',
+        func = 'streamline.udf_rest_api',
         target = "{{this.schema}}.{{this.identifier}}",
         params ={ "external_table" :"axelscan_day_counts_transfers",
-        "sql_limit" :"100",
-        "producer_batch_size" :"20",
-        "worker_batch_size" :"20",
+        "sql_limit" :"200",
+        "producer_batch_size" :"100",
+        "worker_batch_size" :"100",
         "sql_source" :"{{this.identifier}}",
         "order_by_column": "date_day" }
-    )
+    ),
+    tags = ['streamline_axelscan']
 ) }}
 
 WITH dates_hist AS (
@@ -26,20 +27,13 @@ WITH dates_hist AS (
             'crosschain',
             'dim_dates'
         ) }} A
-
-{% if is_incremental() %}
-LEFT JOIN {{ ref('streamline__axelscan_day_counts_transfers_complete') }}
-b
-ON A.date_day = b.date_day
-WHERE
-    b.date_day IS NULL
-    AND A.date_day BETWEEN '2021-12-23'
-    AND SYSDATE() :: DATE - 2
-{% else %}
-WHERE
-    A.date_day BETWEEN '2021-12-23'
-    AND SYSDATE() :: DATE - 2
-{% endif %}
+        LEFT JOIN {{ ref('streamline__axelscan_day_counts_transfers_complete') }}
+        b
+        ON A.date_day = b.date_day
+    WHERE
+        A.date_day BETWEEN '2022-05-09'
+        AND SYSDATE() :: DATE - 2
+        AND b.date_day IS NULL
 ),
 dates_recent AS (
     SELECT
@@ -76,10 +70,8 @@ date_combo AS (
 SELECT
     REPLACE(
         date_day :: STRING,
-        '-',
-        '_'
+        '-'
     ) AS partition_key,
-    date_day,
     fromTime,
     toTime,
     {{ target.database }}.live.udf_api(
