@@ -20,8 +20,8 @@ WITH dates_hist AS (
         DATE_PART(
             epoch_second,
             A.date_day
-        ) AS fromTime,
-        DATE_PART(epoch_second, DATEADD (DAY, 1, A.date_day)) -1 AS toTime
+        ) AS from_time,
+        DATE_PART(epoch_second, DATEADD (DAY, 1, A.date_day)) -1 AS TO_TIME
     FROM
         {{ source(
             'crosschain',
@@ -81,9 +81,9 @@ SELECT
         OBJECT_CONSTRUCT(
             'method',
             'searchGMP',
-            'fromTime',
+            'from_time',
             from_time,
-            'toTime',
+            'to_time',
             TO_TIME,
             'size',
             1

@@ -26,9 +26,8 @@ WITH ids AS (
             'number_sequence'
         ) }}
     WHERE
-        _id < '{{ limit }}'
-),
-dates_hist AS (
+        _id < {{ limit }}
+), dates_hist AS (
     SELECT
         b._id -1 AS id,
         from_time,
@@ -68,9 +67,9 @@ SELECT
         OBJECT_CONSTRUCT(
             'method',
             'searchGMP',
-            'fromTime',
+            'from_time',
             from_time,
-            'toTime',
+            'to_time',
             TO_TIME,
             'from',
             id,
