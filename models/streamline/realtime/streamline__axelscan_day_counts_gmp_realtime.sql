@@ -91,5 +91,3 @@ SELECT
     ) AS request
 FROM
     date_combo
-ORDER BY
-    date_day

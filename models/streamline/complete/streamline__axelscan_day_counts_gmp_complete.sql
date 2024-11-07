@@ -6,13 +6,13 @@
 ) }}
 
 SELECT
-    (LEFT(partition_key, 4) || '-' || SUBSTRING(partition_key, 5, 2) || '-' || RIGHT(partition_key, 2)) :: DATE date_day,
+    partition_key AS date_day,
     VALUE :FROMTIME :: bigint AS fromTime,
     VALUE :TOTIME :: bigint AS toTime,
     DATA :total AS day_count,
     {{ dbt_utils.generate_surrogate_key(
         ['date_day']
-    ) }} AS axelscan_day_counts_gmp_complete_ID,
+    ) }} AS axelscan_day_counts_gmp_complete_id,
     inserted_timestamp,
     SYSDATE() AS modified_timestamp,
     '{{ invocation_id }}' AS _invocation_id

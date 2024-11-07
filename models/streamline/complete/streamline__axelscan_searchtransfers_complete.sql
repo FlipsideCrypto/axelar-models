@@ -1,17 +1,17 @@
 -- depends_on: {{ ref('bronze__axelscan_searchtransfers') }}
 {{ config (
     materialized = "incremental",
-    unique_key = 'axelscan_searchtransfers_complete_ID',
+    unique_key = 'axelscan_searchtransfers_complete_id',
     cluster_by = "date_day",
     tags = ['streamline_axelscan']
 ) }}
 
 SELECT
-    (LEFT(partition_key, 4) || '-' || SUBSTRING(partition_key, 5, 2) || '-' || RIGHT(partition_key, 2)) :: DATE date_day,
+    partition_key AS date_day,
     VALUE :ID :: INT AS id,
     {{ dbt_utils.generate_surrogate_key(
         ['date_day','id']
-    ) }} AS axelscan_searchtransfers_complete_ID,
+    ) }} AS axelscan_searchtransfers_complete_id,
     inserted_timestamp,
     SYSDATE() AS modified_timestamp,
     '{{ invocation_id }}' AS _invocation_id
@@ -29,6 +29,6 @@ WHERE
             {{ ref('bronze__axelscan_searchtransfers_FR') }}
         {% endif %}
 
-        qualify(ROW_NUMBER() over (PARTITION BY axelscan_searchtransfers_complete_ID
+        qualify(ROW_NUMBER() over (PARTITION BY axelscan_searchtransfers_complete_id
         ORDER BY
             inserted_timestamp DESC)) = 1
