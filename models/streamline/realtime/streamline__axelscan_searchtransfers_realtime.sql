@@ -28,8 +28,8 @@ WITH ids AS (
 dates_hist AS (
     SELECT
         b._id -1 AS id,
-        fromTime,
-        toTime,
+        from_time,
+        TO_TIME,
         A.date_day
     FROM
         {{ ref('streamline__axelscan_day_counts_transfers_complete') }} A
@@ -39,8 +39,8 @@ dates_hist AS (
 ids_topull AS (
     SELECT
         A.id,
-        A.fromTime,
-        A.toTime,
+        A.from_time,
+        A.to_time,
         A.date_day
     FROM
         dates_hist A
@@ -66,9 +66,9 @@ SELECT
             'method',
             'searchTransfers',
             'fromTime',
-            fromTime,
+            from_time,
             'toTime',
-            toTime,
+            TO_TIME,
             'from',
             id,
             'size',

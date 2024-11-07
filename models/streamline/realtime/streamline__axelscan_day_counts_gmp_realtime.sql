@@ -41,8 +41,8 @@ dates_recent AS (
         DATE_PART(
             epoch_second,
             date_day
-        ) AS fromTime,
-        DATE_PART(epoch_second, DATEADD (DAY, 1, date_day)) -1 AS toTime
+        ) AS from_time,
+        DATE_PART(epoch_second, DATEADD (DAY, 1, date_day)) -1 AS TO_TIME
     FROM
         {{ source(
             'crosschain',
@@ -55,15 +55,15 @@ dates_recent AS (
 date_combo AS (
     SELECT
         date_day,
-        fromTime,
-        toTime
+        from_time,
+        TO_TIME
     FROM
         dates_hist
     UNION ALL
     SELECT
         date_day,
-        fromTime,
-        toTime
+        from_time,
+        TO_TIME
     FROM
         dates_recent
 )
@@ -72,8 +72,8 @@ SELECT
         date_day :: STRING,
         '-'
     ) AS partition_key,
-    fromTime,
-    toTime,
+    from_time,
+    TO_TIME,
     {{ target.database }}.live.udf_api(
         'GET',
         'https://api.gmp.axelarscan.io',
@@ -82,9 +82,9 @@ SELECT
             'method',
             'searchGMP',
             'fromTime',
-            fromTime,
+            from_time,
             'toTime',
-            toTime,
+            TO_TIME,
             'size',
             1
         )

@@ -7,8 +7,8 @@
 
 SELECT
     partition_key AS date_day,
-    VALUE :FROMTIME :: bigint AS fromTime,
-    VALUE :TOTIME :: bigint AS toTime,
+    VALUE :FROMTIME :: bigint AS from_time,
+    VALUE :TOTIME :: bigint AS TO_TIME,
     DATA :total AS day_count,
     {{ dbt_utils.generate_surrogate_key(
         ['date_day']
