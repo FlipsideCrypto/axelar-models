@@ -12,7 +12,10 @@
     ),
     tags = ['streamline_axelscan']
 ) }}
-
+--set a arbitrary limit for the number of ids to pull to speed up the performance. Shouldn't be more than 200K records in a day
+{% set limit = var(
+    'AXELSCAN_ID_LIMIT', 200000
+) %}
 WITH ids AS (
 
     SELECT
@@ -23,7 +26,7 @@ WITH ids AS (
             'number_sequence'
         ) }}
     WHERE
-        _id < 200000
+        _id < '{{ limit }}'
 ),
 dates_hist AS (
     SELECT
