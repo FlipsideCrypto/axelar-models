@@ -5,8 +5,8 @@
         target = "{{this.schema}}.{{this.identifier}}",
         params ={ "external_table" :"axelscan_searchgmp",
         "sql_limit" :"10000",
-        "producer_batch_size" :"5000",
-        "worker_batch_size" :"5000",
+        "producer_batch_size" :"500",
+        "worker_batch_size" :"500",
         "sql_source" :"{{this.identifier}}",
         "order_by_column": "ob" }
     ),
