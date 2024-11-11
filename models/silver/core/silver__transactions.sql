@@ -31,15 +31,14 @@ WITH base_table AS (
 {% if is_incremental() %}
 AND _inserted_timestamp >= (
     SELECT
-        MAX(_inserted_timestamp)
+        DATEADD('minute', -30, MAX(_inserted_timestamp))
     FROM
-        {{ this }}
-)
-{% endif %}
+        {{ this }})
+    {% endif %}
 
-qualify(ROW_NUMBER() over (PARTITION BY tx_id
-ORDER BY
-    _inserted_timestamp DESC)) = 1
+    qualify(ROW_NUMBER() over (PARTITION BY tx_id
+    ORDER BY
+        _inserted_timestamp DESC)) = 1
 )
 SELECT
     b.block_id,
