@@ -81,9 +81,9 @@ SELECT
         OBJECT_CONSTRUCT(
             'method',
             'searchGMP',
-            'from_time',
+            'fromTime',
             from_time,
-            'to_time',
+            'toTime',
             TO_TIME,
             'size',
             1
