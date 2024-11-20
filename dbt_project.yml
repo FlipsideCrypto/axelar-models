@@ -33,6 +33,8 @@ models:
     relation: true
     columns: true
   +on_schema_change: "append_new_columns"
+  axelar_models:
+    +pre-hook: '{{ fsc_utils.set_query_tag() }}' 
 
 tests:
   +store_failures: true # all tests
@@ -63,6 +65,13 @@ vars:
   OBSERV_FULL_TEST: FALSE
   START_GHA_TASKS: FALSE
   BRONZE_LOOKBACK_DAYS: 3
+  core_folders: [
+    'silver/core',
+    'gold/core',
+    'bronze/core',  
+    'models/bronze/streamline',
+    'streamline'
+  ]
 
 #### STREAMLINE 2.0 BEGIN ####
 
