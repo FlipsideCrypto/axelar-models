@@ -53,7 +53,9 @@ squid_to_burn AS (
     WHERE
         event_name = 'Transfer'
         AND decoded_flat :from = '0xce16f69375520ab01377ce7b88f5ba8c48f8d666'
-        AND decoded_flat :to = '0x0000000000000000000000000000000000000000'
+        AND decoded_flat :to = '0x0000000000000000000000000000000000000000' qualify(ROW_NUMBER () over (PARTITION BY tx_hash
+    ORDER BY
+        event_index DESC) = 1)
 ),
 all_transfers AS (
     SELECT
