@@ -203,4 +203,8 @@ nonevm_fix_data AS (
         SYSDATE() AS modified_timestamp,
         '{{ invocation_id }}' AS _invocation_id
     FROM
-        base_result
+        base_result qualify ROW_NUMBER() over (
+            PARTITION BY tx_hash
+            ORDER BY
+                _inserted_timestamp DESC
+        ) = 1
