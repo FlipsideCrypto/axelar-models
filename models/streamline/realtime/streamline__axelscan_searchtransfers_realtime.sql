@@ -59,7 +59,7 @@ SELECT
         '-'
     ) AS partition_key,
     id,
-    partition_key || id :: STRING AS ob,
+    partition_key || '-' || id :: STRING AS ob,
     {{ target.database }}.live.udf_api(
         'GET',
         'https://api.axelarscan.io',
