@@ -79,3 +79,7 @@ SELECT
     ) AS request
 FROM
     ids_topull
+ORDER BY
+    ob
+LIMIT
+    2000
