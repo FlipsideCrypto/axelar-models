@@ -67,9 +67,9 @@ SELECT
         OBJECT_CONSTRUCT(
             'method',
             'searchTransfers',
-            'from_time',
+            'fromTime',
             from_time,
-            'to_time',
+            'toTime',
             TO_TIME,
             'from',
             id,
