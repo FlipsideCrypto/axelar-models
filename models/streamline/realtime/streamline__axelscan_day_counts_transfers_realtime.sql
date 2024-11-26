@@ -31,7 +31,7 @@ WITH dates_hist AS (
         b
         ON A.date_day = b.date_day
     WHERE
-        A.date_day BETWEEN '2022-05-09'
+        A.date_day BETWEEN '2021-12-23'
         AND SYSDATE() :: DATE - 2
         AND b.date_day IS NULL
 ),
