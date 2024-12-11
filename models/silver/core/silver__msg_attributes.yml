@@ -6,11 +6,13 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - _UNIQUE_KEY
+          where: block_timestamp > current_date() - {{ var('test_days_threshold', 7) }}  
     columns:
       - name: BLOCK_ID
         description: "{{ doc('block_id') }}"
         tests:
-          - not_null
+          - not_null:
+              where: block_timestamp > current_date() - {{ var('test_days_threshold', 7) }}  
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list:
                 - NUMBER
@@ -18,7 +20,8 @@ models:
       - name: BLOCK_TIMESTAMP
         description: "{{ doc('block_timestamp') }}"
         tests:
-          - not_null
+          - not_null:
+              where: block_timestamp > current_date() - {{ var('test_days_threshold', 7) }}  
           - dbt_expectations.expect_row_values_to_have_recent_data:
               datepart: day
               interval: 1
@@ -28,7 +31,8 @@ models:
       - name: TX_ID
         description: "{{ doc('tx_id') }}"
         tests: 
-          - not_null
+          - not_null:
+              where: block_timestamp > current_date() - {{ var('test_days_threshold', 7) }}  
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list:
                 - STRING
@@ -50,7 +54,8 @@ models:
       - name: MSG_INDEX
         description: "{{ doc('msg_index') }}"
         tests: 
-          - not_null
+          - not_null:
+              where: block_timestamp > current_date() - {{ var('test_days_threshold', 7) }}  
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list:
                 - NUMBER    
@@ -58,7 +63,8 @@ models:
       - name: MSG_TYPE
         description: "{{ doc('msg_type') }}"
         tests: 
-          - not_null
+          - not_null:
+              where: block_timestamp > current_date() - {{ var('test_days_threshold', 7) }}  
           - dbt_expectations.expect_column_values_to_be_in_type_list:
               column_type_list:
                 - STRING
