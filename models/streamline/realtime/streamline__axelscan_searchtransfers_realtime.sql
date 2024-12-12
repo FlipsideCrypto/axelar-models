@@ -4,9 +4,9 @@
         func = 'streamline.udf_rest_api',
         target = "{{this.schema}}.{{this.identifier}}",
         params ={ "external_table" :"axelscan_searchtransfers",
-        "sql_limit" :"1000",
-        "producer_batch_size" :"500",
-        "worker_batch_size" :"500",
+        "sql_limit" :"600",
+        "producer_batch_size" :"30",
+        "worker_batch_size" :"5",
         "sql_source" :"{{this.identifier}}",
         "order_by_column": "ob" }
     ),
@@ -63,7 +63,10 @@ SELECT
     {{ target.database }}.live.udf_api(
         'GET',
         'https://api.axelarscan.io',
-        OBJECT_CONSTRUCT(),
+        OBJECT_CONSTRUCT(
+            'referer',
+            'flipside'
+        ),
         OBJECT_CONSTRUCT(
             'method',
             'searchTransfers',
