@@ -56,7 +56,7 @@ jobs:
           dbt run -m "axelar_models,tag:axelscan_search"
           dbt run -m "axelar_models,tag:axelscan_search"
           dbt run -m "axelar_models,tag:axelscan_search"
-          dbt run -m "axelar_models,tag:streamline_axelscan" --vars '{"STREAMLINE_INVOKE_STREAMS":True}'
+    
        
          
 
