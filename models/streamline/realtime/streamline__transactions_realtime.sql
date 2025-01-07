@@ -1,8 +1,15 @@
 {{ config (
     materialized = "view",
-    post_hook = if_data_call_function(
-        func = "{{this.schema}}.udf_rest_api(object_construct('sql_source', '{{this.identifier}}', 'external_table', 'txs_v2', 'exploded_key', '[\"result\", \"txs\"]', 'sql_limit', {{var('sql_limit','100000')}}, 'producer_batch_size', {{var('producer_batch_size','100000')}}, 'worker_batch_size', {{var('worker_batch_size','500')}}))",
-        target = "{{this.schema}}.{{this.identifier}}"
+    post_hook = fsc_utils.if_data_call_function_v2(
+        func = 'streamline.udf_rest_api',
+        target = "{{this.schema}}.{{this.identifier}}",
+        params ={ "external_table" :"txs_v2",
+        "sql_limit" :"100000",
+        "producer_batch_size" :"2000",
+        "worker_batch_size" :"500",
+        "sql_source" :"{{this.identifier}}",
+        "order_by_column": "partition_key",
+        "exploded_key": tojson(["result.txs"]) }
     )
 ) }}
 -- depends_on: {{ ref('streamline__complete_transactions') }}
