@@ -2,7 +2,8 @@
     materialized = 'view',
     meta ={ 'database_tags':{ 'table':{ 'PURPOSE': 'AXELSCAN',
     }} },
-    tags = ['noncore']
+    tags = ['noncore'],
+    enabled = false
 ) }}
 
 SELECT

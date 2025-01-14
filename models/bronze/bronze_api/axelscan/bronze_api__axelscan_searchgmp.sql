@@ -2,7 +2,8 @@
   materialized = 'incremental',
   full_refresh = false,
   cluster_by = ['_inserted_timestamp::DATE'],
-  tags = ['axelscan','axelscan_search']
+  tags = ['axelscan','axelscan_search'],
+  enabled = false
 ) }}
 
 WITH max_id AS (

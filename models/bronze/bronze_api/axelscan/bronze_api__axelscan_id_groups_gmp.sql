@@ -2,7 +2,8 @@
   materialized = 'incremental',
   unique_key = 'date_day',
   incremental_strategy = 'delete+insert',
-  tags = ['axelscan']
+  tags = ['axelscan'],
+  enabled = false
 ) }}
 
 WITH ids_days AS (

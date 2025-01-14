@@ -9,8 +9,10 @@
 SELECT
     partition_key AS date_day,
     VALUE :ID :: INT AS id,
+    VALUE :FROM_TIME :: bigint AS from_time,
+    VALUE :TO_TIME :: bigint AS TO_TIME,
     {{ dbt_utils.generate_surrogate_key(
-        ['date_day','id']
+        ['date_day','id','from_time']
     ) }} AS axelscan_searchgmp_complete_id,
     inserted_timestamp,
     SYSDATE() AS modified_timestamp,
