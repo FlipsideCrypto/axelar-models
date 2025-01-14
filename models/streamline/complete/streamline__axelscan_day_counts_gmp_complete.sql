@@ -1,7 +1,7 @@
 -- depends_on: {{ ref('bronze__axelscan_day_counts_gmp') }}
 {{ config (
     materialized = "incremental",
-    unique_key = 'date_day',
+    unique_key = ['date_day','from_time'],
     tags = ['streamline_axelscan']
 ) }}
 
@@ -11,7 +11,7 @@ SELECT
     VALUE :TO_TIME :: bigint AS TO_TIME,
     DATA :total AS day_count,
     {{ dbt_utils.generate_surrogate_key(
-        ['date_day']
+        ['date_day','from_time']
     ) }} AS axelscan_day_counts_gmp_complete_id,
     inserted_timestamp,
     SYSDATE() AS modified_timestamp,
@@ -30,6 +30,6 @@ WHERE
             {{ ref('bronze__axelscan_day_counts_gmp_FR') }}
         {% endif %}
 
-        qualify(ROW_NUMBER() over (PARTITION BY date_day
+        qualify(ROW_NUMBER() over (PARTITION BY date_day, from_time
         ORDER BY
             inserted_timestamp DESC)) = 1

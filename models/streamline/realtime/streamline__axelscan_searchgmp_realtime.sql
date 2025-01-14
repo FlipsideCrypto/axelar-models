@@ -4,17 +4,18 @@
         func = 'streamline.udf_rest_api',
         target = "{{this.schema}}.{{this.identifier}}",
         params ={ "external_table" :"axelscan_searchgmp",
-        "sql_limit" :"1000",
-        "producer_batch_size" :"500",
-        "worker_batch_size" :"500",
+        "sql_limit" :"4000",
+        "producer_batch_size" :"100",
+        "worker_batch_size" :"100",
         "sql_source" :"{{this.identifier}}",
-        "order_by_column": "ob" }
+        "order_by_column": "ob",
+        "async_concurrent_requests" :"5" }
     ),
     tags = ['streamline_axelscan']
 ) }}
---set a arbitrary limit for the number of ids to pull to speed up the performance. Shouldn't be more than 200K records in a day
+--This is the max number of ids that the api supports for the searchGMP method
 {% set limit = var(
-    'AXELSCAN_ID_LIMIT', 200000
+    'AXELSCAN_ID_LIMIT', 501
 ) %}
 WITH ids AS (
 
@@ -50,6 +51,7 @@ ids_topull AS (
         b
         ON A.date_day = b.date_day
         AND A.id = b.id
+        AND A.from_time = b.from_time
     WHERE
         b.date_day IS NULL
 )
@@ -59,9 +61,11 @@ SELECT
         '-'
     ) AS partition_key,
     id,
-    partition_key || '-' || id :: STRING AS ob,
+    from_time,
+    TO_TIME,
+    partition_key || '-' || from_time || '-' || id :: STRING AS ob,
     {{ target.database }}.live.udf_api(
-        'GET',
+        'POST',
         'https://api.gmp.axelarscan.io',
         OBJECT_CONSTRUCT(),
         OBJECT_CONSTRUCT(
@@ -81,5 +85,3 @@ FROM
     ids_topull
 ORDER BY
     ob
-LIMIT
-    2000

@@ -2,7 +2,8 @@
   materialized = 'incremental',
   unique_key = 'date_day',
   full_refresh = false,
-  tags = ['axelscan']
+  tags = ['axelscan'],
+  enabled = false
 ) }}
 
 WITH dates_hist AS (
