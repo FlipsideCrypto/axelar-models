@@ -4,7 +4,7 @@
         func = 'streamline.udf_rest_api',
         target = "{{this.schema}}.{{this.identifier}}",
         params ={ "external_table" :"axelscan_day_counts_gmp",
-        "sql_limit" :"12000",
+        "sql_limit" :"18000",
         "producer_batch_size" :"200",
         "worker_batch_size" :"200",
         "sql_source" :"{{this.identifier}}",
