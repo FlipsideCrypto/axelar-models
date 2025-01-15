@@ -24,7 +24,6 @@ WITH dates_hist AS (
             epoch_second,
             A.date_day
         ) AS from_time,
-        from_time AS ft,
         from_time + 59 AS TO_TIME
     FROM
         {{ source(
@@ -32,49 +31,23 @@ WITH dates_hist AS (
             'dim_dates'
         ) }} A
         JOIN TABLE(GENERATOR(rowcount => 1440)) x
+    WHERE
+        A.date_day BETWEEN '2024-12-10'
+        AND SYSDATE() :: DATE - 1
+),
+exclude_done AS (
+    SELECT
+        A.date_day,
+        A.from_time,
+        A.to_time
+    FROM
+        dates_hist A
         LEFT JOIN {{ ref('streamline__axelscan_day_counts_gmp_complete') }}
         b
         ON A.date_day = b.date_day
-        AND ft = b.from_time
+        AND A.from_time = b.from_time
     WHERE
-        A.date_day BETWEEN '2024-12-10'
-        AND SYSDATE() :: DATE - 2
-        AND b.date_day IS NULL
-),
-dates_recent AS (
-    SELECT
-        date_day,
-        (ROW_NUMBER() over (PARTITION BY date_day
-    ORDER BY
-        SEQ4()) - 1) * 60 + DATE_PART(
-            epoch_second,
-            date_day
-        ) AS from_time,
-        from_time + 59 AS TO_TIME
-    FROM
-        {{ source(
-            'crosschain',
-            'dim_dates'
-        ) }}
-        JOIN TABLE(GENERATOR(rowcount => 1440)) x
-    WHERE
-        date_day BETWEEN SYSDATE() :: DATE - 1
-        AND SYSDATE() :: DATE
-),
-date_combo AS (
-    SELECT
-        date_day,
-        ft AS from_time,
-        TO_TIME
-    FROM
-        dates_hist
-    UNION ALL
-    SELECT
-        date_day,
-        from_time,
-        TO_TIME
-    FROM
-        dates_recent
+        b.date_day IS NULL
 )
 SELECT
     REPLACE(
@@ -100,4 +73,4 @@ SELECT
         )
     ) AS request
 FROM
-    date_combo
+    exclude_done
