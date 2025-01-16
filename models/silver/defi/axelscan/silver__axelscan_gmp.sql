@@ -5,20 +5,35 @@
     merge_exclude_columns = ["inserted_timestamp"],
     cluster_by = 'created_at::DATE',
     post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION ON EQUALITY(id);",
-    tags = ['noncore'],
-    enabled = false
+    tags = ['noncore']
 ) }}
-
-WITH base AS (
+-- depends_on: {{ ref('bronze__axelscan_searchgmp') }}
+WITH lq AS (
 
     SELECT
         id,
         DATA,
         _inserted_timestamp
     FROM
-        {{ ref('bronze_api__axelscan_searchgmp') }}
+        {{ source(
+            'bronze_api',
+            'axelscan_searchgmp'
+        ) }}
 
 {% if is_incremental() %}
+WHERE
+    0 = 1
+{% endif %}
+),
+sl AS (
+    SELECT
+        DATA :data [0] :id :: STRING AS id,
+        DATA :data [0] AS DATA,
+        inserted_timestamp AS _inserted_timestamp
+    FROM
+
+{% if is_incremental() %}
+{{ ref('bronze__axelscan_searchgmp') }}
 WHERE
     _inserted_timestamp :: DATE >= (
         SELECT
@@ -26,11 +41,20 @@ WHERE
         FROM
             {{ this }}
     )
+{% else %}
+    {{ ref('bronze__axelscan_searchgmp_FR') }}
 {% endif %}
-
-qualify (ROW_NUMBER() over (PARTITION BY id
-ORDER BY
-    _inserted_timestamp DESC) = 1)
+),
+combo AS (
+    SELECT
+        *
+    FROM
+        sl
+    UNION ALL
+    SELECT
+        *
+    FROM
+        lq
 )
 SELECT
     id,
@@ -75,4 +99,8 @@ SELECT
     _inserted_timestamp,
     '{{ invocation_id }}' AS _invocation_id
 FROM
-    base
+    combo
+WHERE
+    id IS NOT NULL qualify (ROW_NUMBER() over (PARTITION BY id
+ORDER BY
+    _inserted_timestamp DESC) = 1)

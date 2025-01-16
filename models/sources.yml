@@ -137,3 +137,8 @@ sources:
     schema: github_actions
     tables:
       - name: workflows
+  - name: bronze_api
+    database: axelar
+    schema: bronze_api
+    tables:
+      - name: axelscan_searchgmp
