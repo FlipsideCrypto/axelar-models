@@ -1,13 +1,14 @@
 {{ config(
   materialized = 'incremental',
   full_refresh = false,
-  tags = ['core']
+  tags = ['core'],
+  enabled = false
 ) }}
 
 SELECT
   live.udf_api (
     'POST',
-    '{Service}/rpc',
+    '{Service}/{Authentication}',
     OBJECT_CONSTRUCT(
       'Content-Type',
       'application/json'
@@ -20,6 +21,6 @@ SELECT
       'method',
       'status'
     ),
-    'Vault/prod/axelar/blockjoy/mainnet'
+    'Vault/prod/axelar/drpc/mainnet'
   ) AS DATA,
   SYSDATE() AS _inserted_timestamp

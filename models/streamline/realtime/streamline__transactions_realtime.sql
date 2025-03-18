@@ -66,7 +66,7 @@ numbers AS (
         ) AS partition_key,
         live.udf_api(
             'POST',
-            '{Service}/rpc',
+            '{Service}/{Authentication}',
             OBJECT_CONSTRUCT(
                 'Content-Type',
                 'application/json'
@@ -88,7 +88,7 @@ numbers AS (
                     FALSE
                 )
             ),
-            'vault/prod/axelar/blockjoy/mainnet'
+            'vault/prod/axelar/drpc/mainnet'
         ) AS request
     FROM
         blocks_with_page_numbers
