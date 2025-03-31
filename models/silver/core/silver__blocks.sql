@@ -54,7 +54,7 @@ FROM
     {{ ref('bronze__blocks') }}
 WHERE
     DATA :error :code IS NULL
-    AND block_id IS NULL
+    AND block_id IS NOT NULL
 
 {% if is_incremental() %}
 AND _inserted_timestamp >= (
