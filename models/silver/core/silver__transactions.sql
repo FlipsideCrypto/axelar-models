@@ -3,7 +3,7 @@
     unique_key = "tx_id",
     incremental_strategy = 'delete+insert',
     cluster_by = 'block_timestamp::DATE',
-    post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION",
+    post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION; ",
     tags = ['core']
 ) }}
 
@@ -27,6 +27,7 @@ WITH base_table AS (
         {{ ref('bronze__transactions') }}
     WHERE
         DATA :error :code IS NULL
+        AND block_id IS NOT NULL
 
 {% if is_incremental() %}
 AND _inserted_timestamp >= (
