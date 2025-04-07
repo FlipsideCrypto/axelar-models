@@ -71,15 +71,16 @@ SELECT
   fromTime,
   toTime,
   {{ target.database }}.live.udf_api(
-    'GET',
-    'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
-    'fromTime': fromTime,
+    'POST',
+    'https://api.axelarscan.io/token/searchTransfers',{},{ 'fromTime': fromTime,
     'toTime': toTime,
     'size': 1 }
   ) :data :total AS day_count,
   SYSDATE() AS _inserted_timestamp
 FROM
   date_combo
+WHERE
+  day_count IS NOT NULL
 ORDER BY
   date_day
 LIMIT
