@@ -51,7 +51,7 @@ dates_recent AS (
     date_day BETWEEN SYSDATE() :: DATE - 1
     AND SYSDATE() :: DATE
 ),
-date_combo AS (
+date_combox AS (
   SELECT
     date_day,
     fromTime,
@@ -65,6 +65,16 @@ date_combo AS (
     toTime
   FROM
     dates_recent
+),
+date_combo AS (
+  SELECT
+    *
+  FROM
+    date_combox
+  ORDER BY
+    date_day
+  LIMIT
+    5
 )
 SELECT
   date_day,
@@ -81,7 +91,3 @@ FROM
   date_combo
 WHERE
   day_count IS NOT NULL
-ORDER BY
-  date_day
-LIMIT
-  20

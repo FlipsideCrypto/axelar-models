@@ -172,9 +172,8 @@ LIMIT
     max_id,
     max_id - min_id + 1 AS num_ids,
     {{ target.database }}.live.udf_api(
-      'GET',
-      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
-      'fromTime': fromTime,
+      'POST',
+      'https://api.axelarscan.io/token/searchTransfers',{},{ 'fromTime': fromTime,
       'toTime': toTime,
       'from': min_id,
       'size': num_ids }
@@ -196,9 +195,8 @@ LIMIT
     max_id,
     max_id - min_id + 1 AS num_ids,
     {{ target.database }}.live.udf_api(
-      'GET',
-      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
-      'fromTime': fromTime,
+      'POST',
+      'https://api.axelarscan.io/token/searchTransfers',{},{ 'fromTime': fromTime,
       'toTime': toTime,
       'from': min_id,
       'size': num_ids }
@@ -220,9 +218,8 @@ LIMIT
     max_id,
     max_id - min_id + 1 AS num_ids,
     {{ target.database }}.live.udf_api(
-      'GET',
-      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
-      'fromTime': fromTime,
+      'POST',
+      'https://api.axelarscan.io/token/searchTransfers',{},{ 'fromTime': fromTime,
       'toTime': toTime,
       'from': min_id,
       'size': num_ids }
@@ -244,9 +241,8 @@ LIMIT
     max_id,
     max_id - min_id + 1 AS num_ids,
     {{ target.database }}.live.udf_api(
-      'GET',
-      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
-      'fromTime': fromTime,
+      'POST',
+      'https://api.axelarscan.io/token/searchTransfers',{},{ 'fromTime': fromTime,
       'toTime': toTime,
       'from': min_id,
       'size': num_ids }
@@ -268,9 +264,8 @@ LIMIT
     max_id,
     max_id - min_id + 1 AS num_ids,
     {{ target.database }}.live.udf_api(
-      'GET',
-      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
-      'fromTime': fromTime,
+      'POST',
+      'https://api.axelarscan.io/token/searchTransfers',{},{ 'fromTime': fromTime,
       'toTime': toTime,
       'from': min_id,
       'size': num_ids }
@@ -292,9 +287,8 @@ LIMIT
     max_id,
     max_id - min_id + 1 AS num_ids,
     {{ target.database }}.live.udf_api(
-      'GET',
-      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
-      'fromTime': fromTime,
+      'POST',
+      'https://api.axelarscan.io/token/searchTransfers',{},{ 'fromTime': fromTime,
       'toTime': toTime,
       'from': min_id,
       'size': num_ids }
@@ -316,9 +310,8 @@ LIMIT
     max_id,
     max_id - min_id + 1 AS num_ids,
     {{ target.database }}.live.udf_api(
-      'GET',
-      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
-      'fromTime': fromTime,
+      'POST',
+      'https://api.axelarscan.io/token/searchTransfers',{},{ 'fromTime': fromTime,
       'toTime': toTime,
       'from': min_id,
       'size': num_ids }
@@ -340,9 +333,8 @@ LIMIT
     max_id,
     max_id - min_id + 1 AS num_ids,
     {{ target.database }}.live.udf_api(
-      'GET',
-      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
-      'fromTime': fromTime,
+      'POST',
+      'https://api.axelarscan.io/token/searchTransfers',{},{ 'fromTime': fromTime,
       'toTime': toTime,
       'from': min_id,
       'size': num_ids }
@@ -364,9 +356,8 @@ LIMIT
     max_id,
     max_id - min_id + 1 AS num_ids,
     {{ target.database }}.live.udf_api(
-      'GET',
-      'https://api.axelarscan.io',{},{ 'method': 'searchTransfers',
-      'fromTime': fromTime,
+      'POST',
+      'https://api.axelarscan.io/token/searchTransfers',{},{ 'fromTime': fromTime,
       'toTime': toTime,
       'from': min_id,
       'size': num_ids }
