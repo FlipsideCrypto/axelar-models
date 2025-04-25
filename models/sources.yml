@@ -90,13 +90,12 @@ sources:
       - name: decoded_logs
       - name: logs
       - name: contracts
-  - name: base_silver
+  - name: base_core
     database: base
-    schema: silver
+    schema: core
     tables: 
-      - name: decoded_logs
-      - name: logs
-      - name: contracts
+      - name: ez_decoded_event_logs
+      - name: dim_contracts
   - name: arbitrum
     database: arbitrum
     schema: core
