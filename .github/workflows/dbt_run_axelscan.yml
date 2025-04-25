@@ -58,6 +58,13 @@ jobs:
           dbt run -m "axelar_models,tag:axelscan_search"
           dbt run -m 1+models/streamline/realtime/streamline__axelscan_searchgmp_realtime.sql 1+models/streamline/realtime/streamline__axelscan_day_counts_gmp_realtime.sql --vars '{"STREAMLINE_INVOKE_STREAMS":True}'
 
+  notify-failure:
+    needs: [run_dbt_jobs]
+    if: failure()
+    uses: ./.github/workflows/slack_notify.yml
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
       
        
          
