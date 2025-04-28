@@ -101,31 +101,37 @@ sources:
     schema: core
     tables: 
       - name: dim_contracts
+      - name: ez_decoded_event_logs
   - name: avalanche
     database: avalanche
     schema: core
     tables: 
       - name: dim_contracts
+      - name: ez_decoded_event_logs
   - name: ethereum
     database: ethereum
     schema: core
     tables: 
       - name: dim_contracts
+      - name: ez_decoded_event_logs
   - name: polygon
     database: polygon
     schema: core
     tables: 
       - name: dim_contracts
+      - name: ez_decoded_event_logs
   - name: bsc
     database: bsc
     schema: core
     tables: 
       - name: dim_contracts
+      - name: ez_decoded_event_logs
   - name: optimism
     database: optimism
     schema: core
     tables: 
       - name: dim_contracts
+      - name: ez_decoded_event_logs
   - name: base
     database: base
     schema: core

@@ -19,12 +19,12 @@ WITH deco_logs_base AS (
         DATA,
         event_index,
         event_name,
-        decoded_flat,
-        _inserted_timestamp
+        decoded_log AS decoded_flat,
+        modified_timestamp AS _inserted_timestamp
     FROM
         {{ source(
-            'polygon_silver',
-            'decoded_logs'
+            'polygon',
+            'ez_decoded_event_logs'
         ) }}
     WHERE
         block_timestamp :: DATE >= '2022-11-01'
