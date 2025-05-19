@@ -20,8 +20,8 @@ WITH xfer_base AS (
         origin_from_address
     FROM
         {{ source(
-            'avalanche_silver',
-            'transfers'
+            'avalanche',
+            'ez_token_transfers'
         ) }}
     WHERE
         block_timestamp :: DATE >= '2021-12-30'

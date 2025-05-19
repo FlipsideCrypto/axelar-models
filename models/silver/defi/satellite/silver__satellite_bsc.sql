@@ -20,8 +20,8 @@ WITH xfer_base AS (
         origin_from_address
     FROM
         {{ source(
-            'bsc_silver',
-            'transfers'
+            'bsc',
+            'ez_token_transfers'
         ) }}
     WHERE
         block_timestamp :: DATE >= '2022-07-01'

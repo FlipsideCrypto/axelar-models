@@ -102,30 +102,36 @@ sources:
     tables: 
       - name: dim_contracts
       - name: ez_decoded_event_logs
+      - name: ez_token_transfers
   - name: avalanche
     database: avalanche
     schema: core
     tables: 
       - name: dim_contracts
       - name: ez_decoded_event_logs
+      - name: ez_token_transfers
   - name: ethereum
     database: ethereum
     schema: core
     tables: 
       - name: dim_contracts
       - name: ez_decoded_event_logs
+      - name: ez_token_transfers
   - name: polygon
     database: polygon
     schema: core
     tables: 
       - name: dim_contracts
       - name: ez_decoded_event_logs
+      - name: ez_token_transfers
   - name: bsc
     database: bsc
     schema: core
     tables: 
       - name: dim_contracts
       - name: ez_decoded_event_logs
+      - name: ez_token_transfers
+      
   - name: optimism
     database: optimism
     schema: core
