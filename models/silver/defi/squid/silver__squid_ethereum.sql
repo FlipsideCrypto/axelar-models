@@ -11,44 +11,18 @@ WITH dec_logs_base AS (
 
     SELECT
         block_number,
+        block_timestamp,
+        origin_from_address,
         tx_hash,
-        _log_id,
         event_index,
         event_name,
         contract_address,
-        decoded_flat,
-        _inserted_timestamp
+        decoded_log AS decoded_flat,
+        modified_timestamp AS _inserted_timestamp
     FROM
         {{ source(
-            'ethereum_silver',
-            'decoded_logs'
-        ) }}
-    WHERE
-        ROUND(
-            block_number,
-            -3
-        ) >= 14940000
-
-{% if is_incremental() %}
-AND _inserted_timestamp :: DATE >= (
-    SELECT
-        MAX(_inserted_timestamp) :: DATE
-    FROM
-        {{ this }}
-)
-{% endif %}
-),
-logs_base AS (
-    SELECT
-        block_number,
-        tx_hash,
-        _log_id,
-        block_timestamp,
-        origin_from_address
-    FROM
-        {{ source(
-            'ethereum_silver',
-            'logs'
+            'ethereum',
+            'ez_decoded_event_logs'
         ) }}
     WHERE
         ROUND(
@@ -69,7 +43,7 @@ squid_to_gateway AS (
     SELECT
         block_number,
         tx_hash,
-        _log_id,
+        event_index,
         contract_address AS token_address
     FROM
         dec_logs_base
@@ -82,9 +56,9 @@ squid_to_gateway AS (
 )
 SELECT
     A.block_number,
-    C.block_timestamp,
+    A.block_timestamp,
     A.tx_hash,
-    C.origin_from_address AS sender,
+    A.origin_from_address AS sender,
     b.token_address,
     A.decoded_flat :amount :: DECIMAL AS raw_amount,
     REGEXP_REPLACE(
@@ -125,9 +99,6 @@ FROM
     JOIN squid_to_gateway b
     ON A.tx_hash = b.tx_hash
     AND A.block_number = b.block_number
-    JOIN logs_base C
-    ON A._log_id = C._log_id
-    AND A.block_number = C.block_number
 WHERE
     A.contract_address = '0x4f4495243837681061c4743b74b3eedf548d56a5' {# AND destinationChain <> 'osmosis' #}
     qualify(ROW_NUMBER() over(PARTITION BY A.tx_hash
