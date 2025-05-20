@@ -20,8 +20,8 @@ env:
   WAREHOUSE: "${{ vars.WAREHOUSE }}"
   SCHEMA: "${{ vars.SCHEMA }}"
 
-concurrency:
-  group: ${{ github.workflow }}
+# concurrency:
+#   group: ${{ github.workflow }}
 
 jobs:
   run_dbt_jobs:
