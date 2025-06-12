@@ -204,4 +204,8 @@ nonevm_fix_data AS (
         _inserted_timestamp,
         '{{ invocation_id }}' AS _invocation_id
     FROM
-        arb_result A
+        arb_result A qualify ROW_NUMBER() over (
+            PARTITION BY tx_hash
+            ORDER BY
+                _inserted_timestamp DESC
+        ) = 1
