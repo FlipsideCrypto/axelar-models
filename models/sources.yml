@@ -7,14 +7,14 @@ sources:
       {{ "AXELAR_DEV" if var("STREAMLINE_USE_DEV_FOR_EXTERNAL_TABLES", False) else "AXELAR" }}
     tables:
       - name: blocks_v2
-      - name: blocks
+      # - name: blocks
       - name: tx_counts_v2
-      - name: tx_counts
+      # - name: tx_counts
       - name: txs_v2
-      - name: txs
-      - name: txs_details
-      - name: validators
-      - name: blocks_test_queue
+      # - name: txs
+      # - name: txs_details
+      # - name: validators
+      # - name: blocks_test_queue
       - name: axelscan_day_counts_gmp
       - name: axelscan_day_counts_transfers
       - name: axelscan_searchgmp
