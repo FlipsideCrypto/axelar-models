@@ -4,7 +4,7 @@ run-name: dbt_test_scheduled
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '0 5 * * *'
     
 env:
   USE_VARS: "${{ vars.USE_VARS }}"

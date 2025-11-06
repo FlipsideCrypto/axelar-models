@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: axelscan__ez_bridge_metrics
+    description: "Combined bridge metrics from both GMP and transfers, aggregated by source chain, destination chain, and day. All null values default to 0."
+    columns:
+      - name: bridge_metrics_id
+        description: "Surrogate key generated from source_blockchain, destination_blockchain, and day_utc"
+      - name: source_blockchain
+        description: "Source blockchain for the bridge transaction"
+      - name: destination_blockchain
+        description: "Destination blockchain for the bridge transaction"
+      - name: day_utc
+        description: "Date of the transactions (UTC)"
+        tests:
+          - dbt_expectations.expect_row_values_to_have_recent_data:
+              datepart: hour
+              interval: 12
+      - name: num_txs
+        description: "Total number of transactions (GMP + Transfers)"
+      - name: volume_usd
+        description: "Total volume in USD (GMP + Transfers)"
+      - name: gmp_num_txs
+        description: "Number of GMP transactions"
+      - name: gmp_volume_usd
+        description: "Volume of GMP transactions in USD"
+      - name: transfers_num_txs
+        description: "Number of transfer transactions"
+      - name: transfers_volume_usd
+        description: "Volume of transfer transactions in USD"
+      - name: inserted_timestamp
+        description: "Timestamp when the record was inserted"
+      - name: modified_timestamp
+        description: "Timestamp when the record was last modified"
