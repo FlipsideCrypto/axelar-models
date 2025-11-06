@@ -131,4 +131,10 @@ SELECT
     SYSDATE() AS inserted_timestamp,
     SYSDATE() AS modified_timestamp
 FROM
-    combined
+    combined qualify ROW_NUMBER() over (
+        PARTITION BY source_blockchain,
+        destination_blockchain,
+        day_utc
+        ORDER BY
+            inserted_timestamp DESC
+    ) = 1
