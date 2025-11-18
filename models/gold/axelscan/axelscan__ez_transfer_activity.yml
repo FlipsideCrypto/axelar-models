@@ -72,8 +72,8 @@ models:
         description: Full confirm object with deposit confirmation details
       - name: IBC_SEND
         description: Full IBC send object with inter-blockchain communication details
-      - name: EZ_TRANSFER_ACTIVITY_ID
-        description: '{{ doc("pk") }}'
+      - name: ez_transfer_activity_id
+        description: Unique identifier for this transfer activity record (surrogate key generated from transfer_id)
         tests:
           - not_null
           - unique
