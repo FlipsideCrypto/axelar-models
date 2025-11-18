@@ -32,7 +32,7 @@ WHERE
 ORDER BY
     xc DESC
 LIMIT
-    100), api_calls AS (
+    50), api_calls AS (
         SELECT
             token_symbol,
             live.udf_api(
