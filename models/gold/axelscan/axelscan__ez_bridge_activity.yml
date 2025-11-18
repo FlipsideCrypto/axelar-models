@@ -1,0 +1,82 @@
+version: 2
+models:
+  - name: axelscan__ez_bridge_activity
+    description: Unified view of all Axelar cross-chain bridge activity, combining both GMP (General Message Protocol) transactions and direct token transfers. Use the activity_type field to distinguish between 'gmp' and 'transfer' records. This view harmonizes the schemas of both activity types, focusing on common bridging fields (chains, addresses, tokens, amounts, fees).
+    columns:
+      - name: activity_type
+        description: Type of bridge activity - 'gmp' for GMP transactions or 'transfer' for direct transfers
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['gmp', 'transfer']
+      - name: transaction_id
+        description: The unique identifier for the transaction (gmp_id or transfer_id depending on type)
+        tests:
+          - not_null
+      - name: created_at
+        description: The timestamp when the transaction was created
+        tests:
+          - not_null
+      - name: status
+        description: The detailed status of the transaction
+      - name: simplified_status
+        description: Simplified transaction status (e.g., received, failed, approved, sent)
+      - name: source_chain
+        description: The name of the source blockchain (lowercase, normalized)
+      - name: destination_chain
+        description: The name of the destination blockchain (lowercase, normalized)
+      - name: sender_address
+        description: The wallet address of the sender (lowercase)
+      - name: destination_contract_address
+        description: The destination contract address. For GMP this is the contract being called, for transfers this is NULL.
+      - name: recipient_address
+        description: The recipient address. For GMP this is the ultimate recipient, for transfers this is the recipient wallet.
+      - name: token_symbol
+        description: The token symbol (e.g., axlUSDC, USDC, XRP). For transfers uses token_denom.
+      - name: amount
+        description: The token amount as a numeric value
+      - name: amount_value_usd
+        description: The transfer amount value in USD
+      - name: token_price_usd
+        description: The token price in USD at the time of transaction. Only populated for GMP records.
+      - name: source_tx_hash
+        description: The transaction hash on the source chain
+      - name: event_type
+        description: The type of event (e.g., ContractCall, ContractCallWithToken for GMP; link_transfer, axelar_transfer for transfers)
+      - name: source_block_number
+        description: The block number on the source chain
+      - name: transfer_type
+        description: The type of transfer (e.g., link_transfer, axelar_transfer, ibc_transfer). Transfer only.
+      - name: amount_received
+        description: The amount received on the destination chain. Transfer only.
+      - name: insufficient_fee
+        description: Flag indicating whether the fee was insufficient. Transfer only.
+      - name: confirm_tx_hash
+        description: The confirmation transaction hash. Transfer only.
+      - name: deposit_address
+        description: The deposit address used for the transfer. Transfer only.
+      - name: fee
+        description: The fee amount. Primarily populated for transfer records.
+      - name: fee_value_usd
+        description: The fee value in USD. Primarily populated for transfer records.
+      - name: callback_chain
+        description: The callback chain for GMP transactions. GMP only.
+      - name: callback_destination_address
+        description: The callback destination address for GMP transactions. GMP only.
+      - name: parent_message_id
+        description: Parent message ID for child GMP transactions. GMP only.
+      - name: token_contract_address
+        description: The token contract address. GMP only.
+      - name: data_source
+        description: The source of the data (interchain_transfers, interchain_transfer_single, standard_gmp). GMP only.
+      - name: price_source
+        description: The source of the price data (e.g., coingecko_lookup, direct, cosmos_fallback). GMP only.
+      - name: ez_bridge_activity_id
+        description: Unique identifier for this bridge activity record (maps to ez_gmp_activity_id or ez_transfer_activity_id)
+        tests:
+          - not_null
+          - unique
+      - name: inserted_timestamp
+        description: '{{ doc("inserted_timestamp") }}'
+      - name: modified_timestamp
+        description: '{{ doc("modified_timestamp") }}'

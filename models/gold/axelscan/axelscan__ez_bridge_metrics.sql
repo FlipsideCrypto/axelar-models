@@ -6,60 +6,45 @@
 ) }}
 
 WITH gmp_stats AS (
-
     SELECT
         date_day,
-        b.value :key :: STRING AS source_chain,
-        C.value :key :: STRING AS destination_chain,
-        C.value :num_txs :: INT AS path_txs,
-        C.value :volume :: DECIMAL(
-            18,
-            2
-        ) AS path_volume
+        source_chain,
+        destination_chain,
+        num_txs AS path_txs,
+        volume_usd AS path_volume
     FROM
-        {{ ref('bronze__axelscan_gmp_stats_by_chains') }},
-        LATERAL FLATTEN(
-            resp :data :source_chains
-        ) b,
-        LATERAL FLATTEN(
-            b.value :destination_chains
-        ) C
+        {{ ref('silver__axelscan_gmp_stats_by_chains') }}
 
 {% if is_incremental() %}
-WHERE
-    date_day >= (
-        SELECT
-            COALESCE(MAX(day_utc), '1970-01-01' :: DATE) - 3
-        FROM
-            {{ this }})
-        {% endif %}
-    ),
-    transfer_stats AS (
-        SELECT
-            date_day,
-            b.value :source_chain :: STRING AS source_chain,
-            b.value :destination_chain :: STRING AS destination_chain,
-            SUM(
-                b.value :num_txs :: INT
-            ) AS path_txs,
-            SUM(b.value :volume :: DECIMAL(18, 2)) AS path_volume
-        FROM
-            {{ ref('bronze__axelscan_transfer_stats_by_chains') }},
-            LATERAL FLATTEN(
-                resp :data :data
-            ) b
+    WHERE
+        date_day >= (
+            SELECT
+                COALESCE(MAX(day_utc), '1970-01-01' :: DATE) - 7
+            FROM
+                {{ this }}
+        )
+{% endif %}
+),
+transfer_stats AS (
+    SELECT
+        date_day,
+        source_chain,
+        destination_chain,
+        num_txs AS path_txs,
+        volume_usd AS path_volume
+    FROM
+        {{ ref('silver__axelscan_transfer_stats_by_chains') }}
 
 {% if is_incremental() %}
-WHERE
-    date_day >= (
-        SELECT
-            COALESCE(MAX(day_utc), '1970-01-01' :: DATE) - 3
-        FROM
-            {{ this }})
-        {% endif %}
-        GROUP BY
-            ALL
-    ),
+    WHERE
+        date_day >= (
+            SELECT
+                COALESCE(MAX(day_utc), '1970-01-01' :: DATE) - 7
+            FROM
+                {{ this }}
+        )
+{% endif %}
+),
     combined AS (
         SELECT
             COALESCE(
@@ -98,8 +83,8 @@ WHERE
             AND g.destination_chain = t.destination_chain
     )
 SELECT
-    source_blockchain,
-    destination_blockchain,
+    REPLACE(source_blockchain, 'axelarnet', 'axelar') AS source_blockchain,
+    REPLACE(destination_blockchain, 'axelarnet', 'axelar') AS destination_blockchain,
     day_utc,
     COALESCE(
         gmp_num_txs + transfers_num_txs,

@@ -31,6 +31,12 @@ sources:
       - name: dim_labels
       - name: dim_dates
       - name: dim_date_hours
+  - name: crosschain_price
+    database: "{{ 'crosschain' if target.database == 'AXELAR' else 'crosschain_dev' }}"
+    schema: price
+    tables:
+      - name: fact_prices_ohlc_hourly
+      - name: ez_prices_hourly
   - name: crosschain_silver
     database: "{{ 'crosschain' if target.database == 'AXELAR' else 'crosschain_dev' }}"
     schema: silver
@@ -153,3 +159,9 @@ sources:
     schema: bronze_api
     tables:
       - name: axelscan_searchgmp
+  - name: axelar_silver
+    database: axelar
+    schema: silver
+    tables:
+      - name: silver__axelscan_token_meta
+        description: Token metadata with coingecko_id mappings from Axelarscan API
