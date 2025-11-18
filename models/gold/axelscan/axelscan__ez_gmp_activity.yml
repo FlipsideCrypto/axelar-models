@@ -1,0 +1,160 @@
+version: 2
+
+models:
+  - name: axelscan__ez_gmp_activity
+    description: |
+      **Enhanced Combined EZ GMP Model - The definitive model for all GMP transfer analysis**
+
+      This model provides a complete, unified view of **user-initiated GMP transfers** across the Axelar network by
+      intelligently combining three complementary data sources. Child GMPs (routing hops with parent_message_id) are
+      excluded to match the metrics API counting methodology, resulting in 99.95% accuracy vs ez_bridge_metrics.
+
+      1. **interchain_transfers (array)** - Multiple transfers within a single GMP transaction
+         - Primarily from Fantom multi-hop transfers
+         - Contains embedded prices from the API
+         - ~3% of total transfers (448 records over 7 days)
+
+      2. **interchain_transfer (singular object)** - Single transfer within a GMP transaction
+         - Primarily from XRPL, Axelar hub, and cross-chain transfers
+         - Requires price lookups (added in this enhanced version)
+         - ~21% of total transfers (3,059 records over 7 days)
+
+      3. **standard_gmp** - Traditional GMP transactions without interchain transfer metadata
+         - All other GMP transactions
+         - Uses price lookups from ez_gmp_activity
+         - ~76% of total transfers
+
+      **Key Improvements Over Previous Models:**
+      - ✅ Price lookups added for singular interchain_transfers (previously NULL)
+      - ✅ Callback chain information included
+      - ✅ Parent-child relationship tracking for multi-hop GMPs
+      - ✅ **Excludes child GMPs** (parent_message_id IS NULL) to match metrics methodology
+      - ✅ Accurate destination chains from interchain transfer objects
+      - ✅ One row per individual transfer (proper granularity)
+      - ✅ No double-counting (exclusion logic prevents overlap)
+      - ✅ Transparent data source tracking
+
+      **Use Cases:**
+      - Volume analysis by path (source → destination)
+      - Multi-hop transfer analysis
+      - Callback pattern analysis (especially XRPL)
+      - Cross-chain token flow tracking
+      - Emerging chain adoption tracking
+
+    columns:
+      - name: ez_gmp_activity_id
+        description: Unique identifier for each transfer (primary key)
+        tests:
+          - unique
+          - not_null
+
+      - name: gmp_id
+        description: Parent GMP transaction ID (multiple transfers can share same gmp_id)
+
+      - name: created_at
+        description: Timestamp when the GMP transaction was created
+        tests:
+          - not_null
+
+      - name: status
+        description: Detailed status of the GMP transaction (executed, error, etc.)
+
+      - name: simplified_status
+        description: Simplified status category
+
+      - name: source_chain
+        description: Origin blockchain of the transfer
+
+      - name: destination_chain
+        description: |
+          Destination blockchain of the transfer. For interchain_transfers, this is the ACTUAL
+          destination from the transfer object (more accurate than parent GMP destination)
+
+      - name: callback_chain
+        description: |
+          Chain where callback should be executed. Primarily populated for XRPL transfers.
+          ~9% of transfers have callback information.
+
+      - name: callback_destination_address
+        description: Destination address for callback execution
+
+      - name: parent_message_id
+        description: |
+          ID of the parent GMP transaction if this GMP is part of a parent-child chain.
+          **NOTE: This field will always be NULL in this model** because we filter out child GMPs
+          (WHERE parent_message_id IS NULL) to match metrics counting methodology.
+          This field is retained for reference and potential future analysis needs.
+
+      - name: token_symbol
+        description: Symbol of the token being transferred (USDC, USDT, XRP, etc.)
+
+      - name: token_amount
+        description: Raw token amount transferred (in token's native units)
+
+      - name: token_amount_usd
+        description: |
+          USD value of the transfer. Calculated using price_source waterfall:
+          - For interchain_transfers (array): embedded price from API
+          - For interchain_transfer (single): price lookup waterfall
+          - For standard_gmp: price lookup from ez_gmp_activity
+
+      - name: token_price_usd
+        description: USD price per token unit at the time of transfer
+
+      - name: price_source
+        description: |
+          Source of the price data:
+          - interchain_transfers_embedded: From array transfer API (most accurate)
+          - coingecko_lookup: From CoinGecko via token metadata
+          - direct: Direct blockchain match in ez_prices_hourly
+          - xrp_blockchain: XRP-specific pricing
+          - native_unwrapped: Native chain pricing for wrapped tokens
+          - ethereum_unwrapped: Ethereum pricing for wrapped tokens
+          - cosmos_fallback: Cosmos ecosystem fallback
+          - ethereum_stablecoin_fallback: Ethereum stablecoin pricing
+
+      - name: sender_address
+        description: Address initiating the transfer on source chain
+
+      - name: destination_contract_address
+        description: Destination contract address on destination chain
+
+      - name: recipient_address
+        description: |
+          Final recipient address. Only populated for interchain_transfers where
+          recipient may differ from destination_contract_address
+
+      - name: token_contract_address
+        description: Contract address of the token being transferred
+
+      - name: source_tx_hash
+        description: Transaction hash on the source chain
+
+      - name: source_event
+        description: Event type that triggered the GMP
+
+      - name: source_block_number
+        description: Block number on source chain where transaction occurred
+
+      - name: data_source
+        description: |
+          Indicates which of the three data sources provided this transfer:
+          - interchain_transfers: From array structure (multi-hop)
+          - interchain_transfer_single: From singular object structure
+          - standard_gmp: From standard GMP activity without interchain transfer metadata
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['interchain_transfers', 'interchain_transfer_single', 'standard_gmp']
+
+      - name: inserted_timestamp
+        description: When the record was first inserted
+
+      - name: modified_timestamp
+        description: When the record was last modified
+
+    tests:
+      - dbt_utils.recency:
+          datepart: day
+          field: created_at
+          interval: 3

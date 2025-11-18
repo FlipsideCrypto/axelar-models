@@ -1,0 +1,85 @@
+version: 2
+models:
+  - name: axelscan__ez_transfer_activity
+    description: Flattened view of Axelar token transfer activity with parsed transaction details, source/destination chains, sender/receiver information, and IBC transfer metadata. This table provides an easy-to-query format for analyzing cross-chain token transfers on Axelar.
+    columns:
+      - name: TRANSFER_ID
+        description: The unique identifier for the transfer transaction
+        tests:
+          - not_null
+          - unique
+      - name: CREATED_AT
+        description: The timestamp when the transfer was created
+        tests:
+          - not_null
+      - name: STATUS
+        description: The detailed status of the transfer (e.g., success, failed)
+      - name: SIMPLIFIED_STATUS
+        description: Simplified transfer status
+      - name: SOURCE_CHAIN
+        description: The name of the source blockchain (lowercase, 'axelarnet' replaced with 'axelar')
+      - name: SENDER_ADDRESS
+        description: The address that initiated the transfer on the source chain
+      - name: DESTINATION_CHAIN
+        description: The name of the destination blockchain (lowercase, 'axelarnet' replaced with 'axelar')
+      - name: RECIPIENT_ADDRESS
+        description: The address that receives the transfer on the destination chain
+      - name: TOKEN_DENOM
+        description: The denomination of the token being transferred (e.g., uusdc, bnb-wei)
+      - name: AMOUNT
+        description: The transfer amount
+      - name: AMOUNT_RECEIVED
+        description: The amount received after fees
+      - name: FEE
+        description: The fee charged for the transfer
+      - name: SOURCE_TX_HASH
+        description: The transaction hash on the source chain
+      - name: SOURCE_HEIGHT
+        description: The block height on the source chain
+      - name: TRANSFER_TYPE
+        description: The type of transfer (e.g., ibc, bridge)
+      - name: INSUFFICIENT_FEE
+        description: Flag indicating whether the fee was insufficient
+      - name: AMOUNT_VALUE_USD
+        description: The USD value of the transfer amount
+      - name: FEE_VALUE_USD
+        description: The USD value of the fee
+      - name: CONFIRM_TX_HASH
+        description: The transaction hash for the deposit confirmation on Axelar
+      - name: CONFIRM_HEIGHT
+        description: The block height for the deposit confirmation
+      - name: DEPOSIT_ADDRESS
+        description: The deposit address on Axelar network
+      - name: AXELAR_TRANSFER_ID
+        description: The internal Axelar transfer ID
+      - name: IBC_ACK_TX_HASH
+        description: The IBC acknowledgment transaction hash
+      - name: IBC_FAILED_TX_HASH
+        description: The IBC failed transaction hash if applicable
+      - name: IBC_HEIGHT
+        description: The block height for the IBC send
+      - name: IBC_PACKET_SEQUENCE
+        description: The IBC packet sequence number
+      - name: IBC_SRC_CHANNEL
+        description: The IBC source channel identifier
+      - name: IBC_DST_CHANNEL
+        description: The IBC destination channel identifier
+      - name: LINK
+        description: Link object containing transaction URLs and references
+      - name: SEND
+        description: Full send object with all source transaction details
+      - name: CONFIRM
+        description: Full confirm object with deposit confirmation details
+      - name: IBC_SEND
+        description: Full IBC send object with inter-blockchain communication details
+      - name: EZ_TRANSFER_ACTIVITY_ID
+        description: '{{ doc("pk") }}'
+        tests:
+          - not_null
+          - unique
+      - name: FACT_TRANSFERS_ID
+        description: Foreign key reference to axelscan__fact_transfers
+      - name: INSERTED_TIMESTAMP
+        description: '{{ doc("inserted_timestamp") }}'
+      - name: MODIFIED_TIMESTAMP
+        description: '{{ doc("modified_timestamp") }}'
