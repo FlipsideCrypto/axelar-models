@@ -1,6 +1,6 @@
 {{ config(
   materialized = 'incremental',
-  unique_key = "_unique_key",
+  unique_key = "tx_id",
   incremental_strategy = 'delete+insert',
   cluster_by = ['block_timestamp::DATE'],
   post_hook = "ALTER TABLE {{ this }} ADD SEARCH OPTIMIZATION ON EQUALITY(tx_id,msg_type,attribute_key,attribute_value);",
