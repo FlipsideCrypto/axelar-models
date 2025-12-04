@@ -160,7 +160,18 @@ gmp_with_interchain_transfer_single_base AS (
 
         -- Token information
         f.data:interchain_transfer:symbol::STRING AS token_symbol,
-        f.data:interchain_transfer:amount AS token_amount,
+        -- Decimal-adjusted token amount using decimals from interchain_transfer object
+        CASE
+            WHEN f.data:interchain_transfer:decimals::NUMBER IS NOT NULL
+            THEN f.data:interchain_transfer:amount::FLOAT / POW(10, f.data:interchain_transfer:decimals::NUMBER)
+            ELSE f.data:interchain_transfer:amount::FLOAT
+        END AS token_amount,
+        -- Raw amount before decimal adjustment (for reference)
+        f.data:interchain_transfer:amount::FLOAT AS token_amount_raw,
+        -- Decimals from interchain_transfer object
+        f.data:interchain_transfer:decimals::NUMBER AS token_decimals,
+        -- Embedded price from the root data object
+        f.data:price::FLOAT AS embedded_price,
 
         -- Address information
         f.data:interchain_transfer:sourceAddress::STRING AS sender_address,
@@ -214,10 +225,11 @@ gmp_with_interchain_transfer_single AS (
         g.token_symbol,
         g.token_amount,
 
-        -- Calculate USD amount using price waterfall
+        -- Calculate USD amount using price waterfall (embedded price first)
         CASE
             WHEN g.token_amount IS NOT NULL
             AND COALESCE(
+                g.embedded_price,
                 p_coingecko.price,
                 p_direct.price,
                 p_xrp.price,
@@ -226,6 +238,7 @@ gmp_with_interchain_transfer_single AS (
                 p_cosmos.price,
                 p_stablecoin.price
             ) IS NOT NULL THEN g.token_amount * COALESCE(
+                g.embedded_price,
                 p_coingecko.price,
                 p_direct.price,
                 p_xrp.price,
@@ -237,8 +250,9 @@ gmp_with_interchain_transfer_single AS (
             ELSE NULL
         END AS token_amount_usd,
 
-        -- Get the price
+        -- Get the price (embedded price first)
         COALESCE(
+            g.embedded_price,
             p_coingecko.price,
             p_direct.price,
             p_xrp.price,
@@ -248,8 +262,9 @@ gmp_with_interchain_transfer_single AS (
             p_stablecoin.price
         ) AS token_price_usd,
 
-        -- Track price source
+        -- Track price source (embedded price first)
         CASE
+            WHEN g.embedded_price IS NOT NULL THEN 'embedded_price'
             WHEN p_coingecko.price IS NOT NULL THEN 'coingecko_lookup'
             WHEN p_direct.price IS NOT NULL THEN 'direct'
             WHEN p_xrp.price IS NOT NULL THEN 'xrp_blockchain'
