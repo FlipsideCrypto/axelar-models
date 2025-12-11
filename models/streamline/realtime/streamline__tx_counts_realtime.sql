@@ -45,8 +45,7 @@ SELECT
                 TRUE,
                 '1',
                 '1',
-                'asc',
-                FALSE
+                'asc'
             )
         ),
         'vault/prod/axelar/drpc/mainnet'

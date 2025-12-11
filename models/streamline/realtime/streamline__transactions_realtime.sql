@@ -84,8 +84,7 @@ numbers AS (
                     TRUE,
                     page_number :: STRING,
                     '100',
-                    'asc',
-                    FALSE
+                    'asc'
                 )
             ),
             'vault/prod/axelar/drpc/mainnet'
