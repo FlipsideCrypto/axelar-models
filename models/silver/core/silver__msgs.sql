@@ -19,10 +19,14 @@ WITH base AS (
     f.value AS msg,
     f.index :: INT AS msg_index,
     msg :type :: STRING AS msg_type,
-    IFF(
+    IFNULL(
       TRY_BASE64_DECODE_STRING(
         msg :attributes [0] :key :: STRING
-      ) = 'action',
+      ),
+      msg :attributes [0] :key :: STRING
+    ) AS first_key,
+    IFF(
+      first_key = 'action',
       TRUE,
       FALSE
     ) AS is_action,
@@ -33,18 +37,12 @@ WITH base AS (
         -1
     ) AS msg_group,
     IFF(
-      TRY_BASE64_DECODE_STRING(
-        msg :attributes [0] :key :: STRING
-      ) = 'module',
+      first_key = 'module',
       TRUE,
       FALSE
     ) AS is_module,
-    TRY_BASE64_DECODE_STRING(
-      msg :attributes [0] :key :: STRING
-    ) AS attribute_key,
-    TRY_BASE64_DECODE_STRING(
-      msg :attributes [0] :value :: STRING
-    ) AS attribute_value,
+    first_key AS attribute_key,
+    first_key AS attribute_value,
     t._inserted_timestamp
   FROM
     {{ ref('silver__transactions') }}

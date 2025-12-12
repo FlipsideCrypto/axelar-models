@@ -17,12 +17,12 @@ SELECT
   msg_index,
   msg_type,
   b.index AS attribute_index,
-  TRY_BASE64_DECODE_STRING(
+  IFNULL(TRY_BASE64_DECODE_STRING(
     b.value :key :: STRING
-  ) AS attribute_key,
-  TRY_BASE64_DECODE_STRING(
+  ), b.value :key :: STRING) AS attribute_key,
+  IFNULL(TRY_BASE64_DECODE_STRING(
     b.value :value :: STRING
-  ) AS attribute_value,
+  ), b.value :value :: STRING) AS attribute_value,
   concat_ws(
     '-',
     tx_id,
