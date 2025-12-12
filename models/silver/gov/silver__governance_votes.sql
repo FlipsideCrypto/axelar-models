@@ -104,8 +104,21 @@ agg AS (
         ) AS j,
         j :proposal_id :: INT AS proposal_id,
         j :sender :: STRING AS voter,
-        j :option :: INT AS vote_option,
-        j :weight :: FLOAT AS vote_weight
+        -- Handle multiple formats: numeric, object, or string containing JSON
+        CASE TYPEOF(j :option)
+            WHEN 'INTEGER' THEN j :option :: INT
+            WHEN 'DOUBLE' THEN j :option :: INT
+            WHEN 'OBJECT' THEN j :option :option :: INT
+            WHEN 'VARCHAR' THEN TRY_PARSE_JSON(j :option :: VARCHAR) :option :: INT
+            ELSE NULL
+        END AS vote_option,
+        CASE TYPEOF(j :option)
+            WHEN 'INTEGER' THEN j :weight :: FLOAT
+            WHEN 'DOUBLE' THEN j :weight :: FLOAT
+            WHEN 'OBJECT' THEN j :option :weight :: FLOAT
+            WHEN 'VARCHAR' THEN TRY_PARSE_JSON(j :option :: VARCHAR) :weight :: FLOAT
+            ELSE NULL
+        END AS vote_weight
     FROM
         vote_msgs
     GROUP BY
