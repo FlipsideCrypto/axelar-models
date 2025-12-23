@@ -27,11 +27,14 @@ WITH xfer_base AS (
         block_timestamp :: DATE >= '2022-07-01'
 
 {% if is_incremental() %}
-AND block_timestamp :: DATE >= (
-    SELECT
-        MAX(block_timestamp) :: DATE -2
-    FROM
-        {{ this }}
+AND block_timestamp :: DATE >= GREATEST(
+    (
+        SELECT
+            MAX(block_timestamp) :: DATE -2
+        FROM
+            {{ this }}
+    ),
+    SYSDATE() :: DATE -3
 )
 {% endif %}
 ),
@@ -50,11 +53,14 @@ links AS (
 
 {% if is_incremental() %}
 WHERE
-    block_timestamp :: DATE >= (
-        SELECT
-            MAX(block_timestamp) :: DATE - 2
-        FROM
-            {{ this }}
+    block_timestamp :: DATE >= GREATEST(
+        (
+            SELECT
+                MAX(block_timestamp) :: DATE - 2
+            FROM
+                {{ this }}
+        ),
+        SYSDATE() :: DATE -3
     )
 {% endif %}
 ),
